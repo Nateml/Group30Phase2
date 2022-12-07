@@ -21,6 +21,7 @@ public class VertexVisual extends Vertex {
         colour = Color.ORANGE;
         c = new Circle(i);
         label = new Text(i + "");
+        label.setMouseTransparent(true);
         line = new Line();
         c.setCenterX(body.getPosition().x);
         c.setCenterY(body.getPosition().y);

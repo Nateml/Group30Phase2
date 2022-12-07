@@ -19,8 +19,11 @@ public class GamesceneController {
     @FXML Pane paneGraph;
 
     public void initialize() {
-        GraphView graphview = new GraphView(Frontend.graph);
-        paneGraph.getChildren().add(graphview.getAnchorPane());
+        if (Frontend.graphView == null) {
+            Frontend.graphView = new GraphView(Frontend.graph);
+        }
+        paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
+        /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 System.out.println("Escape clicked");
@@ -33,10 +36,11 @@ public class GamesceneController {
                 };
             }
         });
-        System.out.println();
+        */
     }
 
     public void btnPauseClicked() throws IOException {
+        Frontend.gameController.pause();
         Frontend.setRoot("pausescene");
     }
 

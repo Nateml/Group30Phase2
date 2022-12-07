@@ -34,6 +34,7 @@ public class Frontend extends Application{
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
     static String currentScene;
+    static GraphView graphView = null;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

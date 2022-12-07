@@ -3,7 +3,6 @@ package graphvis.group30;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 public class GamemodeSelectController {
@@ -20,13 +19,14 @@ public class GamemodeSelectController {
     public void btnGamemode1Clicked() throws IOException {
         // gamemode 1 backend
         Frontend.gameController.setGamemode(1);
-        Frontend.graph.simulate();
+        Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
     }
 
     public void btnGamemode2Clicked() throws IOException {
         // gamemode 2 backend
         Frontend.gameController.setGamemode(2);
+        Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
         
     }
@@ -34,10 +34,12 @@ public class GamemodeSelectController {
     public void btnGamemode3Clicked() throws IOException {
         // gamemode 3 backend
         Frontend.gameController.setGamemode(3);
+        Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
     }
 
     public void btnBackClicked() throws IOException {
+        Frontend.gameController.pause();
         Frontend.setRoot("mainmenu");
     }
 

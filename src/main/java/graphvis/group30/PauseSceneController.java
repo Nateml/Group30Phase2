@@ -12,8 +12,8 @@ public class PauseSceneController {
 
     @FXML
     public void initialize() {
-        GraphView graphView = new GraphView(Frontend.graph);
-        paneGraph.getChildren().addAll(graphView.getAnchorPane());
+        //GraphView graphView = new GraphView(Frontend.graph);
+        paneGraph.getChildren().addAll(Frontend.graphView.getAnchorPane());
         GaussianBlur gb = new GaussianBlur();
         paneGraph.setEffect(gb);
     }
@@ -23,10 +23,12 @@ public class PauseSceneController {
     }
 
     public void btnExitClicked() throws IOException {
+        Frontend.graphView = null;
         Frontend.setRoot("mainmenu");
     }
 
     public void btnContinueClicked() throws IOException {
+        Frontend.gameController.resume();
         Frontend.setRoot("gamescene");
     }
 }

@@ -1,5 +1,7 @@
 package graphvis.group30;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
 import java.util.HashMap;
@@ -10,13 +12,16 @@ public class MyGraph {
     GraphVisSim visSim;
     double width, height;
     HashMap<Integer, VertexVisual> vertexMap;
+    HashMap<Circle, VertexVisual> circleToVertexMap;
 
     public MyGraph(Vertex[] vertices, double width, double height) {
         vertexMap = new HashMap<>();
+        circleToVertexMap = new HashMap<>();
         this.vertices = new VertexVisual[vertices.length];
         for (int i = 0; i < vertices.length; i++) {
            VertexVisual vertexVisual = new VertexVisual(0, vertices[i].identification());
            vertexMap.put(vertices[i].identification(), vertexVisual);
+           circleToVertexMap.put(vertexVisual.getCircle(), vertexVisual);
            this.vertices[i] = vertexVisual;
         }
         for (Vertex vertex : vertices) {
@@ -70,7 +75,12 @@ public class MyGraph {
             //vertex.setPosition(new Vector((Math.random() * (scene.getWidth()-scene.getWidth()/2)) + scene.getWidth()/2, (Math.random() * (scene.getHeight()-scene.getHeight()/2))+scene.getHeight()/2));
             vertex.getSimBody().setPosition(new Vector(randX, randY));
             vertex.getCircle().setOnMouseClicked((t) -> {
-                System.out.println(vertex.getSimBody().getVelocity().getLength());
+                if (Frontend.gameController.isGameRunning()) {
+                    System.out.println(vertex.getSimBody().getVelocity().getLength());
+                    VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
+                    Frontend.gameController.changeColour(vertex, Frontend.color);
+                    ((Circle)t.getSource()).setFill(Color.rgb(66, 135, 245));;
+                }
             });
             visSim.addSimBody(vertex);
         }

@@ -1,4 +1,5 @@
 package graphvis.group30;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 //import javax.swing.plaf.ProgressBarUI;
@@ -16,6 +17,7 @@ public class Game {
     public int oldprogress = 0; //these are useful to make the hints more dynamic
     public int oldCurrentChromaticNumber = 0;
     public int input; // this will change to the correct data type, but I dont know how to use the input of the game yet so I use this as a place holder
+    boolean isGameRunning = false;
     
      
     public void setGamemode(int i){
@@ -39,13 +41,41 @@ public class Game {
     public void changeColour(Vertex a, int color){
         int currentColor = getColor(a); // this will check whether or not we can assign a value or if we have to change it. 
 
-        if (vertexcolouring.length <= color) { // expands array to make space for a new color
-            Vertex[][] newVertexColouring = new Vertex[color][];
-            for (int i = 0; i < vertexcolouring.length; i++) {
-                newVertexColouring[i] = new Vertex[vertexcolouring[i].length+1];
-                System.arraycopy(vertexcolouring[i], 0, newVertexColouring[i], 0, vertexcolouring[i].length);
+        // create array list
+        ArrayList<ArrayList<Vertex>> vertexColouringList = new ArrayList<>();
+        for (int i = 0; i < vertexcolouring.length; i++) {
+            ArrayList<Vertex> vertexList = new ArrayList<>();
+            for (int j = 0; j < vertexcolouring.length; j++) {
+               vertexList.add(vertexcolouring[i][j]) ;
             }
         }
+
+        if (vertexColouringList.size() <= color) {
+            vertexColouringList.add(new ArrayList<Vertex>());
+        }
+
+        vertexColouringList.get(color).add(a);
+
+        if (currentColor == -1) {
+            progress++;
+        } else {
+            // remove vertex from old color class
+            for (int i = 0; i < vertexColouringList.size(); i++) {
+                for (int j = 0; j < vertexColouringList.get(i).size(); j++) {
+                    if (vertexColouringList.get(i).get(j).equals(a)) {
+                        vertexColouringList.get(i).remove(j);
+                    }
+                }
+            }
+        }
+        /* 
+
+        if (vertexcolouring.length <= color) { // expands array to make space for a new color
+            Vertex[][] newVertexColouring = new Vertex[color+1][];
+            System.arraycopy(vertexcolouring, 0, newVertexColouring, 0, vertexcolouring.length);
+            vertexcolouring = newVertexColouring;
+        }
+
         vertexcolouring[color][vertexcolouring[color].length] = a;
         if (currentColor == -1) {
             
@@ -59,7 +89,12 @@ public class Game {
                 }
             } 
         }
+        */
         
+    }
+
+    public boolean isGameRunning() {
+        return isGameRunning;
     }
 
     public int colorsBeingUsed(){
@@ -119,6 +154,7 @@ public class Game {
 
     
     public void startGame(){
+        isGameRunning = true;
         String message = ""; 
         if(gamemode == 1){
             long startTime = System.currentTimeMillis(); // gamemode 1 requires us to keep track of the time as they need to finish as fast as possible
@@ -151,6 +187,15 @@ public class Game {
             messageWhenDone = message; 
         }
     }
+
+    public void pause() {
+        isGameRunning = false;
+    }
+
+    public void resume() {
+        isGameRunning = true;
+    }
+
     public String getHint(){
         String hint = " "; 
          
