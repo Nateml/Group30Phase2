@@ -2,6 +2,7 @@ package graphvis.group30;
 
 import java.io.IOException;
 
+import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
 
@@ -21,6 +22,8 @@ public class GamesceneController {
     }
 
     public void btnSelectColourClicked() {
+        ColorPicker pick = new ColorPicker(); 
+        
         currentColor = Color.ORANGE; //needs to match the input of the color picker  
         boolean colorNotUsed = true; 
         for (int i = 0; i < color.length; i++) {

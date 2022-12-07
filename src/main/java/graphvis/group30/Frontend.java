@@ -15,6 +15,8 @@ import java.io.IOException;
 
 public class Frontend extends Application{
 
+    static Game gameController = new Game();
+
     Scene inputGraphScene;
     Scene selectGraphScene;
     @FXML Button btnCreateRandomGraph;
@@ -27,11 +29,13 @@ public class Frontend extends Application{
     static EdgeVisual[] edges;
     static Pane graphPane;
     static MyGraph graph;
+    static int color; 
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
+        color = 0; 
         graphPane = new Pane();
         launch(args);
     }

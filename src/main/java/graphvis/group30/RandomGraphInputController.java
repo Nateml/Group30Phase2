@@ -49,7 +49,9 @@ public class RandomGraphInputController {
             return;
         }
 
-        Frontend.graph = new MyGraph(Frontend.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
+        Game game = new Game();
+        game.setGraph(numEdges, numVertices, 0);
+       
         Frontend.graph.simulate();
         /* 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
