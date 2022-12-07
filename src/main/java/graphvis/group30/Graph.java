@@ -1,5 +1,4 @@
 package graphvis.group30;
-import java.io.File;
 import java.util.*;
 import java.util.Random;
 
@@ -10,15 +9,84 @@ public class Graph {
     int lowerBoundK;
     Vertex[][] vertexColouring;
     int[][] adjMatrix;
+    HashMap<Integer, Vertex> vertexIDs;
 
     public Graph(Vertex[] v) {
         this.vertices = v;
+        vertexIDs = new HashMap<>();
+
+        for (Vertex vertex : v) {
+            vertexIDs.put(vertex.i, vertex);
+        }
 
         // create adjency matrix
     }
 
+    public Vertex getVertexFromID(int id) {
+        return vertexIDs.get(id);
+    }
+
     public static Graph createRandomGraph(int numVertices, int numEdges) {
-       Vertex[] v = new Vertex[numVertices] ;
+        RandomGraph randomGraph = new RandomGraph(numVertices, numEdges);
+        Vertex[] v = randomGraph.getVertexArray();
+        /* 
+        Vertex v1 = new Vertex(0, 1);
+        Vertex v2 = new Vertex(0, 2);
+        Vertex v3 = new Vertex(0, 3);
+        Vertex v4 = new Vertex(0, 4);
+        Vertex v5 = new Vertex(0, 5);
+        Vertex v6 = new Vertex(0, 6);
+        Vertex v7 = new Vertex(0, 7);
+        Vertex v8 = new Vertex(0, 8);
+        Vertex v9 = new Vertex(0, 9);
+        Vertex v10 = new Vertex(0, 10);
+        Vertex v11 = new Vertex(0, 11);
+        Vertex v12 = new Vertex(0, 12);
+        Vertex v13 = new Vertex(0, 13);
+
+        v1.add_neighbour(v4);
+        v1.add_neighbour(v5);
+        v1.add_neighbour(v8);
+
+        v2.add_neighbour(v3);
+        v2.add_neighbour(v7);
+
+        v3.add_neighbour(v2);
+        v3.add_neighbour(v5);
+
+        v4.add_neighbour(v5);
+        v4.add_neighbour(v1);
+
+        v5.add_neighbour(v1);
+        v5.add_neighbour(v4);
+        v5.add_neighbour(v6);
+        v5.add_neighbour(v8);
+
+        v6.add_neighbour(v5);
+
+        v7.add_neighbour(v2);
+
+        v8.add_neighbour(v5);
+        v8.add_neighbour(v1);
+        v8.add_neighbour(v9);
+
+        v9.add_neighbour(v8);
+        v9.add_neighbour(v10);
+
+        v10.add_neighbour(v9);
+        v10.add_neighbour(v11);
+
+        v11.add_neighbour(v10);
+        v11.add_neighbour(v13);
+
+        v12.add_neighbour(v13);
+
+        v13.add_neighbour(v11);
+        v13.add_neighbour(v12);
+
+        Vertex[] v = {v1,v2,v3,v4,v5,v6,v7,v8,v9,v10, v11, v12, v13};
+        */
+
 
        return new Graph(v);
     }

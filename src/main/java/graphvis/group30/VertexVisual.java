@@ -19,7 +19,7 @@ public class VertexVisual extends Vertex {
         super(saturationDegree, i);
         body = new SimBody();
         colour = Color.ORANGE;
-        c = new Circle();
+        c = new Circle(i);
         label = new Text(i + "");
         line = new Line();
         c.setCenterX(body.getPosition().x);

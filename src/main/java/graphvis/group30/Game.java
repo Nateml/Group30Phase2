@@ -20,6 +20,10 @@ public class Game {
         gamemode = i; 
     }
 
+    public Vertex getVertexFromID(int i) {
+        return graphForGame.getVertexFromID(i);
+    }
+
     public void setGraph(int vertices, int edges, int time){
         numberOfEdges = edges; 
         numberOfVertices = vertices; 
