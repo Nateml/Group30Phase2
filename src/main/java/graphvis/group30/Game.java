@@ -1,6 +1,11 @@
 package graphvis.group30;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+
+import javafx.print.PrintColor;
 
 //import javax.swing.plaf.ProgressBarUI;
 public class Game {
@@ -39,22 +44,19 @@ public class Game {
     }
 
     public void changeColour(Vertex a, int color){
+        System.out.println("color " + color);
+        a = (Vertex)a;
         int currentColor = getColor(a); // this will check whether or not we can assign a value or if we have to change it. 
 
         // create array list
         ArrayList<ArrayList<Vertex>> vertexColouringList = new ArrayList<>();
         for (int i = 0; i < vertexcolouring.length; i++) {
             ArrayList<Vertex> vertexList = new ArrayList<>();
-            for (int j = 0; j < vertexcolouring.length; j++) {
+            for (int j = 0; j < vertexcolouring[i].length; j++) {
                vertexList.add(vertexcolouring[i][j]) ;
             }
+            vertexColouringList.add(vertexList);
         }
-
-        if (vertexColouringList.size() <= color) {
-            vertexColouringList.add(new ArrayList<Vertex>());
-        }
-
-        vertexColouringList.get(color).add(a);
 
         if (currentColor == -1) {
             progress++;
@@ -68,6 +70,33 @@ public class Game {
                 }
             }
         }
+
+        if (vertexColouringList.size() <= color) {
+            vertexColouringList.add(new ArrayList<Vertex>());
+        }
+
+        vertexColouringList.get(color).add(a);
+
+        // convert array list to array
+        Vertex[][] colourClasses = new Vertex[vertexColouringList.size()][];
+        for (int i = 0; i < vertexColouringList.size(); i++) {
+            Vertex[] colourClass = new Vertex[vertexColouringList.get(i).size()];
+            for (int j = 0; j < vertexColouringList.get(i).size(); j++) {
+               colourClass[j] = vertexColouringList.get(i).get(j); 
+            }
+            colourClasses[i] = colourClass;
+        }
+
+        vertexcolouring = colourClasses;
+
+        for (int i = 0; i < vertexcolouring.length; i++) {
+            System.out.print("[");
+            for (int j = 0; j < vertexcolouring[i].length; j++) {
+               System.out.print(vertexcolouring[i][j]+", "); 
+            }
+            System.out.print("], ");
+        }
+        System.out.println();
         /* 
 
         if (vertexcolouring.length <= color) { // expands array to make space for a new color
@@ -114,7 +143,7 @@ public class Game {
 
     public int getColor(Vertex V){ // finds the color row in which the vertex is placed
         for (int i = 0; i < vertexcolouring.length; i++) {
-            for (int j = 0; j < vertexcolouring[0].length; j++) {
+            for (int j = 0; j < vertexcolouring[i].length; j++) {
                if(vertexcolouring[i][j].equals(V)){
                     return i; 
                } 
@@ -123,17 +152,21 @@ public class Game {
         return -1; // a value of negative -1 would mean a unnasigned color 
     }
     public boolean isLegalColouring(Vertex[][] colouredVertices) { // loops through the vertices to check if the curretn coloring is legal. 
+        int numVerticesColoured = 0;
         for (int i = 0; i < colouredVertices.length; i++) {
-            for (int j = 0; j < colouredVertices[0].length; j++) {
-                int[] neighbour = new int[colouredVertices[i][j].getNeighboursAsIntArray().length]; 
-                for (int k = 0; k < neighbour.length; k++) {
-                    if(neighbour[k] == colouredVertices[i][j].identification()){
-                        return false; 
-                    } 
+            for (int j = 0; j < colouredVertices[i].length; j++) {
+                numVerticesColoured++;
+                int[] neighbours = colouredVertices[i][j].getNeighboursAsIntArray();
+                for (int k = 0; k < neighbours.length; k++) {
+                    for (int k2 = 0; k2 < colouredVertices[i].length; k2++) {
+                        if (colouredVertices[i][j].equals(colouredVertices[i][k2])) continue;
+                        if (neighbours[k]== colouredVertices[i][k2].identification()) return false;
+                    }
                 }
             }
-            
         }
+        System.out.println("number of vertices coloured: " + numVerticesColoured);
+        if (numVerticesColoured < numberOfVertices) return false;
         return true; 
         
     }

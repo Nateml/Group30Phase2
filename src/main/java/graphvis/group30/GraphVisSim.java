@@ -16,7 +16,6 @@ public class GraphVisSim {
         this.width = width;
         this.height = height;
         centerBody.setPosition(new Vector(width/2, height/2));
-        System.out.println();
     }
 
     public void addSimBody(VertexVisual v) {
@@ -52,7 +51,6 @@ public class GraphVisSim {
             //temp *= 0.99999;
             //if (temp > 0.00001) temp -= 0.00001;
             temp -= 0.000005;
-            System.out.println(temp);
             Vector currentPosition = v.getSimBody().getPosition();
             Vector diffPosition = Vector.subtract(prevPosition, currentPosition);
             //System.out.println(diffPosition.getLength());

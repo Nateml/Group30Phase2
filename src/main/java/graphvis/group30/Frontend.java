@@ -9,9 +9,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 // this stage includes the main menu and scenes upto the actual game
 
@@ -35,6 +40,8 @@ public class Frontend extends Application{
     final static double GRAPH_HEIGHT=700;
     static String currentScene;
     static GraphView graphView = null;
+    static ColorPicker colorPicker;
+    static List<Color> usedColors = new ArrayList<>();
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

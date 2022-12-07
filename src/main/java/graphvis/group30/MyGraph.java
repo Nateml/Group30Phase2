@@ -1,10 +1,15 @@
 package graphvis.group30;
 
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+
 
 public class MyGraph {
     VertexVisual[] vertices;
@@ -76,10 +81,16 @@ public class MyGraph {
             vertex.getSimBody().setPosition(new Vector(randX, randY));
             vertex.getCircle().setOnMouseClicked((t) -> {
                 if (Frontend.gameController.isGameRunning()) {
-                    System.out.println(vertex.getSimBody().getVelocity().getLength());
                     VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
-                    Frontend.gameController.changeColour(vertex, Frontend.color);
-                    ((Circle)t.getSource()).setFill(Color.rgb(66, 135, 245));;
+                    System.out.println("colour: " + Frontend.colorPicker.getValue());
+                    if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
+                        Frontend.usedColors.add(Frontend.colorPicker.getValue());
+                    }
+                    Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
+                    boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
+                    System.out.println("legally coloured? " + legallyColoured);
+                    ((Circle)t.getSource()).setFill(Frontend.colorPicker.getValue());
+                    //((Circle)t.getSource()).setFill(Color.rgb(66, 135, 245));;
                 }
             });
             visSim.addSimBody(vertex);

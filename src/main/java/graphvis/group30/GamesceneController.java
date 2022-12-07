@@ -17,12 +17,14 @@ public class GamesceneController {
     int currentColorID = -1; 
 
     @FXML Pane paneGraph;
+    @FXML ColorPicker colorPicker;
 
     public void initialize() {
         if (Frontend.graphView == null) {
             Frontend.graphView = new GraphView(Frontend.graph);
         }
         paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
+        Frontend.colorPicker = colorPicker;
         /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {
