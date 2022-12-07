@@ -1,10 +1,14 @@
 package graphvis.group30;
 
+import javafx.scene.shape.*;
+
 public class MyGraph {
     VertexVisual[] vertices;
     EdgeVisual[] edges;
     GraphVisSim visSim;
     double width, height;
+    static Vertex currentVertex;
+    static Circle currentCircle;
 
     public MyGraph(VertexVisual[] vertices, double width, double height) {
         this.vertices = vertices;
@@ -51,12 +55,19 @@ public class MyGraph {
             //vertex.setPosition(new Vector((Math.random() * (scene.getWidth()-scene.getWidth()/2)) + scene.getWidth()/2, (Math.random() * (scene.getHeight()-scene.getHeight()/2))+scene.getHeight()/2));
             vertex.getSimBody().setPosition(new Vector(randX, randY));
             vertex.getCircle().setOnMouseClicked((t) -> {
+                currentVertex = (Vertex) t.getSource(); 
+                currentCircle = (Circle) t.getSource();
                 System.out.println(vertex.getSimBody().getVelocity().getLength());
             });
             visSim.addSimBody(vertex);
         }
     }
 
+    public Vertex getCurrentVertex(){
+        return currentVertex;
+    }
+
+    
     public void simulate() {
         boolean isSimFinished = visSim.run();
         while (!isSimFinished) {
