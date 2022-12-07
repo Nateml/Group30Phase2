@@ -1,7 +1,7 @@
 package graphvis.group30;
 
 public class ElectrostaticRepulsion extends Vector{
-    static final double charge = 25000;
+    static final double charge = 250000;
     public ElectrostaticRepulsion(double x, double y) {
         super(x, y);
     }

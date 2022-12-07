@@ -12,6 +12,13 @@ import javafx.stage.FileChooser;
 
 
 public class MainMenuController {
+    
+
+    @FXML
+    public void initialize() {
+
+    }
+
     @FXML
     public void btnInputGraphFromFileClicked() throws IOException {
         System.out.println("input button clicked");

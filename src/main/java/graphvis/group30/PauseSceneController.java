@@ -2,7 +2,22 @@ package graphvis.group30;
 
 import java.io.IOException;
 
+import javafx.fxml.FXML;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.Pane;
+
 public class PauseSceneController {
+
+    @FXML Pane paneGraph;
+
+    @FXML
+    public void initialize() {
+        GraphView graphView = new GraphView(Frontend.graph);
+        paneGraph.getChildren().addAll(graphView.getAnchorPane());
+        GaussianBlur gb = new GaussianBlur();
+        paneGraph.setEffect(gb);
+    }
+
     public void btnEnableSoundClicked() {
 
     }

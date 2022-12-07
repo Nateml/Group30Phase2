@@ -26,7 +26,7 @@ public class MyGraph {
             }
         }
 
-        visSim = new GraphVisSim(width, height);
+        //visSim = new GraphVisSim(width, height);
         this.width = width;
         this.height = height;
         initializeVertices();
@@ -60,7 +60,8 @@ public class MyGraph {
         return edges;
     }
 
-    private void initializeVertices() {
+    public void initializeVertices() {
+        visSim = new GraphVisSim(width, height);
         for (VertexVisual vertex : vertices) {
             //double randX = (Math.random() * (width/4)) + width/4;
             double randX = Math.random() * width;
@@ -77,6 +78,7 @@ public class MyGraph {
 
     
     public void simulate() {
+        //visSim = new GraphVisSim(width, height);
         boolean isSimFinished = visSim.run();
         while (!isSimFinished) {
             isSimFinished = visSim.run();

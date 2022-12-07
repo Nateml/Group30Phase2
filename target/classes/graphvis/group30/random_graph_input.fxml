@@ -43,23 +43,29 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <TextField fx:id="txfEdges" layoutX="489.0" layoutY="368.0" prefHeight="31.0" prefWidth="297.0" />
-            <TextField fx:id="txfVertices" layoutX="489.0" layoutY="444.0" prefHeight="31.0" prefWidth="297.0" />
-            <Label layoutX="381.0" layoutY="366.0" text="Edges">
+            <TextField fx:id="txfEdges" layoutX="528.0" layoutY="369.0" prefHeight="31.0" prefWidth="297.0" />
+            <TextField fx:id="txfVertices" layoutX="528.0" layoutY="445.0" prefHeight="31.0" prefWidth="297.0" />
+            <Label layoutX="407.0" layoutY="358.0" text="Edges">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="36.0" />
                </font></Label>
-            <Label layoutX="381.0" layoutY="442.0" text="Vertices">
+            <Label layoutX="374.0" layoutY="434.0" text="Vertices">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="36.0" />
                </font></Label>
             <Label layoutX="361.0" layoutY="222.0" text="Graph properties">
                <font>
-                  <Font size="64.0" />
+                  <Font name="System Bold" size="64.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="746.0" mnemonicParsing="false" onAction="#btnBackClicked" prefHeight="40.0" prefWidth="150.0" text="Back" />
-            <Button layoutX="474.0" layoutY="518.0" mnemonicParsing="false" onAction="#btnGenerateGraphClicked" prefHeight="62.0" prefWidth="251.0" text="Generate graph" />
+            <Button layoutX="14.0" layoutY="746.0" mnemonicParsing="false" onAction="#btnBackClicked" prefHeight="40.0" prefWidth="150.0" text="Back">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button layoutX="474.0" layoutY="518.0" mnemonicParsing="false" onAction="#btnGenerateGraphClicked" prefHeight="62.0" prefWidth="251.0" text="Generate graph">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
          </children>
     </AnchorPane>
   </children>

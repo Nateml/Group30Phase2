@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -31,6 +33,7 @@ public class Frontend extends Application{
     static int color; 
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
+    static String currentScene;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
@@ -54,6 +57,28 @@ public class Frontend extends Application{
 
     public static void setRoot(String fxml) throws IOException{
         newScene.setRoot(loadFXML(fxml));
+
+        // add key event listener to game scene and pause scene
+        currentScene = fxml;
+        if (currentScene.equals("gamescene") || currentScene.equals("pausescene")) {
+                newScene.setOnKeyPressed((KeyEvent e) -> {
+                if (e.getCode() == KeyCode.ESCAPE)
+                    try {
+                        if (currentScene.equals("gamescene")) {
+                            // change scene
+                            newScene.setRoot(loadFXML("pausescene"));
+                            currentScene = "pausescene";
+                        }
+                        else if (currentScene.equals("pausescene")) {
+                            // change scene
+                            newScene.setRoot(loadFXML("gamescene"));
+                            currentScene = "gamescene";
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+            });
+        }
     }
 
     public static Parent loadFXML(String fxml) throws IOException{

@@ -2,7 +2,6 @@ package graphvis.group30;
 
 import java.io.IOException;
 
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -14,13 +13,15 @@ public class GamemodeSelectController {
     public void initialize() {
         GraphView graphView = new GraphView(Frontend.graph);
         paneGraph.getChildren().add(graphView.getAnchorPane());
+        Frontend.graph.simulate();
+        System.out.println();
     }
 
     public void btnGamemode1Clicked() throws IOException {
         // gamemode 1 backend
         Frontend.gameController.setGamemode(1);
-        Frontend.setRoot("gamescene");
         Frontend.graph.simulate();
+        Frontend.setRoot("gamescene");
     }
 
     public void btnGamemode2Clicked() throws IOException {
@@ -38,6 +39,13 @@ public class GamemodeSelectController {
 
     public void btnBackClicked() throws IOException {
         Frontend.setRoot("mainmenu");
+    }
+
+    public void btnRegenerateGraphClicked() {
+        Frontend.graph.initializeVertices();
+        Frontend.graph.simulate();
+        GraphView graphView = new GraphView(Frontend.graph);
+        paneGraph.getChildren().addAll(graphView.getAnchorPane());
     }
 
     /* 

@@ -42,19 +42,24 @@
   <children>
     <AnchorPane id="ap" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label layoutX="339.0" layoutY="222.0" text="Graph Colouring Game">
+            <Label layoutX="255.0" layoutY="218.0" text="Graph Colouring Game">
                <font>
-                  <Font size="64.0" />
+                  <Font name="System Bold" size="64.0" />
                </font>
             </Label>
-            <Button id="btnInputGraphFromFile" layoutX="512.0" layoutY="376.0" mnemonicParsing="false" onAction="#btnInputGraphFromFileClicked" prefHeight="61.0" prefWidth="306.0" text="Input graph from file" />
-            <Button id="btnCreateRandomGraph" layoutX="512.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnCreateRandomGraphClicked" prefHeight="61.0" prefWidth="306.0" text="Create random graph" />
-            <Label layoutX="433.0" layoutY="303.0" prefHeight="61.0" prefWidth="463.0" text="Made by Nathan Macdonald, Kasper van der Horst, Oguz Kagan Yarim, Miriam Espinosa, Dorina Sili" textAlignment="CENTER" wrapText="true">
+            <Button id="btnInputGraphFromFile" layoutX="447.0" layoutY="373.0" mnemonicParsing="false" onAction="#btnInputGraphFromFileClicked" prefHeight="61.0" prefWidth="306.0" text="Input graph from file">
                <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Button layoutX="512.0" layoutY="525.0" mnemonicParsing="false" onAction="#btnQuitClicked" prefHeight="61.0" prefWidth="306.0" text="Quit" />
+                  <Font size="24.0" />
+               </font></Button>
+            <Button id="btnCreateRandomGraph" layoutX="447.0" layoutY="448.0" mnemonicParsing="false" onAction="#btnCreateRandomGraphClicked" prefHeight="61.0" prefWidth="306.0" text="Create random graph">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Label layoutX="333.0" layoutY="296.0" prefHeight="61.0" prefWidth="533.0" text="Made by Nathan Macdonald, Kasper van der Horst, Oguz Kagan Yarim, Miriam Espinosa, Dorina Sili" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="447.0" layoutY="522.0" mnemonicParsing="false" onAction="#btnQuitClicked" prefHeight="61.0" prefWidth="306.0" text="Quit">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
          </children>
     </AnchorPane>
   </children>

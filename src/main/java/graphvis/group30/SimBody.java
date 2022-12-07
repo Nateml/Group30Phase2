@@ -57,7 +57,7 @@ public class SimBody {
         netForce = new Vector(acceleration.x, acceleration.y);
         velocity.add(acceleration);
         velocity.mult(temp);
-        if (velocity.getLength() < 0.01) velocity.mult(0);
+        if (velocity.getLength() < 0.05) velocity.mult(0);
         else {
             double c = 0.2;
             Vector resistance = new Vector(velocity.x, velocity.y);

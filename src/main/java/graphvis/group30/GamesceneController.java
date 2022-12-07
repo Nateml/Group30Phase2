@@ -2,7 +2,11 @@ package graphvis.group30;
 
 import java.io.IOException;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 
@@ -11,6 +15,27 @@ public class GamesceneController {
     Color[] color; 
     Color currentColor; 
     int currentColorID = -1; 
+
+    @FXML Pane paneGraph;
+
+    public void initialize() {
+        GraphView graphview = new GraphView(Frontend.graph);
+        paneGraph.getChildren().add(graphview.getAnchorPane());
+        paneGraph.setOnKeyPressed((KeyEvent e) -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                System.out.println("Escape clicked");
+                try {
+                    btnPauseClicked();
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                };
+            }
+        });
+        System.out.println();
+    }
+
     public void btnPauseClicked() throws IOException {
         Frontend.setRoot("pausescene");
     }

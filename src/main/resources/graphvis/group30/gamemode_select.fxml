@@ -43,16 +43,34 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0" />
-            <Label layoutX="197.0" layoutY="14.0" prefHeight="70.0" prefWidth="413.0" text="Select Gamemode:" wrapText="true">
+            <Pane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0">
+               <children>
+                  <Button layoutX="138.0" layoutY="646.0" mnemonicParsing="false" onAction="#btnRegenerateGraphClicked" prefHeight="40.0" prefWidth="179.0" text="Regenerate graph">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
+               </children></Pane>
+            <Label layoutX="218.0" layoutY="20.0" prefHeight="70.0" prefWidth="271.0" text="Gamemode" wrapText="true">
                <font>
-                  <Font size="48.0" />
+                  <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Button fx:id="btnGamemode1" layoutX="648.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode1Clicked" prefHeight="40.0" prefWidth="100.0" text="untill death" />
-            <Button fx:id="btnGamemode2" layoutX="776.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode2Clicked" prefHeight="40.0" prefWidth="100.0" text="timed" />
-            <Button fx:id="btnGamemode3" layoutX="904.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode3Clicked" prefHeight="40.0" prefWidth="100.0" text="random " />
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" onAction="#btnBackClicked" prefHeight="40.0" prefWidth="100.0" text="back" />
+            <Button fx:id="btnGamemode1" layoutX="510.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode1Clicked" prefHeight="50.0" prefWidth="180.0" text="UNTIL DEATH">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Button fx:id="btnGamemode2" layoutX="704.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode2Clicked" prefHeight="50.0" prefWidth="180.0" text="TIMED">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Button fx:id="btnGamemode3" layoutX="897.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode3Clicked" prefHeight="50.0" prefWidth="180.0" text="RANDOM" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" onAction="#btnBackClicked" prefHeight="40.0" prefWidth="100.0" text="Back">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
       </children>
     </AnchorPane>
   </children>
