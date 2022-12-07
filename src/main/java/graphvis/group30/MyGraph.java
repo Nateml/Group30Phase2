@@ -1,5 +1,7 @@
 package graphvis.group30;
 
+import javafx.scene.shape.*;
+
 import java.util.HashMap;
 
 public class MyGraph {
@@ -73,6 +75,7 @@ public class MyGraph {
         }
     }
 
+    
     public void simulate() {
         boolean isSimFinished = visSim.run();
         while (!isSimFinished) {

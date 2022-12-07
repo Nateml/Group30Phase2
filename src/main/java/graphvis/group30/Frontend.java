@@ -28,12 +28,14 @@ public class Frontend extends Application{
     static Pane graphPane;
     static MyGraph graph;
     static Game gameController;
+    static int color; 
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
         gameController = new Game();
+        color = 0; 
         graphPane = new Pane();
         launch(args);
     }

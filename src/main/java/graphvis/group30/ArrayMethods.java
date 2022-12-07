@@ -21,6 +21,7 @@ class ArrayMethods{
         newArray[n] = element;
         return newArray;
     }
+    
     // this method is to add an array to a matrix
     // this creates a new matrix with lenght n+1 and adds the array as the last element
     public static int[][] addArrayToMatrix(int[][] startingMatrix, int[]array1){
