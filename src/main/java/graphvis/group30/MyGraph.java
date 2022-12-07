@@ -2,16 +2,30 @@ package graphvis.group30;
 
 import javafx.scene.shape.*;
 
+import java.util.HashMap;
+
 public class MyGraph {
     VertexVisual[] vertices;
     EdgeVisual[] edges;
     GraphVisSim visSim;
     double width, height;
-    static Vertex currentVertex;
-    static Circle currentCircle;
+    HashMap<Integer, VertexVisual> vertexMap;
 
-    public MyGraph(VertexVisual[] vertices, double width, double height) {
-        this.vertices = vertices;
+    public MyGraph(Vertex[] vertices, double width, double height) {
+        vertexMap = new HashMap<>();
+        this.vertices = new VertexVisual[vertices.length];
+        for (int i = 0; i < vertices.length; i++) {
+           VertexVisual vertexVisual = new VertexVisual(0, vertices[i].identification());
+           vertexMap.put(vertices[i].identification(), vertexVisual);
+           this.vertices[i] = vertexVisual;
+        }
+        for (Vertex vertex : vertices) {
+            VertexVisual vertexVisual = vertexMap.get(vertex.i);
+            for (int neighbour : vertex.getNeighboursAsIntArray()) {
+                vertexVisual.add_neighbour(vertexMap.get(neighbour));
+            }
+        }
+
         visSim = new GraphVisSim(width, height);
         this.width = width;
         this.height = height;
