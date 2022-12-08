@@ -83,7 +83,7 @@ public class GamesceneController {
     
         public void btnSlectVertexClicked(){
         if (Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 2) {
-            Frontend.gameController.setCurrentVertex(currentVertex);
+            Frontend.gameController.setCurrentVertex(Frontend.currentVertex);
             if(currentColorID==-1){
             String error = "Select a color"; 
             Alert errorDisplay = new Alert(AlertType.INFORMATION);
@@ -93,8 +93,8 @@ public class GamesceneController {
             } else {
                 for (int i = 0; i < color.length; i++) {
                     if (color[i]==currentColor) {
-                    Frontend.gameController.changeColour(currentVertex, currentColorID); 
-                    currentVertex.setColour(currentColor); 
+                    Frontend.gameController.changeColour(Frontend.currentVertex, currentColorID); 
+                    Frontend.currentVertex.setColour(color[i]); 
                     }
                 }   
             }
