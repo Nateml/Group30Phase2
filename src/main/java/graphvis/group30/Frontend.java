@@ -43,7 +43,8 @@ public class Frontend extends Application{
     static GraphView graphView = null;
     static ColorPicker colorPicker;
     static List<Color> usedColors = new ArrayList<>();
-    public static Vertex currentVertex; 
+    public static Vertex currentVertex;
+    public static Label timerLabel;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

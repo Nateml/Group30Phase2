@@ -54,7 +54,7 @@
                <font>
                   <Font name="System Bold" size="24.0" />
                </font></Button>
-            <Label layoutX="1100.0" layoutY="36.0" prefHeight="39.0" prefWidth="78.0" text="TIMER" textAlignment="CENTER">
+            <Label fx:id="timerLabel" layoutX="1100.0" layoutY="36.0" prefHeight="39.0" prefWidth="78.0" text="TIMER" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font></Label>
