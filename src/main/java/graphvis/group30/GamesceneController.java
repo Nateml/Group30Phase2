@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Alert;
 
 
 public class GamesceneController {
@@ -48,40 +50,17 @@ public class GamesceneController {
 
     public void btnHintClicked() {
         String hint = Frontend.gameController.getHint();
-        popUp newHint = new popUp();
-        newHint.display(hint);
+        Alert hintDisplay = new Alert(AlertType.INFORMATION);
+        hintDisplay.setTitle(null);
+        hintDisplay.setHeaderText("Hint");
+        hintDisplay.setContentText(hint);
     }
     
     public void btnSelectColourClicked() {
         
         
         currentColor = Color.ORANGE; //needs to match the input of the color picker  
-        
-        
-        if (Frontend.gameController.gamemode == 3) {
-            if(currentVertex!=vertexHighlighted){
-
-            }else {
-            boolean colorNotUsed = true; 
-            for (int i = 0; i < color.length; i++) {
-                if (color[i]==currentColor) {
-                    currentColorID=i; 
-                    colorNotUsed = false; 
-                } 
-            }
-            if (colorNotUsed) {
-                Color[] newColor = new Color[color.length + 1];
-            for(int i = 0; i < color.length ; i++){
-                newColor[i] = color[i];
-            }
-            newColor[color.length] = currentColor;
-            color = newColor; 
-            currentColorID = newColor.length; 
-            }
-            Frontend.GameController.inGameRandomOrder[0]; 
-            
-        }}
-            boolean colorNotUsed = true; 
+        boolean colorNotUsed = true; 
         for (int i = 0; i < color.length; i++) {
             if (color[i]==currentColor) {
                 currentColorID=i; 
@@ -106,9 +85,11 @@ public class GamesceneController {
         if (Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 2) {
             Frontend.gameController.setCurrentVertex(currentVertex);
             if(currentColorID==-1){
-                String error = "Select a color to color this vertex"; 
-                popUp newError = new popUp();
-                newError.display(error); 
+            String error = "Select a color"; 
+            Alert errorDisplay = new Alert(AlertType.INFORMATION);
+            errorDisplay.setTitle(null);
+            errorDisplay.setHeaderText("No color selected");
+            errorDisplay.setContentText(error);
             } else {
                 for (int i = 0; i < color.length; i++) {
                     if (color[i]==currentColor) {
@@ -118,9 +99,12 @@ public class GamesceneController {
                 }   
             }
         } else {
-            String gameThree = "You can not slect which vertex you want to color in this gamemode, pls select the color you wish the highlighted vertex to have"; 
-            popUp newHint = new popUp();
-            newHint.display(gameThree);
+              
+            String error = "You can not slect which vertex you want to color in this gamemode, pls select the color you wish the highlighted vertex to have";
+            Alert errorDisplay = new Alert(AlertType.INFORMATION);
+            errorDisplay.setTitle(null);
+            errorDisplay.setHeaderText("GameMode 3");
+            errorDisplay.setContentText(error);
         }
            
     }    
