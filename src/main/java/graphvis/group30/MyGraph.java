@@ -82,6 +82,7 @@ public class MyGraph {
             vertex.getCircle().setOnMouseClicked((t) -> {
                 if (Frontend.gameController.isGameRunning()) {
                     VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
+                    Frontend.currentVertex = v; 
                     System.out.println("colour: " + Frontend.colorPicker.getValue());
                     if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
                         Frontend.usedColors.add(Frontend.colorPicker.getValue());
