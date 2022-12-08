@@ -23,6 +23,7 @@ public class Game {
     public int oldprogress = 0; //these are useful to make the hints more dynamic
     public int oldCurrentChromaticNumber = 0;
     boolean isGameRunning = false;
+    public Vertex[] inGameRandomOrder; 
     
      
     public void setGamemode(int i){
@@ -205,7 +206,7 @@ public class Game {
 
         }
         if(gamemode == 3){
-            Vertex[] inGameRandomOrder = graphForGame.randomOrdering(); //should provide the random order
+            inGameRandomOrder = graphForGame.randomOrdering(); //should provide the random order
             
            
             

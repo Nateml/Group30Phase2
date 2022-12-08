@@ -49,15 +49,39 @@ public class GamesceneController {
     public void btnHintClicked() {
         String hint = Frontend.gameController.getHint();
         popUp newHint = new popUp();
-        newHint.display(hint, 300, 300);
+        newHint.display(hint);
     }
     
-
     public void btnSelectColourClicked() {
-        ColorPicker pick = new ColorPicker(); 
+        
         
         currentColor = Color.ORANGE; //needs to match the input of the color picker  
-        boolean colorNotUsed = true; 
+        
+        
+        if (Frontend.gameController.gamemode == 3) {
+            if(currentVertex!=vertexHighlighted){
+
+            }else {
+            boolean colorNotUsed = true; 
+            for (int i = 0; i < color.length; i++) {
+                if (color[i]==currentColor) {
+                    currentColorID=i; 
+                    colorNotUsed = false; 
+                } 
+            }
+            if (colorNotUsed) {
+                Color[] newColor = new Color[color.length + 1];
+            for(int i = 0; i < color.length ; i++){
+                newColor[i] = color[i];
+            }
+            newColor[color.length] = currentColor;
+            color = newColor; 
+            currentColorID = newColor.length; 
+            }
+            Frontend.GameController.inGameRandomOrder[0]; 
+            
+        }}
+            boolean colorNotUsed = true; 
         for (int i = 0; i < color.length; i++) {
             if (color[i]==currentColor) {
                 currentColorID=i; 
@@ -73,9 +97,10 @@ public class GamesceneController {
         color = newColor; 
         currentColorID = newColor.length; 
         }
+        }
         
 
-        }
+        
     
         public void btnSlectVertexClicked(){
         if (Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 2) {
@@ -83,7 +108,7 @@ public class GamesceneController {
             if(currentColorID==-1){
                 String error = "Select a color to color this vertex"; 
                 popUp newError = new popUp();
-                newError.display(error, 200, 200); 
+                newError.display(error); 
             } else {
                 for (int i = 0; i < color.length; i++) {
                     if (color[i]==currentColor) {
@@ -95,7 +120,7 @@ public class GamesceneController {
         } else {
             String gameThree = "You can not slect which vertex you want to color in this gamemode, pls select the color you wish the highlighted vertex to have"; 
             popUp newHint = new popUp();
-            newHint.display(gameThree, 300, 300);
+            newHint.display(gameThree);
         }
            
     }    

@@ -15,11 +15,11 @@ import javafx.scene.layout.HBox;
 
 public class popUp {
 
-    public void display(String message, int width, int height){
+    public void display(String message){
 
         Stage popUp = new Stage();
         StackPane layout = new StackPane();
-        Scene startingScene = new Scene(layout, width, height);
+        Scene startingScene = new Scene(layout, 200, 200);
         popUp.initModality(Modality.APPLICATION_MODAL);
 
         Label messageLabel = new Label(message);
