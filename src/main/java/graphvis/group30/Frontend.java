@@ -43,7 +43,8 @@ public class Frontend extends Application{
     static List<Color> usedColors = new ArrayList<>();
     static Label lblGraphColoured;
     static List<Vertex> vertexOrder = new ArrayList<>();
-    public static Vertex currentVertex; 
+    public static Vertex currentVertex;
+    public static Label timerLabel;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

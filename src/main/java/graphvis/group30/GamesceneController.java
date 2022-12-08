@@ -11,16 +11,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 
 
 public class GamesceneController {
     VertexVisual currentVertex;
     Color[] color; 
     Color currentColor; 
-    int currentColorID = -1; 
+    int currentColorID = -1;
+    static CountTimer timer;
 
     @FXML Pane paneGraph;
     @FXML ColorPicker colorPicker;
+    @FXML Label timerLabel;
     @FXML Label lblGraphColoured;
 
     public void initialize() {
@@ -31,6 +34,8 @@ public class GamesceneController {
         }
         paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
         Frontend.colorPicker = colorPicker;
+        Frontend.timerLabel = timerLabel;
+        timer.runTimer();
         Frontend.lblGraphColoured = lblGraphColoured;
         /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
@@ -47,20 +52,25 @@ public class GamesceneController {
         });
         */
     }
+    public static void initializeTimer(){
+        switch(Frontend.gameController.gamemode){
+            case 1 :
+                timer = new CountTimer(0,0,false);
+                break;
+            case 2:
+                timer = new CountTimer(0, 0, true); // get the time from the method
+                break;
+            case 3:
+                timer = new CountTimer(0,0,false);
+                break;
+            }
+        }
+    }
 
     public void btnPauseClicked() throws IOException {
         Frontend.gameController.pause();
         Frontend.setRoot("pausescene");
-    }
-
-    public void updateGraphView() {
-        /* 
-        paneGraph.getChildren().clear();
-        Frontend.graphView.update();
-        paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
-        System.out.println();
-        */
-        //paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
+        timer.setPause(true);
     }
 
     public void btnHintClicked() {
@@ -69,6 +79,7 @@ public class GamesceneController {
         hintDisplay.setTitle(null);
         hintDisplay.setHeaderText("Hint");
         hintDisplay.setContentText(hint);
+        hintDisplay.show();
     }
     
     public void btnSelectColourClicked() {
@@ -124,5 +135,5 @@ public class GamesceneController {
            
         */
     }    
-    }
+}
 
