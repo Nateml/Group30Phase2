@@ -69,6 +69,7 @@ public class GamesceneController {
         hintDisplay.setTitle(null);
         hintDisplay.setHeaderText("Hint");
         hintDisplay.setContentText(hint);
+        hintDisplay.show();
     }
     
     public void btnSelectColourClicked() {
