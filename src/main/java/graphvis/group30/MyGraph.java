@@ -95,7 +95,6 @@ public class MyGraph {
                         circle.setFill(Frontend.colorPicker.getValue());
                         Frontend.vertexOrder.remove(0);
                         if (Frontend.gameController.gamemode == 3) {
-                             
                             /* 
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("gamescene.fxml"));
                             try {
@@ -107,6 +106,15 @@ public class MyGraph {
                             GamesceneController gamesceneController = loader.getController();
                             gamesceneController.updateGraphView();
                             */
+                            if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
+                                try {
+                                    Frontend.graph = null;
+                                    Frontend.setRoot("mainmenu");
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
                             try {
                                 Frontend.setRoot("gamescene");
                             } catch (IOException e) {

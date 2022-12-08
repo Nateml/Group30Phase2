@@ -72,7 +72,7 @@ public class GamesceneController {
     }
     
     public void btnSelectColourClicked() {
-        
+       /* 
         
         currentColor = Color.ORANGE; //needs to match the input of the color picker  
         boolean colorNotUsed = true; 
@@ -122,6 +122,7 @@ public class GamesceneController {
             errorDisplay.setContentText(error);
         }
            
+        */
     }    
     }
 
