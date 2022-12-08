@@ -14,6 +14,7 @@ public class Game {
     public int numberOfVertices; 
     public int timeLimit; 
     public Vertex[][] vertexcolouring = new Vertex[0][0]; 
+    public Vertex current; 
     public int progress = 0; 
     public int chromaticNumber; 
     public int currentChromaticNumber; 
@@ -284,7 +285,7 @@ public class Game {
             
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
-            Vertex current = new Vertex(1, 1); // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
+             // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
             Vertex[] neighbours = current.getNeighboursAsVertexArray();
             hint = "The neighbours of this vertex are ";  
             boolean hello = false; 
@@ -301,12 +302,15 @@ public class Game {
                 if (hello) {
                     hint += "We can ingore the vertices which we have not colored yet.";   
                 }
-                hint += "We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does nto violate this rule"; 
+                hint += "We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
                 return hint;
             
 
         }
         return hint; 
+    }
+    public void setCurrentVertex(Vertex V){
+        current = V; 
     }
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
         Vertex[][] coloring = current; 

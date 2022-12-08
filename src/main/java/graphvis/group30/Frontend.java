@@ -38,6 +38,7 @@ public class Frontend extends Application{
     static int color; 
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
+    public static final String GameController = null;
     static String currentScene;
     static GraphView graphView = null;
     static ColorPicker colorPicker;

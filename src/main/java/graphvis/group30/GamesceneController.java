@@ -49,8 +49,9 @@ public class GamesceneController {
     public void btnHintClicked() {
         String hint = Frontend.gameController.getHint();
         popUp newHint = new popUp();
-        newHint.display(hint);
+        newHint.display(hint, 300, 300);
     }
+    
 
     public void btnSelectColourClicked() {
         ColorPicker pick = new ColorPicker(); 
@@ -77,10 +78,11 @@ public class GamesceneController {
         }
     
         public void btnSlectVertexClicked(){
+            Frontend.gameController.setCurrentVertex(currentVertex);
         if(currentColorID==-1){
             String error = "Select a color to color this vertex"; 
             popUp newError = new popUp();
-            newError.display(error); 
+            newError.display(error, 200, 200); 
         } else {
             for (int i = 0; i < color.length; i++) {
                 if (color[i]==currentColor) {
