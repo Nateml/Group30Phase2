@@ -1,11 +1,7 @@
 package graphvis.group30;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-
-import javafx.print.PrintColor;
 
 //import javax.swing.plaf.ProgressBarUI;
 public class Game {
@@ -33,6 +29,11 @@ public class Game {
         return graphForGame.getVertexFromID(i);
     }
 
+    public ArrayList<Vertex> getRandomOrdering() {
+        List<Vertex> randomOrderingList = Arrays.asList(graphForGame.randomOrdering());
+        return new ArrayList<>(randomOrderingList);
+    }
+
     public void setGraph(int vertices, int edges, int time){
         numberOfEdges = edges; 
         numberOfVertices = vertices; 
@@ -41,6 +42,10 @@ public class Game {
         }
         //Graph play = new Graph(numberOfVertices);
         graphForGame = Graph.createRandomGraph(numberOfVertices, numberOfEdges);  
+    }
+
+    public void setGraphFromFile() {
+
     }
 
     public void changeColour(Vertex a, int color){
