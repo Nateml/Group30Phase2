@@ -78,22 +78,26 @@ public class GamesceneController {
         }
     
         public void btnSlectVertexClicked(){
+        if (Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 2) {
             Frontend.gameController.setCurrentVertex(currentVertex);
-        if(currentColorID==-1){
-            String error = "Select a color to color this vertex"; 
-            popUp newError = new popUp();
-            newError.display(error, 200, 200); 
-        } else {
-            for (int i = 0; i < color.length; i++) {
-                if (color[i]==currentColor) {
-                Frontend.gameController.changeColour(currentVertex, currentColorID); 
-                currentVertex.setColour(currentColor); 
-                }
+            if(currentColorID==-1){
+                String error = "Select a color to color this vertex"; 
+                popUp newError = new popUp();
+                newError.display(error, 200, 200); 
+            } else {
+                for (int i = 0; i < color.length; i++) {
+                    if (color[i]==currentColor) {
+                    Frontend.gameController.changeColour(currentVertex, currentColorID); 
+                    currentVertex.setColour(currentColor); 
+                    }
+                }   
             }
-            
-            
-            
+        } else {
+            String gameThree = "You can not slect which vertex you want to color in this gamemode, pls select the color you wish the highlighted vertex to have"; 
+            popUp newHint = new popUp();
+            newHint.display(gameThree, 300, 300);
         }
+           
     }    
     }
 

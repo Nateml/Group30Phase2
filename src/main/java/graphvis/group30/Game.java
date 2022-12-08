@@ -22,7 +22,6 @@ public class Game {
     public String messageWhenDone; 
     public int oldprogress = 0; //these are useful to make the hints more dynamic
     public int oldCurrentChromaticNumber = 0;
-    public int input; // this will change to the correct data type, but I dont know how to use the input of the game yet so I use this as a place holder
     boolean isGameRunning = false;
     
      
@@ -207,9 +206,8 @@ public class Game {
         }
         if(gamemode == 3){
             Vertex[] inGameRandomOrder = graphForGame.randomOrdering(); //should provide the random order
-            for (int i = 0; i < inGameRandomOrder.length; i++) { // then all they would do is go through them one by one 
-                changeColour(inGameRandomOrder[i], input);  
-            }
+            
+           
             
             if(isLegalColouring(vertexcolouring)&& currentChromaticNumber == chromaticNumber){
                message = "WOW! Well done! you have a correct coloring!"; 
