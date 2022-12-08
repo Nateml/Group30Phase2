@@ -27,11 +27,15 @@ public class Frontend extends Application{
     static EdgeVisual[] edges;
     static Pane graphPane;
     static MyGraph graph;
+    static int color; 
+    static Game gameController;
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
+        color = 0; 
+        gameController = new Game();
         graphPane = new Pane();
         launch(args);
     }
@@ -45,7 +49,7 @@ public class Frontend extends Application{
         mainStage.setTitle("Graph Coloring");
         mainStage.show();
 
-        Frontend.vertices = createVertexList();
+        //Frontend.vertices = createVertexList();
     }
 
     public static void setRoot(String fxml) throws IOException{
