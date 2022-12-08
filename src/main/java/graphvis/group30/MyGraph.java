@@ -80,6 +80,7 @@ public class MyGraph {
             vertex.getCircle().setOnMouseClicked((t) -> {
                 if (Frontend.gameController.isGameRunning()) {
                     VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
+                    Frontend.currentVertex = v; 
                     if (((Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(v))) || Frontend.gameController.gamemode != 3) {
                         System.out.println("colour: " + Frontend.colorPicker.getValue());
                         if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {

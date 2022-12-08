@@ -83,13 +83,20 @@ public class Graph {
         return true; 
         
     }
+    
 
     public Vertex[] randomOrdering() {
         Vertex[] random = new Vertex[vertices.length]; 
-        for (int i =  vertices.length, j = 0; i > 0; i--, j++) {
-            Random rand = new Random();
-            int n = rand.nextInt(i);
-            random[j] = vertices[n]; 
+        Random rand = new Random();
+        for (int i = 0; i<vertices.length; i++ ) {
+            int randomIndex = rand.nextInt(random.length);
+            if(random[randomIndex]==null){
+                random[randomIndex] = vertices[i]; 
+            } else{
+                i--;
+            }
+            
+           
         }
         return random; 
     }

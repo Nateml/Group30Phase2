@@ -36,12 +36,14 @@ public class Frontend extends Application{
     static int color; 
     final static double GRAPH_WIDTH=1200;
     final static double GRAPH_HEIGHT=700;
+    public static final String GameController = null;
     static String currentScene;
     static GraphView graphView = null;
     static ColorPicker colorPicker;
     static List<Color> usedColors = new ArrayList<>();
     static Label lblGraphColoured;
     static List<Vertex> vertexOrder = new ArrayList<>();
+    public static Vertex currentVertex; 
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

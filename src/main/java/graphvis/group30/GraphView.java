@@ -38,7 +38,11 @@ public class GraphView extends Pane {
             edge.getLine().setStartY(edge.getStartVertex().getSimBody().getPosition().y);
             edge.getLine().setEndX(edge.getEndVertex().getSimBody().getPosition().x);
             edge.getLine().setEndY(edge.getEndVertex().getSimBody().getPosition().y);
-            edge.getLine().setStroke(Color.BLACK);
+            if (Frontend.currentVertex == edge.getStartVertex()||Frontend.currentVertex == edge.getEndVertex()) {
+                edge.getLine().setStroke(Color.RED);
+            } else {
+                edge.getLine().setStroke(Color.BLACK);
+            }
             edge.getLine().setStrokeWidth(3);
             anchorPane.getChildren().add(edge.getLine());
         }
