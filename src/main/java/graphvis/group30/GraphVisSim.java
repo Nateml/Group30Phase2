@@ -3,8 +3,6 @@ package graphvis.group30;
 import java.util.ArrayList;
 
 
-import javafx.scene.layout.Pane;
-
 public class GraphVisSim {
     private double temp = 0.5;
     private ArrayList<VertexVisual> vertices;

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,15 +24,19 @@ public class GamesceneController {
     @FXML Pane paneGraph;
     @FXML ColorPicker colorPicker;
     @FXML Label timerLabel;
+    @FXML Label lblGraphColoured;
 
     public void initialize() {
         if (Frontend.graphView == null) {
             Frontend.graphView = new GraphView(Frontend.graph);
+        } else {
+            Frontend.graphView.update();
         }
         paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
         Frontend.colorPicker = colorPicker;
         Frontend.timerLabel = timerLabel;
         timer.runTimer();
+        Frontend.lblGraphColoured = lblGraphColoured;
         /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {

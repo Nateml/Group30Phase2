@@ -1,15 +1,13 @@
 package graphvis.group30;
 
-import javafx.scene.SubScene;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-
-
 
 public class MyGraph {
     VertexVisual[] vertices;
@@ -83,15 +81,47 @@ public class MyGraph {
                 if (Frontend.gameController.isGameRunning()) {
                     VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
                     Frontend.currentVertex = v; 
-                    System.out.println("colour: " + Frontend.colorPicker.getValue());
-                    if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
-                        Frontend.usedColors.add(Frontend.colorPicker.getValue());
+                    if (((Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(v))) || Frontend.gameController.gamemode != 3) {
+                        System.out.println("colour: " + Frontend.colorPicker.getValue());
+                        if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
+                            Frontend.usedColors.add(Frontend.colorPicker.getValue());
+                        }
+                        Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
+                        boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
+                        if (legallyColoured) Frontend.lblGraphColoured.setVisible(true);
+                        else Frontend.lblGraphColoured.setVisible(false);
+                        System.out.println("legally coloured? " + legallyColoured);
+                        Circle circle = (Circle)t.getSource();
+                        circle.setFill(Frontend.colorPicker.getValue());
+                        Frontend.vertexOrder.remove(0);
+                        if (Frontend.gameController.gamemode == 3) {
+                             
+                            /* 
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("gamescene.fxml"));
+                            try {
+                                Parent root = loader.load();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            GamesceneController gamesceneController = loader.getController();
+                            gamesceneController.updateGraphView();
+                            */
+                            try {
+                                Frontend.setRoot("gamescene");
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            
+                            
+                            /* 
+                            circle.setStrokeWidth(4);
+                            circle.setStrokeType(StrokeType.OUTSIDE);
+                            circle.setStroke(Color.BLACK);
+                            */
+                        }
                     }
-                    Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
-                    boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
-                    System.out.println("legally coloured? " + legallyColoured);
-                    ((Circle)t.getSource()).setFill(Frontend.colorPicker.getValue());
-                    //((Circle)t.getSource()).setFill(Color.rgb(66, 135, 245));;
                 }
             });
             visSim.addSimBody(vertex);

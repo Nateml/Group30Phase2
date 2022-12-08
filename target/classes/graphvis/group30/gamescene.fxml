@@ -46,6 +46,14 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <Line endX="1099.0" layoutX="101.0" layoutY="99.0" startX="-100.0" />
+            <Pane fx:id="paneGraph" layoutY="100.0" prefHeight="700.0" prefWidth="1200.0">
+               <children>
+                  <Label fx:id="lblGraphColoured" layoutX="282.0" layoutY="28.0" text="GRAPH SUCCESFULLY COLOURED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
             <Button layoutX="14.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnPauseClicked" prefHeight="47.0" prefWidth="157.0" text="Pause">
                <font>
                   <Font name="System Bold" size="24.0" />
@@ -62,7 +70,6 @@
                <font>
                   <Font name="System Bold" size="24.0" />
                </font></Button>
-            <Pane fx:id="paneGraph" layoutY="100.0" prefHeight="700.0" prefWidth="1200.0" />
             <ColorPicker fx:id="colorPicker" layoutX="583.0" layoutY="29.0" prefHeight="51.0" prefWidth="157.0" />
       </children>
     </AnchorPane>

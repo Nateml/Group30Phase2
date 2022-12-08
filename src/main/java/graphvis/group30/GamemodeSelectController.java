@@ -36,6 +36,8 @@ public class GamemodeSelectController {
         // gamemode 3 backend
         Frontend.gameController.setGamemode(3);
         Frontend.gameController.startGame();
+        Frontend.vertexOrder = Frontend.gameController.getRandomOrdering();
+        System.out.println("Vertex order: " + Frontend.vertexOrder.toString());
         Frontend.setRoot("gamescene");
         GamesceneController.initializeTimer();
     }

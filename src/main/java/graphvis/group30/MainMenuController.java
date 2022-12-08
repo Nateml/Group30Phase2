@@ -13,7 +13,6 @@ import javafx.stage.FileChooser;
 
 public class MainMenuController {
     
-
     @FXML
     public void initialize() {
 

@@ -14,9 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 // this stage includes the main menu and scenes upto the actual game
 
@@ -43,6 +41,8 @@ public class Frontend extends Application{
     static GraphView graphView = null;
     static ColorPicker colorPicker;
     static List<Color> usedColors = new ArrayList<>();
+    static Label lblGraphColoured;
+    static List<Vertex> vertexOrder = new ArrayList<>();
     public static Vertex currentVertex;
     public static Label timerLabel;
 
