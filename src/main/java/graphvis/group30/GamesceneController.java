@@ -10,16 +10,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 
 
 public class GamesceneController {
     VertexVisual currentVertex;
     Color[] color; 
     Color currentColor; 
-    int currentColorID = -1; 
+    int currentColorID = -1;
+    static CountTimer timer;
 
     @FXML Pane paneGraph;
     @FXML ColorPicker colorPicker;
+    @FXML Label timerLabel;
 
     public void initialize() {
         if (Frontend.graphView == null) {
@@ -27,6 +30,8 @@ public class GamesceneController {
         }
         paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
         Frontend.colorPicker = colorPicker;
+        Frontend.timerLabel = timerLabel;
+        timer.runTimer();
         /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -42,10 +47,25 @@ public class GamesceneController {
         });
         */
     }
+    public static void initializeTimer(){
+        switch(Frontend.gameController.gamemode){
+            case 1 :
+                timer = new CountTimer(0,0,false);
+                break;
+            case 2:
+                timer = new CountTimer(0, 0, true); // get the time from the method
+                break;
+            case 3:
+                timer = new CountTimer(0,0,false);
+                break;
+            }
+        }
+    }
 
     public void btnPauseClicked() throws IOException {
         Frontend.gameController.pause();
         Frontend.setRoot("pausescene");
+        timer.setPause(true);
     }
 
     public void btnHintClicked() {
@@ -106,7 +126,6 @@ public class GamesceneController {
             errorDisplay.setHeaderText("GameMode 3");
             errorDisplay.setContentText(error);
         }
-           
     }    
-    }
+}
 

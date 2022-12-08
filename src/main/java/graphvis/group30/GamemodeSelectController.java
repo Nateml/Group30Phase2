@@ -21,6 +21,7 @@ public class GamemodeSelectController {
         Frontend.gameController.setGamemode(1);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
+        GamesceneController.initializeTimer();
     }
 
     public void btnGamemode2Clicked() throws IOException {
@@ -28,7 +29,7 @@ public class GamemodeSelectController {
         Frontend.gameController.setGamemode(2);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
-        
+        GamesceneController.initializeTimer();
     }
 
     public void btnGamemode3Clicked() throws IOException {
@@ -36,6 +37,7 @@ public class GamemodeSelectController {
         Frontend.gameController.setGamemode(3);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
+        GamesceneController.initializeTimer();
     }
 
     public void btnBackClicked() throws IOException {
