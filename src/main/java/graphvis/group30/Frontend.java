@@ -47,7 +47,7 @@ public class Frontend extends Application{
     public static Vertex currentVertex;
     public static Label timerLabel;
     public static String testString = "";
-    public static int seconds = 100;
+    public static int seconds = 0;
     public static boolean isPaused = true;
     public static Timeline timer = null;
 
@@ -100,6 +100,21 @@ public class Frontend extends Application{
     public static Parent loadFXML(String fxml) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Frontend.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+
+    public static void resetGame() {
+        timer = null;
+        isPaused = true;
+        seconds = 0;
+        timerLabel = null;
+        currentVertex = null;
+        vertexOrder.clear();
+        lblGraphColoured = null;
+        usedColors.clear();
+        graphView = null;
+        gameController = new Game();
+        vertices = null;
+        edges = null;
     }
 
     public static VertexVisual[] createVertexList() {

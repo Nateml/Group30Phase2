@@ -23,7 +23,7 @@ public class PauseSceneController {
     }
 
     public void btnExitClicked() throws IOException {
-        Frontend.graphView = null;
+        Frontend.resetGame();
         Frontend.setRoot("mainmenu");
     }
 

@@ -18,6 +18,7 @@ public class GamemodeSelectController {
 
     public void btnGamemode1Clicked() throws IOException {
         // gamemode 1 backend
+        Frontend.gameController.bruteForceChromaticNumber();
         Frontend.gameController.setGamemode(1);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");

@@ -91,61 +91,62 @@ public class MyGraph {
                         if (legallyColoured){
                             Frontend.lblGraphColoured.setVisible(true);
                             // add a switch to check if the correct amount of colors are used for every gamemode
-                            if(Frontend.usedColors.size() ==  Frontend.gameController.chromaticNumber){
-                                if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 1){
+                            if(Frontend.usedColors.size() ==  Frontend.gameController.bruteForceChromaticNumber()){
+                                Frontend.timer.stop();
+                                if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 3){
                                     try {
-                                        Frontend.timerLabel.setText("In " + Frontend.Seconds + " seconds!");
+                                        Frontend.timer.stop();
+                                        Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
                                         Frontend.setRoot("GameFinishedScene");
-                                    } catch (IOException e) {}
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 } else {
-                                    Frontend.timerLabel.setText("With " + Frontend.Seconds + " seconds left!");
+                                    Frontend.timer.stop();
+                                    Frontend.timerLabel.setText("With " + Frontend.seconds + " seconds left!");
                                     try {
-                                        Frontend.timerLabel.setText("In " + Frontend.Seconds + " seconds!");
                                         Frontend.setRoot("GameFinishedScene");
-                                    } catch (IOException e) {}
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
-                        else Frontend.lblGraphColoured.setVisible(false);
-                        System.out.println("legally coloured? " + legallyColoured);
-                        Circle circle = (Circle)t.getSource();
-                        circle.setFill(Frontend.colorPicker.getValue());
-                        Frontend.vertexOrder.remove(0);
-                        if (Frontend.gameController.gamemode == 3) {
-                            /* 
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("gamescene.fxml"));
-                            try {
-                                Parent root = loader.load();
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                            GamesceneController gamesceneController = loader.getController();
-                            gamesceneController.updateGraphView();
-                            */
-                            if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
+                        else {
+                            Frontend.lblGraphColoured.setVisible(false);
+                            System.out.println("legally coloured? " + legallyColoured);
+                            Circle circle = (Circle)t.getSource();
+                            circle.setFill(Frontend.colorPicker.getValue());
+                            if (Frontend.gameController.gamemode == 3) {
+                                Frontend.vertexOrder.remove(0);
+                                /* 
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("gamescene.fxml"));
                                 try {
-                                    Frontend.graph = null;
-                                    Frontend.setRoot("mainmenu");
+                                    Parent root = loader.load();
                                 } catch (IOException e) {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                            } else {
-                                try {
-                                    Frontend.setRoot("gamescene");
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
+                                GamesceneController gamesceneController = loader.getController();
+                                gamesceneController.updateGraphView();
+                                */
+                                if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
+                                    try {
+                                        Frontend.graph = null;
+                                        Frontend.setRoot("mainmenu");
+                                    } catch (IOException e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
+                                    }
+                                } else{
+                                    try {
+                                        Frontend.setRoot("gamescene");
+                                    } catch (IOException e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
-                            
-                            
-                            /* 
-                            circle.setStrokeWidth(4);
-                            circle.setStrokeType(StrokeType.OUTSIDE);
-                            circle.setStroke(Color.BLACK);
-                            */
                         }
                     }
                 }

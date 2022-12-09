@@ -70,6 +70,7 @@ public class RandomGraphInputController {
         stage.setScene(scene);
         stage.show();
         */
+        Frontend.resetGame();
         Frontend.setRoot("mainmenu");
     }
 }

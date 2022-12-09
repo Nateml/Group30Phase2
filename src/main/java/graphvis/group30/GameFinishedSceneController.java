@@ -8,17 +8,21 @@ import javafx.scene.control.Label;
 
 public class GameFinishedSceneController {
 
-    @FXML Label TimerLabel;
+    @FXML Label labelTimeFinished;
     @FXML Button toHomeButton;
 
     public void initialize(){
-        Frontend.timerLabel = TimerLabel;
+        labelTimeFinished.setText(Frontend.timerLabel.getText() + "");
+        Frontend.timerLabel = labelTimeFinished;
     }
 
     public void toHomeButtonClicked(){
         try {
+            Frontend.resetGame();
             Frontend.setRoot("MainMenu");
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            System.out.println(e.getStackTrace());
+        }
     }
     
 }
