@@ -33,17 +33,19 @@ public class GamesceneController {
     @FXML Label lblGraphColoured;
 
     public void initialize() {
+        timerLabel.setText(Frontend.seconds + "");
         Frontend.colorPicker = colorPicker;
         if (Frontend.timerLabel == null) {
             Frontend.timerLabel = timerLabel;
         } else {
-            timerLabel.setText(Frontend.timerLabel.getText());
+            Frontend.timerLabel.setText(Frontend.seconds + "");
         }
         Frontend.lblGraphColoured = lblGraphColoured;
         if (Frontend.timer == null) {
             createTimer();
         } else {
             Frontend.timer.stop();
+            Frontend.timerLabel = timerLabel;
             createTimer();
         }
         if (Frontend.graphView == null) {
@@ -71,7 +73,7 @@ public class GamesceneController {
     }
 
     public static void setLabel() {
-        Frontend.timerLabel.setText(Frontend.testString);
+        Frontend.timerLabel.setText(Frontend.seconds+ "");
     }
 
     public void createTimer() {
@@ -82,9 +84,18 @@ public class GamesceneController {
             new EventHandler() {
                 @Override
                 public void handle(Event event) {
-                    System.out.println("running");
                     if (!Frontend.isPaused) {
-                        Frontend.seconds--;
+                        System.out.println("running");
+                        switch(Frontend.gameController.gamemode) {
+                            case 1:
+                                Frontend.seconds++;
+                                break;
+                            case 2:
+                                Frontend.seconds--;
+                                break;
+                            case 3:
+                                Frontend.seconds++;
+                        }
                         timerLabel.setText(Frontend.seconds + "");
                         Frontend.timerLabel.setText(Frontend.seconds + "");
                         if (Frontend.seconds <= 0) {
@@ -119,7 +130,7 @@ public class GamesceneController {
         */
 
     public void btnPauseClicked() throws IOException {
-        Frontend.gameController.pause();
+        //Frontend.gameController.pause();
         Frontend.isPaused = true;
         Frontend.setRoot("pausescene");
     }

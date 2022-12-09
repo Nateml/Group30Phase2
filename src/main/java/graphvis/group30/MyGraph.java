@@ -114,12 +114,13 @@ public class MyGraph {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                            }
-                            try {
-                                Frontend.setRoot("gamescene");
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                            } else {
+                                try {
+                                    Frontend.setRoot("gamescene");
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
                             }
                             
                             
