@@ -65,7 +65,7 @@ public class GamesceneController {
                 break;
             }
         }
-    }
+    
 
     public void btnPauseClicked() throws IOException {
         Frontend.gameController.pause();
