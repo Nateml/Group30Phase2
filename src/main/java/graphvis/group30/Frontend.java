@@ -1,5 +1,6 @@
 package graphvis.group30;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,10 @@ public class Frontend extends Application{
     static List<Vertex> vertexOrder = new ArrayList<>();
     public static Vertex currentVertex;
     public static Label timerLabel;
+    public static String testString = "";
+    public static int seconds = 100;
+    public static boolean isPaused = true;
+    public static Timeline timer = null;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

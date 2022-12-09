@@ -28,8 +28,7 @@ public class PauseSceneController {
     }
 
     public void btnContinueClicked() throws IOException {
-        Frontend.gameController.resume();
+        Frontend.isPaused = false;
         Frontend.setRoot("gamescene");
-        GamesceneController.timer.setPause(false);
     }
 }

@@ -25,6 +25,7 @@ public class CountTimer{
     TimerTask show = new TimerTask() {
         @Override
         public void run(){
+            System.out.println("running");
             if(countDown == true){
                 if(Seconds == 0 && Minutes == 0){
                     popUp ended = new popUp();
@@ -37,7 +38,9 @@ public class CountTimer{
                         Frontend.setRoot("mainmenu");
                     } catch (IOException e) {}
                 } else if(isPaused == false){
-                    Frontend.timerLabel.setText(Minutes + ":" + Seconds);
+                    //Frontend.timerLabel.setText(Minutes + ":" + Seconds);
+                    Frontend.testString = Minutes + ":" + Seconds;
+                    System.out.println(Frontend.testString);
                     Seconds --;
                     if(Seconds == -1){
                         Seconds = 60;
@@ -46,7 +49,9 @@ public class CountTimer{
                 }
             } else {
                 if(isPaused == false){
-                    Frontend.timerLabel.setText(Minutes + ":" + Seconds);
+                    //Frontend.timerLabel.setText(Minutes + ":" + Seconds);
+                    Frontend.testString = Minutes + ":" + Seconds;
+                    System.out.println(Frontend.testString);
                     Seconds ++;
                     if(Seconds == 61){
                         Seconds = 00;

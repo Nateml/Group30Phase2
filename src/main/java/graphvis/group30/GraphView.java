@@ -20,7 +20,11 @@ public class GraphView extends Pane {
 
     public void update() {
         for (EdgeVisual edge : graph.getEdges()) {
-            edge.getLine().setStroke(Color.BLACK);
+            if (Frontend.gameController.gamemode == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex()) || Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
+                edge.getLine().setStroke(Color.RED);
+            } else {
+                edge.getLine().setStroke(Color.BLACK);
+            }
             edge.getLine().setStrokeWidth(3);
         }
         for (VertexVisual vertex : graph.getVertices()) {
@@ -33,12 +37,13 @@ public class GraphView extends Pane {
     }
 
     private void addChildren() {
+        System.out.println();
         for (EdgeVisual edge : graph.getEdges()) {
             edge.getLine().setStartX(edge.getStartVertex().getSimBody().getPosition().x);
             edge.getLine().setStartY(edge.getStartVertex().getSimBody().getPosition().y);
             edge.getLine().setEndX(edge.getEndVertex().getSimBody().getPosition().x);
             edge.getLine().setEndY(edge.getEndVertex().getSimBody().getPosition().y);
-            if (Frontend.currentVertex == edge.getStartVertex()||Frontend.currentVertex == edge.getEndVertex()) {
+            if (Frontend.gameController.gamemode == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex())||Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
                 edge.getLine().setStroke(Color.RED);
             } else {
                 edge.getLine().setStroke(Color.BLACK);

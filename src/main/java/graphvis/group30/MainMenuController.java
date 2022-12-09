@@ -40,6 +40,9 @@ public class MainMenuController {
         Optional<ButtonType> confirmationResult = confirmationAlert.showAndWait();
         if (confirmationResult.get() == ButtonType.CANCEL) return;
         // Game.createGraphFromFile();
+        Frontend.gameController.setGraphFromFile(graphFile);
+        Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
+        Frontend.graph.simulate();
         Frontend.setRoot("gamemode_select");
     }
 

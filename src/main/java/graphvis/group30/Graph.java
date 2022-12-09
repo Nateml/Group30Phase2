@@ -1,4 +1,6 @@
 package graphvis.group30;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.Random;
 
@@ -10,9 +12,13 @@ public class Graph {
     Vertex[][] vertexColouring;
     int[][] adjMatrix;
     HashMap<Integer, Vertex> vertexIDs;
+    int numEdges;
+    int numVertices;
 
-    public Graph(Vertex[] v) {
+    public Graph(Vertex[] v, int numEdges) {
         this.vertices = v;
+        this.numEdges = numEdges;
+        this.numVertices = v.length;
         vertexIDs = new HashMap<>();
 
         for (Vertex vertex : v) {
@@ -29,7 +35,54 @@ public class Graph {
     public static Graph createRandomGraph(int numVertices, int numEdges) {
         RandomGraph randomGraph = new RandomGraph(numVertices, numEdges);
         Vertex[] v = randomGraph.getVertexArray();
-       return new Graph(v);
+       return new Graph(v, numEdges);
+    }
+
+    public static Graph createGraphFromFile(File filename) throws FileNotFoundException{
+        ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+        int numVertices = 0;
+        int numEdges = 0;
+        Scanner fileScanner = new Scanner(filename);
+        int lineNumber = 1;
+        while (fileScanner.hasNext()) {
+            if (lineNumber == 1) {
+                numVertices = Integer.parseInt(fileScanner.nextLine().split(" = ")[1]);
+            } else if (lineNumber == 2) {
+                numEdges = Integer.parseInt(fileScanner.nextLine().split(" = ")[1]);
+            } else {
+                String line = fileScanner.nextLine();
+                int vertex1ID = Integer.parseInt(line.split(" ")[0]);
+                int vertex2ID = Integer.parseInt(line.split(" ")[1]);
+                Vertex vertex1 = new Vertex(0, vertex1ID);
+                Vertex vertex2 = new Vertex(0, vertex2ID);
+                boolean containsVertex1 = false;
+                boolean containsVertex2 = false;
+                for (Vertex vertex : vertices) {
+                    if (vertex.equals(vertex1)) {
+                        containsVertex1 = true;
+                        vertex1 = vertex;
+                    } else if (vertex.equals(vertex2)) {
+                        containsVertex2 = true;
+                        vertex2 = vertex;
+                    }
+                    if (containsVertex1 && containsVertex2) break;
+                }
+                vertex1.add_neighbour(vertex2);
+                vertex2.add_neighbour(vertex1);
+                if (!containsVertex1) {
+                    vertices.add(vertex1);
+                }
+                if (!containsVertex2) {
+                    vertices.add(vertex2);
+                }
+
+            }
+            lineNumber++;
+        }
+        fileScanner.close();
+        Vertex[] v = vertices.toArray(new Vertex[0]);
+        return new Graph(v, numEdges);
+
     }
 
     /* 
