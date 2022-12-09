@@ -33,6 +33,7 @@ public class GraphView extends Pane {
     }
 
     private void addChildren() {
+        System.out.println();
         for (EdgeVisual edge : graph.getEdges()) {
             edge.getLine().setStartX(edge.getStartVertex().getSimBody().getPosition().x);
             edge.getLine().setStartY(edge.getStartVertex().getSimBody().getPosition().y);

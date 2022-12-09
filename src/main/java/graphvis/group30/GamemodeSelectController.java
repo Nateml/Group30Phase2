@@ -21,7 +21,8 @@ public class GamemodeSelectController {
         Frontend.gameController.setGamemode(1);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
-        GamesceneController.initializeTimer();
+        Frontend.isPaused = false;
+        //GamesceneController.initializeTimer();
     }
 
     public void btnGamemode2Clicked() throws IOException {
@@ -29,7 +30,8 @@ public class GamemodeSelectController {
         Frontend.gameController.setGamemode(2);
         Frontend.gameController.startGame();
         Frontend.setRoot("gamescene");
-        GamesceneController.initializeTimer();
+        Frontend.isPaused = false;
+        //GamesceneController.initializeTimer();
     }
 
     public void btnGamemode3Clicked() throws IOException {
@@ -38,12 +40,14 @@ public class GamemodeSelectController {
         Frontend.gameController.startGame();
         Frontend.vertexOrder = Frontend.gameController.getRandomOrdering();
         System.out.println("Vertex order: " + Frontend.vertexOrder.toString());
+        //GamesceneController.initializeTimer();
+        Frontend.isPaused = false;
         Frontend.setRoot("gamescene");
-        GamesceneController.initializeTimer();
     }
 
     public void btnBackClicked() throws IOException {
         Frontend.gameController.pause();
+        Frontend.isPaused = true;
         Frontend.setRoot("mainmenu");
     }
 

@@ -1,4 +1,6 @@
 package graphvis.group30;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,8 +47,8 @@ public class Game {
         graphForGame = Graph.createRandomGraph(numberOfVertices, numberOfEdges);  
     }
 
-    public void setGraphFromFile() {
-
+    public void setGraphFromFile(File filename) throws FileNotFoundException {
+        graphForGame = Graph.createGraphFromFile(filename);
     }
 
     public void changeColour(Vertex a, int color){

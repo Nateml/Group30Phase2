@@ -2,6 +2,11 @@ package graphvis.group30;
 
 import java.io.IOException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -10,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
@@ -19,7 +25,7 @@ public class GamesceneController {
     Color[] color; 
     Color currentColor; 
     int currentColorID = -1;
-    static CountTimer timer;
+    //static CountTimer timer;
 
     @FXML Pane paneGraph;
     @FXML ColorPicker colorPicker;
@@ -27,16 +33,27 @@ public class GamesceneController {
     @FXML Label lblGraphColoured;
 
     public void initialize() {
+        Frontend.colorPicker = colorPicker;
+        if (Frontend.timerLabel == null) {
+            Frontend.timerLabel = timerLabel;
+        } else {
+            timerLabel.setText(Frontend.timerLabel.getText());
+        }
+        Frontend.lblGraphColoured = lblGraphColoured;
+        if (Frontend.timer == null) {
+            createTimer();
+        } else {
+            Frontend.timer.stop();
+            createTimer();
+        }
         if (Frontend.graphView == null) {
             Frontend.graphView = new GraphView(Frontend.graph);
+            //timer.runTimer();
         } else {
             Frontend.graphView.update();
         }
         paneGraph.getChildren().add(Frontend.graphView.getAnchorPane());
-        Frontend.colorPicker = colorPicker;
-        Frontend.timerLabel = timerLabel;
-        timer.runTimer();
-        Frontend.lblGraphColoured = lblGraphColoured;
+        //timer.setPause(false);
         /* 
         paneGraph.setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -52,6 +69,39 @@ public class GamesceneController {
         });
         */
     }
+
+    public static void setLabel() {
+        Frontend.timerLabel.setText(Frontend.testString);
+    }
+
+    public void createTimer() {
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(
+            new KeyFrame(Duration.seconds(1),
+            new EventHandler() {
+                @Override
+                public void handle(Event event) {
+                    System.out.println("running");
+                    if (!Frontend.isPaused) {
+                        Frontend.seconds--;
+                        timerLabel.setText(Frontend.seconds + "");
+                        Frontend.timerLabel.setText(Frontend.seconds + "");
+                        if (Frontend.seconds <= 0) {
+                            timeline.stop();
+                        }
+                    }
+
+                }
+            }
+            )
+        );
+        timeline.playFromStart();
+        Frontend.timer = timeline;
+    }
+
+    /* 
+
     public static void initializeTimer(){
         switch(Frontend.gameController.gamemode){
             case 1 :
@@ -65,12 +115,13 @@ public class GamesceneController {
                 break;
             }
         }
-    }
+
+        */
 
     public void btnPauseClicked() throws IOException {
         Frontend.gameController.pause();
+        Frontend.isPaused = true;
         Frontend.setRoot("pausescene");
-        timer.setPause(true);
     }
 
     public void btnHintClicked() {
@@ -136,4 +187,5 @@ public class GamesceneController {
         */
     }    
 }
+
 

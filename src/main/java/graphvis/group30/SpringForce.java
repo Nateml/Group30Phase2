@@ -2,7 +2,7 @@ package graphvis.group30;
 
 public class SpringForce extends Vector{
     static final double idealLength = 150;
-    static final double springConstant = 0.05;
+    static final double springConstant = 0.2;
     public SpringForce(double x, double y) {
         super(x, y);
     } 
