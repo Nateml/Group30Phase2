@@ -1,5 +1,6 @@
 package graphvis.group30;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,8 +27,15 @@ public class CountTimer{
         public void run(){
             if(countDown == true){
                 if(Seconds == 0 && Minutes == 0){
-                    // show a popup of that the game has ended 
+                    popUp ended = new popUp();
+                    ended.display("you went over the time limit, you will be returned to the starting screen in 5 seconds");
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e1) {}
                     countDownTimer.cancel();
+                    try {
+                        Frontend.setRoot("mainmenu");
+                    } catch (IOException e) {}
                 } else if(isPaused == false){
                     Frontend.timerLabel.setText(Minutes + ":" + Seconds);
                     Seconds --;
@@ -51,6 +59,14 @@ public class CountTimer{
 
     public void runTimer(){
         countDownTimer.scheduleAtFixedRate(show,delay,period);
+    }
+
+    public int getMinutes(){
+        return Minutes;
+    }
+
+    public int getSeconds(){
+        return Seconds;
     }
 
     public void stop(){

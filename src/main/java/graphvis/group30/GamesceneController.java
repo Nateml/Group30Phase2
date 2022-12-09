@@ -126,7 +126,7 @@ public class GamesceneController {
             }
         } else {
               
-            String error = "You can not slect which vertex you want to color in this gamemode, pls select the color you wish the highlighted vertex to have";
+            String error = "You can not slect which vertex you want to color in this gamemode, please select the color you wish the highlighted vertex to have";
             Alert errorDisplay = new Alert(AlertType.INFORMATION);
             errorDisplay.setTitle(null);
             errorDisplay.setHeaderText("GameMode 3");

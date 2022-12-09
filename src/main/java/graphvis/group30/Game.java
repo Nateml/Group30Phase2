@@ -26,6 +26,10 @@ public class Game {
         gamemode = i; 
     }
 
+    public int bruteForceChromaticNumber() {
+        return graphForGame.bruteForceChromaticNumber();
+    }
+
     public Vertex getVertexFromID(int i) {
         return graphForGame.getVertexFromID(i);
     }
@@ -42,7 +46,7 @@ public class Game {
             timeLimit = time; 
         }
         //Graph play = new Graph(numberOfVertices);
-        graphForGame = Graph.createRandomGraph(numberOfVertices, numberOfEdges);  
+        graphForGame = Graph.createRandomGraph(numberOfVertices, numberOfEdges);
     }
 
     public void setGraphFromFile() {
@@ -196,15 +200,6 @@ public class Game {
         isGameRunning = true;
         String message = ""; 
         if(gamemode == 1){
-            long startTime = System.currentTimeMillis(); // gamemode 1 requires us to keep track of the time as they need to finish as fast as possible
-            
-           
-            
-           
-            if(progress == numberOfVertices && isLegalColouring(vertexcolouring) && colorsBeingUsed() == chromaticNumber) {
-                long endTime = System.currentTimeMillis();
-                long timeElapsed = endTime - startTime;
-            }
      
         }
         if(gamemode == 2){

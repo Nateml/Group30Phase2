@@ -88,7 +88,24 @@ public class MyGraph {
                         }
                         Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
                         boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
-                        if (legallyColoured) Frontend.lblGraphColoured.setVisible(true);
+                        if (legallyColoured){
+                            Frontend.lblGraphColoured.setVisible(true);
+                            // add a switch to check if the correct amount of colors are used for every gamemode
+                            if(Frontend.usedColors.size() ==  Frontend.gameController.chromaticNumber){
+                                if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 1){
+                                    try {
+                                        Frontend.timerLabel.setText("In " + Frontend.Seconds + " seconds!");
+                                        Frontend.setRoot("GameFinishedScene");
+                                    } catch (IOException e) {}
+                                } else {
+                                    Frontend.timerLabel.setText("With " + Frontend.Seconds + " seconds left!");
+                                    try {
+                                        Frontend.timerLabel.setText("In " + Frontend.Seconds + " seconds!");
+                                        Frontend.setRoot("GameFinishedScene");
+                                    } catch (IOException e) {}
+                                }
+                            }
+                        }
                         else Frontend.lblGraphColoured.setVisible(false);
                         System.out.println("legally coloured? " + legallyColoured);
                         Circle circle = (Circle)t.getSource();
@@ -144,6 +161,5 @@ public class MyGraph {
     public EdgeVisual[] getEdges() {
         return edges;
     }
-
-
 }
+
