@@ -35,6 +35,9 @@ public class GamesceneController {
 
     public void initialize() {
         timerLabel.setText(Frontend.seconds + "");
+        if (Frontend.colorPicker != null) {
+            colorPicker.setValue(Frontend.colorPicker.getValue());
+        }
         Frontend.colorPicker = colorPicker;
         if (Frontend.timerLabel == null) {
             Frontend.timerLabel = timerLabel;

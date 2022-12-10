@@ -46,6 +46,9 @@ public class SimBody {
     }
 
     public void addForce(Vector f) {
+        if (Double.isNaN(f.x) || Double.isNaN(f.y)) {
+            System.out.println("is NaN");
+        }
         acceleration.add(f);
     }
 
@@ -55,6 +58,7 @@ public class SimBody {
 
     public void update(double temp) {
         netForce = new Vector(acceleration.x, acceleration.y);
+        Vector oldVelocity = new Vector(velocity.x, velocity.y);
         velocity.add(acceleration);
         velocity.mult(temp);
         if (velocity.getLength() < 0.05) velocity.mult(0);
@@ -66,6 +70,9 @@ public class SimBody {
             velocity.add(resistance);
         }
         position.add(velocity);
+        if (Double.isNaN(position.x) || Double.isNaN(position.y))  {
+            System.out.println("is not a number");
+        }
         acceleration.mult(0);
     }
 

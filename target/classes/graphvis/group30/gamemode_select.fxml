@@ -43,13 +43,12 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0">
-               <children>
-                  <Button layoutX="138.0" layoutY="646.0" mnemonicParsing="false" onAction="#btnRegenerateGraphClicked" prefHeight="40.0" prefWidth="179.0" text="Regenerate graph">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Button>
-               </children></Pane>
+            <Pane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0" />
+            <Button layoutX="128.0" layoutY="745.0" mnemonicParsing="false" onAction="#btnRegenerateGraphClicked" prefHeight="40.0" prefWidth="179.0" text="Regenerate graph">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
             <Label layoutX="218.0" layoutY="20.0" prefHeight="70.0" prefWidth="271.0" text="Gamemode" wrapText="true">
                <font>
                   <Font name="System Bold" size="48.0" />

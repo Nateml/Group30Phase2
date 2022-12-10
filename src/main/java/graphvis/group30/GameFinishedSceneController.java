@@ -24,7 +24,7 @@ public class GameFinishedSceneController {
             Frontend.resetGame();
             Frontend.setRoot("MainMenu");
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
     }
     

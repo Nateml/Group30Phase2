@@ -25,14 +25,15 @@ public class GraphView extends Pane {
             } else {
                 edge.getLine().setStroke(Color.BLACK);
             }
-            edge.getLine().setStrokeWidth(3);
+            edge.getLine().setStrokeWidth(2);
         }
         for (VertexVisual vertex : graph.getVertices()) {
+            vertex.getCircle().setStrokeWidth(2);
             if (Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
                 vertex.getCircle().setStrokeWidth(4);
-                vertex.getCircle().setStroke(Color.BLACK);
-                vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
             }
+            vertex.getCircle().setStroke(Color.BLACK);
+            vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
         }
     }
 
@@ -48,23 +49,26 @@ public class GraphView extends Pane {
             } else {
                 edge.getLine().setStroke(Color.BLACK);
             }
-            edge.getLine().setStrokeWidth(3);
+            edge.getLine().setStrokeWidth(2);
             anchorPane.getChildren().add(edge.getLine());
         }
         for (VertexVisual vertex : graph.getVertices()) {
             vertex.getCircle().setCenterX(vertex.getSimBody().getPosition().x);
             vertex.getCircle().setCenterY(vertex.getSimBody().getPosition().y);
-            vertex.getCircle().setFill(Color.ORANGE);
+            vertex.getCircle().setFill(Color.WHITE);
+            vertex.getCircle().setStrokeWidth(2);
+            vertex.getCircle().setStroke(Color.BLACK);
+            vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
             vertex.getCircle().setRadius(15);
             vertex.getCircle().setVisible(true);
             vertex.getLabel().setX(vertex.getCircle().getCenterX());
             vertex.getLabel().setY(vertex.getCircle().getCenterY());
             if (Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
-                vertex.getCircle().setStrokeWidth(4);
+                vertex.getCircle().setStrokeWidth(5);
                 vertex.getCircle().setStroke(Color.BLACK);
                 vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
             }
-            anchorPane.getChildren().addAll(vertex.getCircle(), vertex.getLabel());
+            anchorPane.getChildren().addAll(vertex.getCircle());
         }
 
     }

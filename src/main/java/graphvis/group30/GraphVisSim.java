@@ -22,7 +22,7 @@ public class GraphVisSim {
 
     public boolean run() { 
         for (VertexVisual v1 : vertices) {
-            v1.getSimBody().addForce(Vector.mult(SpringForce.getSpringForceBetween(v1.getSimBody(), centerBody),4));
+            v1.getSimBody().addForce(Vector.mult(SpringForce.getSpringForceBetween(v1.getSimBody(), centerBody),2));
             for (VertexVisual v2 : vertices) {
                 if (v1.equals(v2)) continue;
 
@@ -49,6 +49,7 @@ public class GraphVisSim {
             //temp *= 0.99999;
             //if (temp > 0.00001) temp -= 0.00001;
             temp -= 0.000005;
+            if (temp <= 0) temp = 0;
             Vector currentPosition = v.getSimBody().getPosition();
             Vector diffPosition = Vector.subtract(prevPosition, currentPosition);
             //System.out.println(diffPosition.getLength());

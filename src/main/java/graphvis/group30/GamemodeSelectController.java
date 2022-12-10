@@ -12,7 +12,7 @@ public class GamemodeSelectController {
     public void initialize() {
         GraphView graphView = new GraphView(Frontend.graph);
         paneGraph.getChildren().add(graphView.getAnchorPane());
-        Frontend.graph.simulate();
+        //Frontend.graph.simulate();
         System.out.println();
     }
 

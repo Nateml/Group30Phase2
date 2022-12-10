@@ -9,7 +9,12 @@ public class SpringForce extends Vector{
 
     public static SpringForce getSpringForceBetween(SimBody v1, SimBody v2) {
         Vector diff = Vector.subtract(v2.getPosition(), v1.getPosition());
-        Vector direction = Vector.normalize(diff);
+        Vector direction;
+        if (diff.getLength() == 0) {
+            direction = Vector.normalize(new Vector(Math.random(), Math.random()));
+        } else {
+            direction = Vector.normalize(diff);
+        }
         Vector idealSpringVector = Vector.mult(direction, idealLength);
         Vector springVector = Vector.mult(Vector.subtract(diff, idealSpringVector), springConstant);
         SpringForce sf = new SpringForce(springVector.x, springVector.y);

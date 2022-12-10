@@ -32,11 +32,15 @@ public class CountTimer{
                     ended.display("you went over the time limit, you will be returned to the starting screen in 5 seconds");
                     try {
                         Thread.sleep(5000);
-                    } catch (InterruptedException e1) {}
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                     countDownTimer.cancel();
                     try {
                         Frontend.setRoot("mainmenu");
-                    } catch (IOException e) {}
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else if(isPaused == false){
                     //Frontend.timerLabel.setText(Minutes + ":" + Seconds);
                     Frontend.testString = Minutes + ":" + Seconds;
