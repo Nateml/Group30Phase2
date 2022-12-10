@@ -81,76 +81,88 @@ public class MyGraph {
                 if (Frontend.gameController.isGameRunning()) {
                     VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
                     Frontend.currentVertex = v; 
-                    if (((Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(v))) || Frontend.gameController.gamemode != 3) {
-                        System.out.println("colour: " + Frontend.colorPicker.getValue());
-                        if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
-                            Frontend.usedColors.add(Frontend.colorPicker.getValue());
-                        }
-                        Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
-                        boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
-                        if (legallyColoured){
-                            Frontend.lblGraphColoured.setVisible(true);
-                            // add a switch to check if the correct amount of colors are used for every gamemode
-                            if(Frontend.usedColors.size() ==  Frontend.gameController.bruteForceChromaticNumber()){
-                                Frontend.timer.stop();
-                                if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 3){
-                                    try {
-                                        Frontend.timer.stop();
-                                        Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
-                                        Frontend.setRoot("GameFinishedScene");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    Frontend.timer.stop();
-                                    Frontend.timerLabel.setText("With " + Frontend.seconds + " seconds left!");
-                                    try {
-                                        Frontend.setRoot("GameFinishedScene");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            Frontend.lblGraphColoured.setVisible(false);
-                            System.out.println("legally coloured? " + legallyColoured);
-                            Circle circle = (Circle)t.getSource();
-                            circle.setFill(Frontend.colorPicker.getValue());
-                            if (Frontend.gameController.gamemode == 3) {
-                                Frontend.vertexOrder.remove(0);
-                                /* 
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("gamescene.fxml"));
+                    System.out.println("colour: " + Frontend.colorPicker.getValue());
+                    if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
+                        Frontend.usedColors.add(Frontend.colorPicker.getValue());
+                    }
+                    Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
+                    boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
+                    if (legallyColoured){
+                        Frontend.lblGraphColoured.setVisible(true);
+                        // add a switch to check if the correct amount of colors are used for every gamemode
+                        if(Frontend.usedColors.size() ==  Frontend.gameController.bruteForceChromaticNumber()){
+                            Frontend.timer.stop();
+                            if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 3){
                                 try {
-                                    Parent root = loader.load();
+                                    Frontend.timer.stop();
+                                    Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
+                                    Frontend.setRoot("GameFinishedScene");
                                 } catch (IOException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                                GamesceneController gamesceneController = loader.getController();
-                                gamesceneController.updateGraphView();
-                                */
-                                if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
-                                    try {
-                                        Frontend.graph = null;
-                                        Frontend.setRoot("mainmenu");
-                                    } catch (IOException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
-                                } else{
-                                    try {
-                                        Frontend.setRoot("gamescene");
-                                    } catch (IOException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
+                            } else {
+                                Frontend.timer.stop();
+                                Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
+                                try {
+                                    Frontend.setRoot("GameFinishedScene");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }
                     }
-                }
-            });
+                    else {
+                        Frontend.lblGraphColoured.setVisible(false);
+                        System.out.println("legally coloured? " + legallyColoured);
+                        Circle circle = (Circle)t.getSource();
+                        circle.setFill(Frontend.colorPicker.getValue());
+                        switch(Frontend.gameController.gamemode) {
+                            case 1:
+
+                                break;
+                            case 2:
+
+                                break;
+                            case 3:
+                                if (Frontend.vertexOrder.size() == 1) {
+                                    try {
+                                        Frontend.setRoot("failedscene");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Frontend.vertexOrder.remove(0);
+                                    try {
+                                        Frontend.setRoot("gamescene");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                break;
+                        }
+                        /* 
+                        if (Frontend.gameController.gamemode == 3) {
+                            Frontend.vertexOrder.remove(0);
+                            if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
+                                try {
+                                    Frontend.graph = null;
+                                    Frontend.setRoot("mainmenu");
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            } else{
+                                try {
+                                    Frontend.setRoot("gamescene");
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                            */
+                        }
+                    }
+                });
             visSim.addSimBody(vertex);
         }
     }

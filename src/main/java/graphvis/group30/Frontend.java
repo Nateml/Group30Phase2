@@ -13,9 +13,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 // this stage includes the main menu and scenes upto the actual game
 
@@ -50,12 +53,17 @@ public class Frontend extends Application{
     public static int seconds = 0;
     public static boolean isPaused = true;
     public static Timeline timer = null;
+    public static MediaPlayer mediaPlayer;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
         gameController = new Game();
         color = 0; 
         graphPane = new Pane();
+        String musicFile = "8bitcarti.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         launch(args);
     }
 

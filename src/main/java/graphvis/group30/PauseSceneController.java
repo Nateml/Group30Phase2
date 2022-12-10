@@ -18,8 +18,9 @@ public class PauseSceneController {
         paneGraph.setEffect(gb);
     }
 
-    public void btnEnableSoundClicked() {
-
+    public void btnToggleSoundClicked() {
+        if (Frontend.mediaPlayer.getVolume() == 1) Frontend.mediaPlayer.setVolume(0);
+        else Frontend.mediaPlayer.setVolume(1);
     }
 
     public void btnExitClicked() throws IOException {

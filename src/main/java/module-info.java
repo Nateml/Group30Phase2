@@ -6,6 +6,7 @@ module graphvis1 {
     requires javafx.fxml;
     requires javafx.controls;
     requires javafx.graphics;
+    requires javafx.media;
 
     opens graphvis.group30 to javafx.fxml;
 }

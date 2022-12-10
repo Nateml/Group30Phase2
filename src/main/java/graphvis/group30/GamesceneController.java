@@ -100,6 +100,12 @@ public class GamesceneController {
                         Frontend.timerLabel.setText(Frontend.seconds + "");
                         if (Frontend.seconds <= 0) {
                             timeline.stop();
+                            try {
+                                Frontend.setRoot("failedscene");
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
                         }
                     }
 
