@@ -74,6 +74,7 @@ public class Frontend extends Application{
         mainStage.setScene(newScene);
 
         mainStage.setTitle("Graph Coloring");
+        mainStage.setResizable(false);
         mainStage.show();
 
         //Frontend.vertices = createVertexList();
@@ -90,11 +91,15 @@ public class Frontend extends Application{
                     try {
                         if (currentScene.equals("gamescene")) {
                             // change scene
+                            Frontend.gameController.isGameRunning = false;
+                            Frontend.isPaused = true;
                             newScene.setRoot(loadFXML("pausescene"));
                             currentScene = "pausescene";
                         }
                         else if (currentScene.equals("pausescene")) {
                             // change scene
+                            Frontend.gameController.isGameRunning = true;
+                            Frontend.isPaused = false;
                             newScene.setRoot(loadFXML("gamescene"));
                             currentScene = "gamescene";
                         }

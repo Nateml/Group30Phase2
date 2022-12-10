@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 //import javax.swing.plaf.ProgressBarUI;
 public class Game {
     public int gamemode; 
@@ -185,11 +187,14 @@ public class Game {
     public int[][] conflicingVertices(Vertex[][] colouredVertices){ // creates a grid of ones and zeros where 1 represents that therer are conflicting vertices
         int[][] listofconflicVerticeVertices = new int[numberOfVertices][numberOfVertices]; 
         for (int i = 0; i < colouredVertices.length; i++) {
-            for (int j = 0; j < colouredVertices[0].length; j++) {
-                int[] neighbour = new int[colouredVertices[i][j].getNeighboursAsIntArray().length]; 
+            for (int j = 0; j < colouredVertices[i].length; j++) {
+                //int[] neighbour = new int[colouredVertices[i][j].getNeighboursAsIntArray().length]; 
+                int[] neighbour = colouredVertices[i][j].getNeighboursAsIntArray();
                 for (int k = 0; k < neighbour.length; k++) {
-                    if(neighbour[k] == colouredVertices[i][j].identification()){
-                        listofconflicVerticeVertices[colouredVertices[i][j].identification()][neighbour[k]] = 1;  
+                    for (int k2 = 0; k2 < colouredVertices[i].length; k2++) {
+                        if (neighbour[k] == colouredVertices[i][k2].identification()) {
+                            listofconflicVerticeVertices[colouredVertices[i][j].identification()][neighbour[k]] = 1;
+                        }
                     }
                 }
             }
@@ -239,7 +244,8 @@ public class Game {
            if (!isLegalColouring(vertexcolouring)) {
                 int[][] tempArray = conflicingVertices(vertexcolouring); 
                 for (int i = 0; i < tempArray.length; i++) {
-                    for (int j = 0; j < tempArray.length; j++) {
+                    for (int j = 0; j < tempArray[i].length; j++) {
+                        if (i == j) continue;
                         if (tempArray[i][j]==1) {
                             hint = "Two connected vertices have the same color, vertex " + i + " and " + j + " are both the same color, switch one of these two to a new color.";  
                             return hint; 

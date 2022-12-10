@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -85,7 +86,7 @@ public class GamesceneController {
                 @Override
                 public void handle(Event event) {
                     if (!Frontend.isPaused) {
-                        System.out.println("running");
+                        //System.out.println("running");
                         switch(Frontend.gameController.gamemode) {
                             case 1:
                                 Frontend.seconds++;
@@ -146,7 +147,9 @@ public class GamesceneController {
         Alert hintDisplay = new Alert(AlertType.INFORMATION);
         hintDisplay.setTitle(null);
         hintDisplay.setHeaderText("Hint");
-        hintDisplay.setContentText(hint);
+        //hintDisplay.setContentText(hint);
+        hintDisplay.getDialogPane().setContentText(hint);
+        System.out.println(hint);
         hintDisplay.show();
     }
     
