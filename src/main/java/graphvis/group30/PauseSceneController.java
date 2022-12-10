@@ -32,6 +32,7 @@ public class PauseSceneController {
         GaussianBlur gb = new GaussianBlur();
         gb.setRadius(30);
         paneGraph.setEffect(gb);
+        sliderVolume.setValue(Frontend.mediaPlayer.getVolume());
 
         try {
             imageVolume.setImage(new Image(getClass().getResource("volume_icon.png").toURI().toString(), 50, 50, true, true));
@@ -73,6 +74,7 @@ public class PauseSceneController {
 
     public void btnContinueClicked() throws IOException {
         Frontend.isPaused = false;
+        Frontend.gameController.isGameRunning = true;
         Frontend.setRoot("gamescene");
     }
 

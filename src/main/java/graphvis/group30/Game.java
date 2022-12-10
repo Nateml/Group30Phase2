@@ -80,6 +80,7 @@ public class Game {
                 for (int j = 0; j < vertexColouringList.get(i).size(); j++) {
                     if (vertexColouringList.get(i).get(j).equals(a)) {
                         vertexColouringList.get(i).remove(j);
+                        progress--;
                     }
                 }
             }

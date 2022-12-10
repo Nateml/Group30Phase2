@@ -49,7 +49,10 @@
                   <Image url="@../../../../../../VictoryRoyale.png" />
                </image>
             </ImageView>
-            <Button fx:id="toHomeButton" layoutX="537.0" layoutY="387.0" mnemonicParsing="false" onAction="#toHomeButtonClicked" text="Back to home screen" />
+            <Button fx:id="toHomeButton" layoutX="505.0" layoutY="412.0" mnemonicParsing="false" onAction="#toHomeButtonClicked" text="Back to home screen">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
             <Label layoutX="176.0" layoutY="241.0" prefHeight="70.0" prefWidth="847.0" text="Congratulations you succesfully colored the graph" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold Italic" size="36.0" />
@@ -59,6 +62,11 @@
                <font>
                   <Font name="System Bold Italic" size="36.0" />
                </font></Label>
+            <Label fx:id="labelResult" layoutX="298.0" layoutY="364.0" text="You used x colours, but you could have used y colours.">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
          </children>
     </AnchorPane>
   </children>

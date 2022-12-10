@@ -54,6 +54,7 @@ public class Frontend extends Application{
     public static boolean isPaused = true;
     public static Timeline timer = null;
     public static MediaPlayer mediaPlayer;
+    public static Label resultLabel = new Label();
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);

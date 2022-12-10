@@ -139,6 +139,7 @@ public class GamesceneController {
     public void btnPauseClicked() throws IOException {
         //Frontend.gameController.pause();
         Frontend.isPaused = true;
+        Frontend.gameController.isGameRunning = false;
         Frontend.setRoot("pausescene");
     }
 

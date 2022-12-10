@@ -10,10 +10,13 @@ public class GameFinishedSceneController {
 
     @FXML Label labelTimeFinished;
     @FXML Button toHomeButton;
+    @FXML Label labelResult;
 
     public void initialize(){
         labelTimeFinished.setText(Frontend.timerLabel.getText() + "");
         Frontend.timerLabel = labelTimeFinished;
+        labelResult.setText(Frontend.resultLabel.getText());
+        Frontend.resultLabel = labelResult;
     }
 
     public void toHomeButtonClicked(){

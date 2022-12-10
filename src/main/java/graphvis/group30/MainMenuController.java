@@ -55,4 +55,8 @@ public class MainMenuController {
     public void btnQuitClicked() {
         System.exit(0);
     }
+
+    public void btnSettingsClicked() throws IOException {
+        Frontend.setRoot("settingsscene");
+    }
 }

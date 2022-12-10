@@ -88,6 +88,43 @@ public class MyGraph {
                     Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
                     boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
                     if (legallyColoured){
+                        switch (Frontend.gameController.gamemode) {
+                            case 1:
+                                if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                                    Frontend.timer.stop();
+                                    try {
+                                        Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
+                                        Frontend.resultLabel.setText("");
+                                        Frontend.setRoot("GameFinishedScene");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    System.out.println("legally coloured? " + legallyColoured);
+                                    Circle circle = (Circle)t.getSource();
+                                    circle.setFill(Frontend.colorPicker.getValue());
+                                }
+                                break;
+                            case 2:
+                            case 3:
+                                Frontend.timer.stop();
+                                Frontend.timerLabel.setText("with " + Frontend.seconds + " left");
+                                String text = "You used " + Frontend.gameController.progress + " colours, ";
+                                if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                                    text += "which is the least amount of colours you could have used!";
+                                } else {
+                                    text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
+                                }
+                                Frontend.resultLabel.setText(text);
+                                try {
+                                    Frontend.timer.stop();
+                                    Frontend.setRoot("GameFinishedScene");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                        }
+                        /* 
                         Frontend.lblGraphColoured.setVisible(true);
                         // add a switch to check if the correct amount of colors are used for every gamemode
                         if(Frontend.usedColors.size() ==  Frontend.gameController.bruteForceChromaticNumber()){
@@ -109,9 +146,12 @@ public class MyGraph {
                                     e.printStackTrace();
                                 }
                             }
+                        } else {
+
                         }
+                        */
                     }
-                    else {
+                    else if (!legallyColoured || Frontend.gameController.gamemode == 1){
                         Frontend.lblGraphColoured.setVisible(false);
                         System.out.println("legally coloured? " + legallyColoured);
                         Circle circle = (Circle)t.getSource();
