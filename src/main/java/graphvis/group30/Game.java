@@ -73,14 +73,18 @@ public class Game {
         }
 
         if (currentColor == -1) {
-            progress++;
+            if (vertexColouringList.size() > color && vertexColouringList.get(color).size() > 0) {
+
+            } else {
+                progress++;
+            }
         } else {
             // remove vertex from old color class
             for (int i = 0; i < vertexColouringList.size(); i++) {
                 for (int j = 0; j < vertexColouringList.get(i).size(); j++) {
                     if (vertexColouringList.get(i).get(j).equals(a)) {
                         vertexColouringList.get(i).remove(j);
-                        progress--;
+                        if (vertexColouringList.get(i).size() == 0) progress--;
                     }
                 }
             }

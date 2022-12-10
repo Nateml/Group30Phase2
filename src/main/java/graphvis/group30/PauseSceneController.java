@@ -12,6 +12,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer.Status;
 
 public class PauseSceneController {
 
@@ -24,6 +25,9 @@ public class PauseSceneController {
     @FXML ImageView imageVolume;
     @FXML ImageView playIcon;
     @FXML ImageView homeIcon;
+    @FXML ImageView rewindIcon;
+    @FXML ImageView forwardIcon;
+    @FXML ImageView playTrackIcon;
 
     @FXML
     public void initialize() {
@@ -46,6 +50,29 @@ public class PauseSceneController {
             playImageView.setFitWidth(70);
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (Frontend.mediaPlayer.getStatus().equals(Status.PLAYING)) {
+            try {
+                playTrackIcon.setImage(new Image(getClass().getResource("pause_icon.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                playTrackIcon.setImage(new Image(getClass().getResource("play_track_icon.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            if (sliderVolume.getValue() == 0) {
+                imageVolume.setImage(new Image(getClass().getResource("mute_icon.png").toURI().toString()));
+            } else {
+                imageVolume.setImage(new Image(getClass().getResource("volume_icon.png").toURI().toString()));
+            }
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         /* 
@@ -112,4 +139,68 @@ public class PauseSceneController {
     public void onPlayMouseExited() {
         playIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 0, 0);");
     }
+
+    public void onRewindMouseEntered() {
+        rewindIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+
+    }
+
+    public void onRewindMouseExited() {
+        rewindIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 0, 0);");
+    }
+
+    public void onForwardMouseEntered() {
+        forwardIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+    }
+
+    public void onForwardMouseExited() {
+        forwardIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 0, 0);");
+    }
+
+    public void onPlayTrackMouseClicked() {
+        System.out.println("current media player index: " + Frontend.mediaPlayers.indexOf(Frontend.mediaPlayer));
+        if (Frontend.mediaPlayer.getStatus().equals(Status.PLAYING)) {
+            Frontend.mediaPlayer.pause();
+            try {
+                playTrackIcon.setImage(new Image(getClass().getResource("play_track_icon.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Frontend.mediaPlayer.play();
+            try {
+                playTrackIcon.setImage(new Image(getClass().getResource("pause_icon.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void onRewindMouseClicked() {
+        int previousTrackIndex = Frontend.mediaPlayers.indexOf(Frontend.mediaPlayer) - 1;
+        System.out.println("current media player index: " + Frontend.mediaPlayers.indexOf(Frontend.mediaPlayer));
+        System.out.println(previousTrackIndex);
+        if (previousTrackIndex < 0) {
+            System.out.println("testinggg");
+            Frontend.mediaPlayer.seek(Frontend.mediaPlayer.getStartTime());
+        } else {
+            Frontend.mediaPlayer.stop();
+            Frontend.mediaPlayer = Frontend.mediaPlayers.get(previousTrackIndex);
+            Frontend.mediaPlayer.seek(Frontend.mediaPlayer.getStartTime());
+            Frontend.mediaPlayer.setVolume(Frontend.mediaPlayers.get(previousTrackIndex+1).getVolume());
+        }
+    }
+
+    public void onForwardMouseClicked() {
+        Frontend.mediaPlayer.seek(Frontend.mediaPlayer.getStopTime());
+    }
+    
+    public void onPlayTrackMouseEntered() {
+        playTrackIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+    }
+
+    public void onPlayTrackMouseExited() {
+        playTrackIcon.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 0, 0);");
+    }
+
 }

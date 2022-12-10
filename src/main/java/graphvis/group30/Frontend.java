@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -54,17 +56,64 @@ public class Frontend extends Application{
     public static boolean isPaused = true;
     public static Timeline timer = null;
     public static MediaPlayer mediaPlayer;
+    public static List<MediaPlayer> mediaPlayers;
     public static Label resultLabel = new Label();
+    public static List<String> musicFilesList;
+    public static String musicFile;
 
     public static void main(String[] args){
         visSim = new GraphVisSim(WIDTH, HEIGHT);
         gameController = new Game();
         color = 0; 
         graphPane = new Pane();
-        String musicFile = "8bitcarti.mp3";
+        String[] musicFiles = {
+            "8bitcarti.mp3",
+            "8bitcarti2.mp3",
+            "8bitx.mp3",
+            "8bitplasticbeach.mp3",
+            "8bitghostbusters.mp3"
+        };
+        musicFilesList = Arrays.asList(musicFiles);
+        Collections.shuffle(musicFilesList);
+
+        mediaPlayers = new ArrayList<>();
+
+        for (String musicFile : musicFilesList) {
+            mediaPlayers.add(new MediaPlayer(new Media(new File(musicFile).toURI().toString())));
+        }
+
+        for (int i = 0; i < mediaPlayers.size(); i++) {
+            MediaPlayer player = mediaPlayers.get(i);
+            MediaPlayer nextPlayer = mediaPlayers.get((i+1) % mediaPlayers.size());
+            player.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    nextPlayer.setVolume(player.getVolume());
+                    Frontend.mediaPlayer = nextPlayer;
+                    Frontend.mediaPlayer.seek(Frontend.mediaPlayer.getStartTime());
+                    Frontend.mediaPlayer.play();
+                }
+            });
+        }
+
+        //mediaPlayers.get(0).play();
+        Frontend.mediaPlayer = mediaPlayers.get(0);
+        Frontend.mediaPlayer.play();
+        
+        /* 
+        musicFile = musicFilesList.get(0);
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setOnEndOfMedia(() -> {
+            Frontend.musicFilesList.remove(musicFile);
+            Frontend.musicFilesList.add(musicFile);
+            Frontend.musicFile = musicFilesList.get(0);
+            Media nextSound = new Media(new File(musicFile).toURI().toString());
+            mediaPlayer.set
+        });
         mediaPlayer.play();
+        */
+
         launch(args);
     }
 

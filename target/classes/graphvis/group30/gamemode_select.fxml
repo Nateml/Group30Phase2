@@ -54,15 +54,15 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Button fx:id="btnGamemode1" layoutX="510.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode1Clicked" prefHeight="50.0" prefWidth="180.0" text="UNTIL DEATH">
+            <Button fx:id="btnGamemode1" focusTraversable="false" layoutX="510.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode1Clicked" prefHeight="50.0" prefWidth="180.0" text="UNTIL DEATH">
                <font>
                   <Font size="24.0" />
                </font></Button>
-            <Button fx:id="btnGamemode2" layoutX="704.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode2Clicked" prefHeight="50.0" prefWidth="180.0" text="TIMED">
+            <Button fx:id="btnGamemode2" focusTraversable="false" layoutX="704.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode2Clicked" prefHeight="50.0" prefWidth="180.0" text="TIMED">
                <font>
                   <Font size="24.0" />
                </font></Button>
-            <Button fx:id="btnGamemode3" layoutX="897.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode3Clicked" prefHeight="50.0" prefWidth="180.0" text="RANDOM" textAlignment="CENTER">
+            <Button fx:id="btnGamemode3" focusTraversable="false" layoutX="897.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnGamemode3Clicked" prefHeight="50.0" prefWidth="180.0" text="RANDOM" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font></Button>

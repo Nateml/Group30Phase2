@@ -47,20 +47,20 @@
                   <Font name="System Bold" size="64.0" />
                </font>
             </Label>
-            <Button id="btnInputGraphFromFile" layoutX="447.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnInputGraphFromFileClicked" prefHeight="61.0" prefWidth="306.0" text="Input graph from file">
+            <Button id="btnInputGraphFromFile" focusTraversable="false" layoutX="447.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnInputGraphFromFileClicked" prefHeight="61.0" prefWidth="306.0" text="Input graph from file">
                <font>
                   <Font size="24.0" />
                </font></Button>
-            <Button id="btnCreateRandomGraph" layoutX="447.0" layoutY="448.0" mnemonicParsing="false" onAction="#btnCreateRandomGraphClicked" prefHeight="61.0" prefWidth="306.0" text="Create random graph">
+            <Button id="btnCreateRandomGraph" focusTraversable="false" layoutX="447.0" layoutY="448.0" mnemonicParsing="false" onAction="#btnCreateRandomGraphClicked" prefHeight="61.0" prefWidth="306.0" text="Create random graph">
                <font>
                   <Font size="24.0" />
                </font></Button>
             <Label layoutX="333.0" layoutY="296.0" prefHeight="61.0" prefWidth="533.0" text="Made by Nathan Macdonald, Kasper van der Horst, Oguz Kagan Yarim, Miriam Espinosa, Dorina Sili" textAlignment="CENTER" wrapText="true" />
-            <Button layoutX="447.0" layoutY="594.0" mnemonicParsing="false" onAction="#btnQuitClicked" prefHeight="61.0" prefWidth="306.0" text="Quit">
+            <Button focusTraversable="false" layoutX="447.0" layoutY="594.0" mnemonicParsing="false" onAction="#btnQuitClicked" prefHeight="61.0" prefWidth="306.0" text="Quit">
                <font>
                   <Font size="24.0" />
                </font></Button>
-            <Button layoutX="447.0" layoutY="522.0" mnemonicParsing="false" onAction="#btnSettingsClicked" prefHeight="61.0" prefWidth="306.0" text="Settings">
+            <Button focusTraversable="false" layoutX="447.0" layoutY="522.0" mnemonicParsing="false" onAction="#btnSettingsClicked" prefHeight="61.0" prefWidth="306.0" text="Settings">
                <font>
                   <Font size="24.0" />
                </font>
