@@ -1,0 +1,4 @@
+PROJECT TODO:
+
+In gamemode 3, if the person fails to legally colour the graph, let them retry with the same graph. 
+Also show the graph so that they can verify that they illegaly coloured it.

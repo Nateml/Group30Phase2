@@ -42,7 +42,7 @@ public class MainMenuController {
         // Game.createGraphFromFile();
         Frontend.gameController.setGraphFromFile(graphFile);
         Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
-        //Frontend.graph.simulate();
+        Frontend.graph.simulate();
         Frontend.setRoot("gamemode_select");
     }
 
