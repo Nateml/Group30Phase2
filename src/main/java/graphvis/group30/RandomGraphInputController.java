@@ -40,7 +40,25 @@ public class RandomGraphInputController {
             errorAlert.showAndWait();
             return;
         }
+        
+        if (numEdges < 0 || numVertices < 0) {
+            Alert negativeNumberAlert = new Alert(Alert.AlertType.ERROR);
+            negativeNumberAlert.setTitle("Error");
+            negativeNumberAlert.setHeaderText("");
+            negativeNumberAlert.setContentText("Cannot create a graph with a negative number of vertices or edges");
+            negativeNumberAlert.showAndWait();
+            return;
+        }
 
+        int maxEdges = (numVertices * (numVertices-1))/2;
+        int minEdges = numVertices - 1;
+        if (numEdges > maxEdges) {
+            txfEdges.setText(maxEdges + "");
+            return;
+        } else if (numEdges < minEdges) {
+            txfEdges.setText(minEdges + "");
+            return;
+        }
 
         Frontend.gameController.setGraph(numVertices, numEdges, numVertices); 
         Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
@@ -72,5 +90,23 @@ public class RandomGraphInputController {
         */
         Frontend.resetGame();
         Frontend.setRoot("mainmenu");
+    }
+
+    public void txfEdgesOnKeyTyped() {
+        if (txfEdges.getLength() == 0) return;
+        try {
+            int numEdges = Integer.parseInt(txfEdges.getText());
+        } catch (NumberFormatException e) {
+            txfEdges.setText(txfEdges.getText().substring(0, txfEdges.getText().length()-1));
+        }
+    }
+
+    public void txfVerticesOnKeyTyped() {
+        if (txfVertices.getLength() == 0) return;
+        try {
+            int numVertices = Integer.parseInt(txfVertices.getText());
+        } catch (NumberFormatException e) {
+            txfVertices.setText(txfVertices.getText().substring(0, txfVertices.getText().length()-1));
+        }
     }
 }

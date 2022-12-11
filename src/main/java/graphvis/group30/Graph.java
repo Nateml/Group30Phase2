@@ -98,6 +98,7 @@ public class Graph {
         this.lowerBoundK = lb.getLowerBound(vertices, 0);
         BruteForce bf = new BruteForce();
         this.k = bf.chromaticNumber(vertices, lowerBoundK);
+        System.out.println("brute forced chromatic number = " + this.k);
 
         return k;
     }

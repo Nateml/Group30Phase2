@@ -86,7 +86,7 @@ public class MyGraph {
                         Frontend.usedColors.add(Frontend.colorPicker.getValue());
                     }
                     Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
-                    boolean legallyColoured = Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring);
+                    boolean legallyColoured = Frontend.gameController.isLegalColouring();
                     if (legallyColoured){
                         switch (Frontend.gameController.gamemode) {
                             case 1:
@@ -106,23 +106,28 @@ public class MyGraph {
                                 }
                                 break;
                             case 2:
+                                Frontend.timer.stop();
+                                Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
+                                break;
                             case 3:
                                 Frontend.timer.stop();
-                                Frontend.timerLabel.setText("with " + Frontend.seconds + " left");
-                                String text = "You used " + Frontend.gameController.progress + " colours, ";
-                                if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
-                                    text += "which is the least amount of colours you could have used!";
-                                } else {
-                                    text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
-                                }
-                                Frontend.resultLabel.setText(text);
-                                try {
-                                    Frontend.timer.stop();
-                                    Frontend.setRoot("GameFinishedScene");
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
                                 break;
+                        }
+                        if (Frontend.gameController.gamemode != 1) {
+                            String text = "You used " + Frontend.gameController.progress + " colours, ";
+                            if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                                text += "which is the least amount of colours you could have used!";
+                            } else {
+                                text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
+                            }
+                            Frontend.resultLabel.setText(text);
+                            try {
+                                Frontend.timer.stop();
+                                Frontend.setRoot("GameFinishedScene");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         /* 
                         Frontend.lblGraphColoured.setVisible(true);

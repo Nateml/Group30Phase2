@@ -55,6 +55,8 @@ public class Game {
 
     public void setGraphFromFile(File filename) throws FileNotFoundException {
         graphForGame = Graph.createGraphFromFile(filename);
+        numberOfEdges = graphForGame.numEdges;
+        numberOfVertices = graphForGame.numVertices;
     }
 
     public void changeColour(Vertex a, int color){
@@ -76,7 +78,6 @@ public class Game {
             if (vertexColouringList.size() > color && vertexColouringList.get(color).size() > 0) {
 
             } else {
-                progress++;
             }
         } else {
             // remove vertex from old color class
@@ -84,7 +85,8 @@ public class Game {
                 for (int j = 0; j < vertexColouringList.get(i).size(); j++) {
                     if (vertexColouringList.get(i).get(j).equals(a)) {
                         vertexColouringList.get(i).remove(j);
-                        if (vertexColouringList.get(i).size() == 0) progress--;
+                        if (vertexColouringList.get(i).size() == 0) {
+                        }
                     }
                 }
             }
@@ -108,12 +110,9 @@ public class Game {
 
         vertexcolouring = colourClasses;
 
+        progress = 0;
         for (int i = 0; i < vertexcolouring.length; i++) {
-            System.out.print("[");
-            for (int j = 0; j < vertexcolouring[i].length; j++) {
-               System.out.print(vertexcolouring[i][j]+", "); 
-            }
-            System.out.print("], ");
+            if (vertexcolouring[i].length > 0) progress++;
         }
         System.out.println();
         /* 
@@ -170,21 +169,22 @@ public class Game {
         }
         return -1; // a value of negative -1 would mean a unnasigned color 
     }
-    public boolean isLegalColouring(Vertex[][] colouredVertices) { // loops through the vertices to check if the curretn coloring is legal. 
+    public boolean isLegalColouring() { // loops through the vertices to check if the curretn coloring is legal. 
         int numVerticesColoured = 0;
-        for (int i = 0; i < colouredVertices.length; i++) {
-            for (int j = 0; j < colouredVertices[i].length; j++) {
+        for (int i = 0; i < vertexcolouring.length; i++) {
+            for (int j = 0; j < vertexcolouring[i].length; j++) {
                 numVerticesColoured++;
-                int[] neighbours = colouredVertices[i][j].getNeighboursAsIntArray();
+                int[] neighbours = vertexcolouring[i][j].getNeighboursAsIntArray();
                 for (int k = 0; k < neighbours.length; k++) {
-                    for (int k2 = 0; k2 < colouredVertices[i].length; k2++) {
-                        if (colouredVertices[i][j].equals(colouredVertices[i][k2])) continue;
-                        if (neighbours[k]== colouredVertices[i][k2].identification()) return false;
+                    for (int k2 = 0; k2 < vertexcolouring[i].length; k2++) {
+                        if (vertexcolouring[i][j].equals(vertexcolouring[i][k2])) continue;
+                        if (neighbours[k]== vertexcolouring[i][k2].identification()) return false;
                     }
                 }
             }
         }
         System.out.println("number of vertices coloured: " + numVerticesColoured);
+        System.out.println("number of vertices in graph: " + numberOfVertices);
         if (numVerticesColoured < numberOfVertices) return false;
         return true; 
         
@@ -210,27 +210,8 @@ public class Game {
     
     public void startGame(){
         isGameRunning = true;
-        String message = ""; 
-        if(gamemode == 1){
-           
-     
-        }
-        if(gamemode == 2){
-
-        }
         if(gamemode == 3){
             inGameRandomOrder = graphForGame.randomOrdering(); //should provide the random order
-            
-           
-            
-            if(isLegalColouring(vertexcolouring)&& currentChromaticNumber == chromaticNumber){
-               message = "WOW! Well done! you have a correct coloring!"; 
-            } else if(isLegalColouring(vertexcolouring)){
-               message = "Well done! you have a legal coloring, but you used too many colors, the correct chromatic number is " + chromaticNumber + "while you used " + currentChromaticNumber;
-            } else{
-               message = "Unfortunately you do not have a legal coloring";
-            }
-            messageWhenDone = message; 
         }
     }
 
@@ -246,7 +227,7 @@ public class Game {
         String hint = " "; 
          
         if (gamemode==1 || gamemode==2) {
-           if (!isLegalColouring(vertexcolouring)) {
+           if (!isLegalColouring()) {
                 int[][] tempArray = conflicingVertices(vertexcolouring); 
                 for (int i = 0; i < tempArray.length; i++) {
                     for (int j = 0; j < tempArray[i].length; j++) {
