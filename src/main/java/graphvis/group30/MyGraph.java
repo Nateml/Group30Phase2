@@ -93,16 +93,28 @@ public class MyGraph {
                                 if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
                                     Frontend.timer.stop();
                                     try {
+<<<<<<< Updated upstream
                                         Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
                                         Frontend.resultLabel.setText("");
+=======
+                                        Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
+>>>>>>> Stashed changes
                                         Frontend.setRoot("GameFinishedScene");
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 } else {
+<<<<<<< Updated upstream
                                     System.out.println("legally coloured? " + legallyColoured);
                                     Circle circle = (Circle)t.getSource();
                                     circle.setFill(Frontend.colorPicker.getValue());
+=======
+                                    Frontend.timerLabel.setText("With " + Frontend.seconds + " seconds left!");
+                                    try {
+                                        Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
+                                        Frontend.setRoot("GameFinishedScene");
+                                    } catch (IOException e) {}
+>>>>>>> Stashed changes
                                 }
                                 break;
                             case 2:
