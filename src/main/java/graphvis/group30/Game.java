@@ -303,14 +303,14 @@ public class Game {
                        }} //creates new vertex[][]
 
 
-                   for (int i = 0; i < testcolouring[color].length; i++) {
+                   
                      
                    
                      for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
                         for (int j = 0; j < testcolouring[color].length; j++) { 
-                        if (Frontend.graph.getVertices()[j2] == testcolouring[color][i]) {
+                        if (Frontend.graph.getVertices()[j2] == testcolouring[color][j]) {
                         Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
-                     }}}
+                     }}
 
                      
                      
