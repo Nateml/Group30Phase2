@@ -101,7 +101,6 @@ public class PauseSceneController {
 
     public void btnContinueClicked() throws IOException {
         Frontend.isPaused = false;
-        Frontend.gameController.isGameRunning = true;
         Frontend.setRoot("gamescene");
     }
 

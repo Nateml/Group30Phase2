@@ -29,18 +29,35 @@ public class VertexVisual extends Vertex {
         c.setFill(colour);
     }
 
+
+    /**
+     * this is a javadoc
+     * @param colour
+     */
     public void setColour(Color colour) {
         this.colour = colour;
     }
 
+    
+    /** 
+     * @return SimBody
+     */
     public SimBody getSimBody() {
         return body;
     }
 
+    
+    /** 
+     * @return Circle
+     */
     public Circle getCircle() {
         return c;
     }
 
+    
+    /** 
+     * @return Text
+     */
     public Text getLabel() {
         return label;
     }
@@ -61,6 +78,10 @@ public class VertexVisual extends Vertex {
         line.setEndY(Vector.add(body.getPosition(), body.getNetForce()).y);
     }
 
+    
+    /** 
+     * @param p
+     */
     public void display(Pane p) {
         label = new Text(c.getCenterX(), c.getCenterY(), i + "");
         line = new Line();

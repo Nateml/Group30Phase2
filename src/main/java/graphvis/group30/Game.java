@@ -5,66 +5,96 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.scene.paint.Color;
-
-//import javax.swing.plaf.ProgressBarUI;
 public class Game {
     public int gamemode; 
     public int numberOfEdges; 
     public int numberOfVertices; 
-    public int timeLimit; 
     public Vertex[][] vertexcolouring = new Vertex[0][0]; 
-    public Vertex current; 
+    private Vertex currentVertex; 
     public int progress = 0; 
-    public int chromaticNumber; 
     public int currentChromaticNumber; 
     public Graph graphForGame;  
-    public String messageWhenDone; 
-    public int oldprogress = 0; //these are useful to make the hints more dynamic
     public int oldCurrentChromaticNumber = 0;
-    boolean isGameRunning = false;
-    public Vertex[] inGameRandomOrder; 
+    private int numVerticesColoured = 0;
+    public ArrayList<Vertex> inGameRandomOrder;
     
      
+    /**
+     * Sets the gamemode of the game.
+     * @param i the gamemode
+     */
     public void setGamemode(int i){
         gamemode = i; 
     }
 
+    /**
+     * @return the exact chromatic number of the graph
+     */
     public int bruteForceChromaticNumber() {
         return graphForGame.bruteForceChromaticNumber();
     }
 
+    /* 
     public Vertex getVertexFromID(int i) {
         return graphForGame.getVertexFromID(i);
     }
+    */
 
-    public ArrayList<Vertex> getRandomOrdering() {
-        List<Vertex> randomOrderingList = Arrays.asList(graphForGame.randomOrdering());
-        return new ArrayList<>(randomOrderingList);
+    /**
+     * @return the random ordering of the vertices for gamemode 3
+     */
+    public ArrayList<Vertex> getCurrentRandomOrdering() {
+        return inGameRandomOrder;
     }
 
-    public void setGraph(int vertices, int edges, int time){
+    /**
+     * @return true if all the vertices of the graph have been coloured, else returns false.
+     */
+    public boolean allVerticesColoured() {
+        return numVerticesColoured == numberOfVertices;
+    }
+
+    /**
+     * @return an arraylist of vertices in a random order.
+     */
+    public ArrayList<Vertex> createNewRandomOrdering() {
+        List<Vertex> randomOrderingList = Arrays.asList(graphForGame.randomOrdering());
+        inGameRandomOrder = new ArrayList<>(randomOrderingList);
+        return inGameRandomOrder;
+    }
+
+    /**
+     * Creates a random Graph object and stores it in the Game object.
+     * @param vertices the number of vertices in the graph
+     * @param edges the number of edges in the graph
+     */
+    public void setGraph(int vertices, int edges){
         numberOfEdges = edges; 
         numberOfVertices = vertices; 
-        if(time != 0){
-            timeLimit = time; 
-        }
-        //Graph play = new Graph(numberOfVertices);
         graphForGame = Graph.createRandomGraph(numberOfVertices, numberOfEdges);
     }
 
-    public void setGraphFromFile(File filename) throws FileNotFoundException {
-        graphForGame = Graph.createGraphFromFile(filename);
+    /**
+     * Creates a Graph from the file and stores it in the Game object.
+     * @param filename the graph file
+     * @throws FileNotFoundException
+     */
+    public void setGraphFromFile(File file) throws FileNotFoundException {
+        graphForGame = Graph.createGraphFromFile(file);
         numberOfEdges = graphForGame.numEdges;
         numberOfVertices = graphForGame.numVertices;
     }
 
-    public void changeColour(Vertex a, int color){
-        System.out.println("color " + color);
+    /**
+     * Sets the colour of the vertex.
+     * @param a the vertex to be coloured.
+     * @param colour the colour of the vertex
+     */
+    public void changeColour(Vertex a, int colour){
         a = (Vertex)a;
-        int currentColor = getColor(a); // this will check whether or not we can assign a value or if we have to change it. 
+        int currentColor = getColour(a); 
 
-        // create array list
+        // create array list from the vertexcolouring array
         ArrayList<ArrayList<Vertex>> vertexColouringList = new ArrayList<>();
         for (int i = 0; i < vertexcolouring.length; i++) {
             ArrayList<Vertex> vertexList = new ArrayList<>();
@@ -74,11 +104,9 @@ public class Game {
             vertexColouringList.add(vertexList);
         }
 
+        // increment the number of vertices coloured if the vertex is being coloured for the first time
         if (currentColor == -1) {
-            if (vertexColouringList.size() > color && vertexColouringList.get(color).size() > 0) {
-
-            } else {
-            }
+            numVerticesColoured++;
         } else {
             // remove vertex from old color class
             for (int i = 0; i < vertexColouringList.size(); i++) {
@@ -92,11 +120,12 @@ public class Game {
             }
         }
 
-        if (vertexColouringList.size() <= color) {
+        // make space for a new colour class
+        if (vertexColouringList.size() <= colour) {
             vertexColouringList.add(new ArrayList<Vertex>());
         }
 
-        vertexColouringList.get(color).add(a);
+        vertexColouringList.get(colour).add(a); // add vertex to colour class
 
         // convert array list to array
         Vertex[][] colourClasses = new Vertex[vertexColouringList.size()][];
@@ -110,56 +139,20 @@ public class Game {
 
         vertexcolouring = colourClasses;
 
+
+        // keep track of the amount of colours being used to colour the graph
         progress = 0;
         for (int i = 0; i < vertexcolouring.length; i++) {
             if (vertexcolouring[i].length > 0) progress++;
         }
-        System.out.println();
-        /* 
-
-        if (vertexcolouring.length <= color) { // expands array to make space for a new color
-            Vertex[][] newVertexColouring = new Vertex[color+1][];
-            System.arraycopy(vertexcolouring, 0, newVertexColouring, 0, vertexcolouring.length);
-            vertexcolouring = newVertexColouring;
-        }
-
-        vertexcolouring[color][vertexcolouring[color].length] = a;
-        if (currentColor == -1) {
-            
-            // keep count of how many vertices have been used
-            progress++;
-        } else {
-            // remove vertex from old color class
-            for (int i = 0; i < vertexcolouring[0].length; i++) {
-                if(vertexcolouring[currentColor][i] == a){
-                    vertexcolouring[currentColor][i] = null; 
-                }
-            } 
-        }
-        */
-        
     }
 
-    public boolean isGameRunning() {
-        return isGameRunning;
-    }
-
-    public int colorsBeingUsed(){
-        // I think this should just return vertexcolouring.length? - Nate
-        // but would that work if somebody uses a color, but then stop using that color and swtiches it to a new one? 
-        int test = 0; 
-        for (int i = 0; i < vertexcolouring.length; i++) {
-            for (int j = 0; j < vertexcolouring[i].length; j++) {
-                if(getColor(vertexcolouring[i][j]) >= 0){ //not sure if this actually works, as i dont know if null = 0 but, if they arent equal this should wotk fine
-                    test++; 
-                    break; 
-                }
-            }}
-            currentChromaticNumber = test; 
-            return test;
-    }
-
-    public int getColor(Vertex V){ // finds the color row in which the vertex is placed
+    /**
+     * @param V the vertex for which to return the colour of.
+     * @return the index of the colour class in which the vertex belongs.
+     */
+    public int getColour(Vertex V){ 
+        // loop through the colour classes to find which colour class the vertex is in
         for (int i = 0; i < vertexcolouring.length; i++) {
             for (int j = 0; j < vertexcolouring[i].length; j++) {
                if(vertexcolouring[i][j].equals(V)){
@@ -169,31 +162,33 @@ public class Game {
         }
         return -1; // a value of negative -1 would mean a unnasigned color 
     }
-    public boolean isLegalColouring() { // loops through the vertices to check if the curretn coloring is legal. 
-        int numVerticesColoured = 0;
+
+    /**
+     * @return true if no vertices are in the same colour class as any of their neighbours.
+     */
+    public boolean isLegalColouring() { 
+        // loops through the vertices to check if the current coloring is legal. 
         for (int i = 0; i < vertexcolouring.length; i++) {
             for (int j = 0; j < vertexcolouring[i].length; j++) {
-                numVerticesColoured++;
                 int[] neighbours = vertexcolouring[i][j].getNeighboursAsIntArray();
                 for (int k = 0; k < neighbours.length; k++) {
                     for (int k2 = 0; k2 < vertexcolouring[i].length; k2++) {
-                        if (vertexcolouring[i][j].equals(vertexcolouring[i][k2])) continue;
-                        if (neighbours[k]== vertexcolouring[i][k2].identification()) return false;
+                        if (neighbours[k]== vertexcolouring[i][k2].identification()) return false; // return false if the current vertex we are looping through in the colour class is equal to a neighbour of the vertex we are checking
                     }
                 }
             }
         }
-        System.out.println("number of vertices coloured: " + numVerticesColoured);
-        System.out.println("number of vertices in graph: " + numberOfVertices);
-        if (numVerticesColoured < numberOfVertices) return false;
         return true; 
-        
     }
-    public int[][] conflicingVertices(Vertex[][] colouredVertices){ // creates a grid of ones and zeros where 1 represents that therer are conflicting vertices
+
+    /**
+     * @param colouredVertices the vertex colour classes
+     * @return a matrix of 1s and 0s, where a 1 indicates there is a colour conflict between the vertices at that index.
+     */
+    private int[][] conflicingVertices(Vertex[][] colouredVertices){ 
         int[][] listofconflicVerticeVertices = new int[numberOfVertices][numberOfVertices]; 
         for (int i = 0; i < colouredVertices.length; i++) {
             for (int j = 0; j < colouredVertices[i].length; j++) {
-                //int[] neighbour = new int[colouredVertices[i][j].getNeighboursAsIntArray().length]; 
                 int[] neighbour = colouredVertices[i][j].getNeighboursAsIntArray();
                 for (int k = 0; k < neighbour.length; k++) {
                     for (int k2 = 0; k2 < colouredVertices[i].length; k2++) {
@@ -208,21 +203,9 @@ public class Game {
     }
 
     
-    public void startGame(){
-        isGameRunning = true;
-        if(gamemode == 3){
-            inGameRandomOrder = graphForGame.randomOrdering(); //should provide the random order
-        }
-    }
-
-    public void pause() {
-        isGameRunning = false;
-    }
-
-    public void resume() {
-        isGameRunning = true;
-    }
-
+    /**
+     * @return a hint which provides helpful information to the user, the content of which depends on that game state.
+     */
     public String getHint(){
         String hint = " "; 
          
@@ -244,7 +227,7 @@ public class Game {
              hint = "Your coloring is incomplete right now "; 
              for (int i = 0; i < vertexcolouring.length; i++) {
                 for (int j = 0; j < vertexcolouring[0].length; j++) {
-                    if(getColor(vertexcolouring[i][j])==-1){
+                    if(getColour(vertexcolouring[i][j])==-1){
                         int color = canAdd(vertexcolouring, vertexcolouring[i][j].getNeighboursAsVertexArray());
                         hint+= "vertex " + j + "is not coloured but can be assigned " + color + "."; 
                     }
@@ -280,17 +263,17 @@ public class Game {
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
-            Vertex[] neighbours = current.getNeighboursAsVertexArray();
+            Vertex[] neighbours = currentVertex.getNeighboursAsVertexArray();
             hint = "The neighbours of this vertex are ";  
             boolean hello = false; 
             for (int i = 0; i < neighbours.length; i++) {
-               if (getColor(neighbours[i])!=-1) {
+               if (getColour(neighbours[i])!=-1) {
                 hello = true; 
             }
                 if (i==neighbours.length-1) {
-                    hint += "and Vertex " + neighbours[i] + " with " + getColor(neighbours[i]) + " color.";  
+                    hint += "and Vertex " + neighbours[i] + " with " + getColour(neighbours[i]) + " color.";  
                 } else {
-                    hint += "Vertex " + neighbours[i] + " with " + getColor(neighbours[i]) + " color ";  
+                    hint += "Vertex " + neighbours[i] + " with " + getColour(neighbours[i]) + " color ";  
                 }
                 }
                 if (hello) {
@@ -303,9 +286,20 @@ public class Game {
         }
         return hint; 
     }
+    
+    /**
+     * Sets the current vertex of gamemode 3.
+     * @param V the next vertex in the vertex ordering of gamemode 3.
+     */
     public void setCurrentVertex(Vertex V){
-        current = V; 
+        currentVertex = V; 
     }
+
+    /**
+     * @param current the current graph colour classes
+     * @param neighbours the neighbours of the vertex 
+     * @return a colour class that a vertex can be assigned to.
+     */
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
         Vertex[][] coloring = current; 
         Vertex[] neigh = neighbours; 
@@ -325,13 +319,17 @@ public class Game {
         }
         return -1; 
     }
+    
+    /**
+     * @return the least used colour (i.e. the colour class with the least vertices)
+     */
     public int leastUsedColor(){
         
-        int leastUsed = 100;  
+        int leastUsed = 0;  
         int least = 0;   
         for (int i = 0; i < vertexcolouring.length; i++) {
             int used = 0;
-            for (int j = 0; j < vertexcolouring[0].length; j++) {
+            for (int j = 0; j < vertexcolouring[i].length; j++) {
                 
                 if (vertexcolouring[i][j]!=null) {
                     used++; 

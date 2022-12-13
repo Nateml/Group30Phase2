@@ -44,7 +44,6 @@ public class GamesceneController {
         } else {
             Frontend.timerLabel.setText(Frontend.seconds + "");
         }
-        Frontend.lblGraphColoured = lblGraphColoured;
         if (Frontend.timer == null) {
             createTimer();
         } else {
@@ -142,7 +141,6 @@ public class GamesceneController {
     public void btnPauseClicked() throws IOException {
         //Frontend.gameController.pause();
         Frontend.isPaused = true;
-        Frontend.gameController.isGameRunning = false;
         Frontend.setRoot("pausescene");
     }
 

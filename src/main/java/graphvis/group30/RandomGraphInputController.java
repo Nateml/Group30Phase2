@@ -60,7 +60,7 @@ public class RandomGraphInputController {
             return;
         }
 
-        Frontend.gameController.setGraph(numVertices, numEdges, numVertices); 
+        Frontend.gameController.setGraph(numVertices, numEdges); 
         Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
         Frontend.graph.simulate();
         /* 

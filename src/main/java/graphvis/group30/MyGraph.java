@@ -1,9 +1,7 @@
 package graphvis.group30;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.paint.Color;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
 
 import java.io.IOException;
@@ -15,12 +13,19 @@ public class MyGraph {
     GraphVisSim visSim;
     double width, height;
     HashMap<Integer, VertexVisual> vertexMap;
-    HashMap<Circle, VertexVisual> circleToVertexMap;
+    HashMap<Circle, VertexVisual> circleToVertexMap; // this hashmap is useful for retrieving the vertex object from it's circle object in the circle's mouse click event handler.
 
+    /**
+     * @param vertices The vertex representation of the graph
+     * @param width The width of the area in which the graph will be displayed
+     * @param height The height of the area in which the graph will be displayed
+     */
     public MyGraph(Vertex[] vertices, double width, double height) {
         vertexMap = new HashMap<>();
         circleToVertexMap = new HashMap<>();
         this.vertices = new VertexVisual[vertices.length];
+
+        // populate vertexMap and circleToVertexMap
         for (int i = 0; i < vertices.length; i++) {
            VertexVisual vertexVisual = new VertexVisual(0, vertices[i].identification());
            vertexMap.put(vertices[i].identification(), vertexVisual);
@@ -34,13 +39,16 @@ public class MyGraph {
             }
         }
 
-        //visSim = new GraphVisSim(width, height);
         this.width = width;
         this.height = height;
         initializeVertices();
         edges = createEdgeList();
     }
 
+    /**
+     * Creates an array of EdgeVisual objects which represents the edges between connected vertices
+     * @return the edge array which has been created.
+     */
     private EdgeVisual[] createEdgeList() {
         EdgeVisual[] edges = new EdgeVisual[0];
         for (VertexVisual v1 : vertices) {
@@ -64,167 +72,133 @@ public class MyGraph {
             }
         }
 
-        Frontend.edges = edges;
         return edges;
     }
 
-    public void initializeVertices() {
-        visSim = new GraphVisSim(width, height);
-        for (VertexVisual vertex : vertices) {
-            //double randX = (Math.random() * (width/4)) + width/4;
-            double randX = Math.random() * width;
-            //double randY = (Math.random() * (height/4)) + height/4;
-            double randY = Math.random() * height;
-            //vertex.setPosition(new Vector((Math.random() * (scene.getWidth()-scene.getWidth()/2)) + scene.getWidth()/2, (Math.random() * (scene.getHeight()-scene.getHeight()/2))+scene.getHeight()/2));
-            vertex.getSimBody().setPosition(new Vector(randX, randY));
-            vertex.getCircle().setOnMouseClicked((t) -> {
-                if (Frontend.gameController.isGameRunning()) {
-                    VertexVisual v = circleToVertexMap.get((Circle)t.getSource());
-                    Frontend.currentVertex = v; 
-                    System.out.println("colour: " + Frontend.colorPicker.getValue());
-                    if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
-                        Frontend.usedColors.add(Frontend.colorPicker.getValue());
-                    }
-                    Frontend.gameController.changeColour(vertex, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue()));
-                    boolean legallyColoured = Frontend.gameController.isLegalColouring();
-                    if (legallyColoured){
-                        switch (Frontend.gameController.gamemode) {
-                            case 1:
-                                if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
-                                    Frontend.timer.stop();
-                                    try {
-                                        Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
-                                        Frontend.resultLabel.setText("");
-                                        Frontend.setRoot("GameFinishedScene");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    System.out.println("legally coloured? " + legallyColoured);
-                                    Circle circle = (Circle)t.getSource();
-                                    circle.setFill(Frontend.colorPicker.getValue());
-                                }
-                                break;
-                            case 2:
-                                Frontend.timer.stop();
-                                Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
-                                break;
-                            case 3:
-                                Frontend.timer.stop();
-                                Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
-                                break;
-                        }
-                        if (Frontend.gameController.gamemode != 1) {
-                            String text = "You used " + Frontend.gameController.progress + " colours, ";
-                            if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
-                                text += "which is the least amount of colours you could have used!";
-                            } else {
-                                text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
-                            }
-                            Frontend.resultLabel.setText(text);
+    /**
+     * Handles a mouse click event on a vertex.
+     * @param t
+     */
+    private void vertexOnMouseClicked(MouseEvent t) {
+        if (!Frontend.isPaused) {
+
+            VertexVisual v = circleToVertexMap.get((Circle)t.getSource()); // get vertex object from mouse event
+            Frontend.currentVertex = v; 
+
+            // keep track of the colours currently being used to color the graph
+            if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
+                Frontend.usedColors.add(Frontend.colorPicker.getValue());
+            }
+
+            Frontend.gameController.changeColour(v, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue())); // colour the vertex
+
+            boolean legallyColoured = Frontend.gameController.isLegalColouring(); // check if graph is legally coloured 
+            if (legallyColoured && Frontend.gameController.allVerticesColoured()){
+                // conditions for the game to end:
+                switch (Frontend.gameController.gamemode) {
+                    case 1:
+                        if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                            Frontend.timer.stop();
                             try {
-                                Frontend.timer.stop();
+                                Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
+                                Frontend.resultLabel.setText("");
                                 Frontend.setRoot("GameFinishedScene");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
-                        /* 
-                        Frontend.lblGraphColoured.setVisible(true);
-                        // add a switch to check if the correct amount of colors are used for every gamemode
-                        if(Frontend.usedColors.size() ==  Frontend.gameController.bruteForceChromaticNumber()){
-                            Frontend.timer.stop();
-                            if(Frontend.gameController.gamemode == 1 || Frontend.gameController.gamemode == 3){
-                                try {
-                                    Frontend.timer.stop();
-                                    Frontend.timerLabel.setText("In " + Frontend.seconds + " seconds!");
-                                    Frontend.setRoot("GameFinishedScene");
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Frontend.timer.stop();
-                                Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
-                                try {
-                                    Frontend.setRoot("GameFinishedScene");
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
                         } else {
-
+                            Circle circle = (Circle)t.getSource();
+                            circle.setFill(Frontend.colorPicker.getValue());
                         }
-                        */
+                        break;
+                    case 2:
+                        Frontend.timer.stop();
+                        Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
+                        break;
+                    case 3:
+                        Frontend.timer.stop();
+                        Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
+                        break;
+                }
+                if (Frontend.gameController.gamemode != 1) {
+                    String text = "You used " + Frontend.gameController.progress + " colours, ";
+                    if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                        text += "which is the least amount of colours you could have used!";
+                    } else {
+                        text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
                     }
-                    else if (!legallyColoured || Frontend.gameController.gamemode == 1){
-                        Frontend.lblGraphColoured.setVisible(false);
-                        System.out.println("legally coloured? " + legallyColoured);
-                        Circle circle = (Circle)t.getSource();
-                        circle.setFill(Frontend.colorPicker.getValue());
-                        switch(Frontend.gameController.gamemode) {
-                            case 1:
-
-                                break;
-                            case 2:
-
-                                break;
-                            case 3:
-                                if (Frontend.vertexOrder.size() == 1) {
-                                    try {
-                                        Frontend.setRoot("failedscene");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    Frontend.vertexOrder.remove(0);
-                                    try {
-                                        Frontend.setRoot("gamescene");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                break;
+                    Frontend.resultLabel.setText(text);
+                    try {
+                        Frontend.timer.stop();
+                        Frontend.setRoot("GameFinishedScene");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                Circle circle = (Circle)t.getSource();
+                circle.setFill(Frontend.colorPicker.getValue()); // set display colour of the vertex
+                if (Frontend.gameController.gamemode == 3) {
+                    // stop the game as soon as the user incorrectly colours a vertex, or there are no more vertices left to colour
+                    if (!Frontend.gameController.isLegalColouring() || Frontend.vertexOrder.size() == 1) {
+                        Frontend.timer.stop();
+                        try {
+                            Frontend.setRoot("failedscene");
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        /* 
-                        if (Frontend.gameController.gamemode == 3) {
-                            Frontend.vertexOrder.remove(0);
-                            if (Frontend.vertexOrder.size() == 0 && !Frontend.gameController.isLegalColouring(Frontend.gameController.vertexcolouring)) {
-                                try {
-                                    Frontend.graph = null;
-                                    Frontend.setRoot("mainmenu");
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            } else{
-                                try {
-                                    Frontend.setRoot("gamescene");
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            }
-                            */
+                    } else {
+                        Frontend.vertexOrder.remove(0);
+                        try {
+                            Frontend.setRoot("gamescene"); // refresh game scene so that the next vertex in the random ordering is outlined
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-                });
+                }
+                }
+            }
+    }
+
+    /**
+     * Sets initial position of the vertices, add the vertices to the visualisation simulation and sets the mouse clicked event handler for the vertices.
+     */
+    public void initializeVertices() {
+        visSim = new GraphVisSim(width, height);
+        for (VertexVisual vertex : vertices) {
+            double randX = Math.random() * width;
+            double randY = Math.random() * height;
+            vertex.getSimBody().setPosition(new Vector(randX, randY));
+            vertex.getCircle().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    vertexOnMouseClicked(event);
+                }
+            });
+
             visSim.addSimBody(vertex);
         }
     }
 
-    
+    /**
+     * Runs the force-directed algorithm responsible for the layout of the graph.
+     */
     public void simulate() {
-        //visSim = new GraphVisSim(width, height);
         boolean isSimFinished = visSim.run();
         while (!isSimFinished) {
             isSimFinished = visSim.run();
         }
     }
 
+    /**
+     * @return the vertex array
+     */
     public VertexVisual[] getVertices() {
         return vertices;
     }
 
+    /**
+     * @return the edges array
+     */
     public EdgeVisual[] getEdges() {
         return edges;
     }

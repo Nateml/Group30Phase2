@@ -43,8 +43,6 @@ public class CountTimer{
                     }
                 } else if(isPaused == false){
                     //Frontend.timerLabel.setText(Minutes + ":" + Seconds);
-                    Frontend.testString = Minutes + ":" + Seconds;
-                    System.out.println(Frontend.testString);
                     Seconds --;
                     if(Seconds == -1){
                         Seconds = 60;
@@ -54,8 +52,6 @@ public class CountTimer{
             } else {
                 if(isPaused == false){
                     //Frontend.timerLabel.setText(Minutes + ":" + Seconds);
-                    Frontend.testString = Minutes + ":" + Seconds;
-                    System.out.println(Frontend.testString);
                     Seconds ++;
                     if(Seconds == 61){
                         Seconds = 00;
