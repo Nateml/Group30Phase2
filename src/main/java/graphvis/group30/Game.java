@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 public class Game {
     private int gamemode; 
     private int numberOfEdges; 
@@ -20,7 +22,7 @@ public class Game {
     private ArrayList<Vertex> inGameRandomOrder;
     
      
-    /**
+    /** 
      * Sets the gamemode of the game.
      * @param i the gamemode
      */
@@ -141,6 +143,7 @@ public class Game {
 
         // increment the number of vertices coloured if the vertex is being coloured for the first time
         if (currentColor == -1) {
+            currentChromaticNumber++; 
             numVerticesColoured++;
         } else {
             // remove vertex from old color class
@@ -257,24 +260,24 @@ public class Game {
                                 }
                             }
                            
-                            hint = "The two highlighted vertices have \nthe same color, change the color \nof one of these";  
+                            hint = "The two highlighted vertices have the same color even though they are connected, change the color of one of these.";  
                             return hint; 
                         }
                         
                     }
                 }
            } 
-           if (progress<numberOfVertices) {
+           if (numVerticesColoured<numberOfVertices) {
              hint = "Your coloring is incomplete right now "; 
-             for (int i = 0; i < vertexcolouring.length; i++) {
-                for (int j = 0; j < vertexcolouring[i].length; j++) {
-                    if(getColour(vertexcolouring[i][j])==-1){
-                        int color = canAdd(vertexcolouring, vertexcolouring[i][j].getNeighboursAsVertexArray());
-                        hint+= "vertex " + j + "is not coloured \nbut can be assigned " + Frontend.usedColors.get(color) + "."; 
-                        return hint; 
-                    }
-                }  
-             }  
+             for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
+                if (getColour(Frontend.graph.getVertices()[j2]) == -1) {
+                    int color = canAdd(vertexcolouring, Frontend.graph.getVertices()[j2].getNeighboursAsVertexArray());
+                    Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
+                    Frontend.graph.getVertices()[j2].getCircle().setStroke( Frontend.usedColors.get(color));
+                    hint+= "The highlighted vertex can be colored the highlighted color";  
+                    return hint; 
+                }
+             } return hint; 
 
            }
            
@@ -282,23 +285,36 @@ public class Game {
                 if (oldCurrentChromaticNumber==currentChromaticNumber) {//in this case the graph is legal but uses too many colors so this hint tries to switch the colors of all the vertices in the smalles color class 
                     hint = "You are using too many colors, ";
                     int color = leastUsedColor();  
-                    hint += "\ntry to get rid of your \nsmallest color class"; 
-                   Vertex[][] testcolouring = vertexcolouring;  
-                   for (int i = 0; i < testcolouring[0].length; i++) {
-                     Vertex [] neigh = testcolouring[color][i].getNeighboursAsVertexArray();
-                     int addHere = canAdd(testcolouring, neigh); 
-                     hint += "\nvertex " + testcolouring[color][i] + " can be added to \nthe " +  Frontend.usedColors.get(addHere) + "color."; 
-                     return hint; 
+                    
+                    hint += "try to get rid of your smallest color class."; 
+                   Vertex[][] testcolouring = new Vertex[vertexcolouring.length][vertexcolouring[0].length];
+                   for (int i = 0; i < vertexcolouring.length; i++) {
+                       for (int j = 0; j < vertexcolouring[i].length; j++) {
+                           testcolouring[i][j] = vertexcolouring[i][j];
+                       }} //creates new vertex[][]
+
+
+                   for (int i = 0; i < testcolouring[color].length; i++) {
+                     
+                   
+                     for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
+                        for (int j = 0; j < testcolouring[color].length; j++) { 
+                        if (Frontend.graph.getVertices()[j2] == testcolouring[color][i]) {
+                        Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
+                     }}}
+
+                     
+                     
                    }
-                        
-                }
-                 else {
-                    hint = "You are using too many colors!\n Try and find colors you can change, \nif you need more help press the hint button again"; 
+                   hint += " The highlighted vertices can all be changed to different already used colors"; 
+                   return hint;     
+                } else {
+                    hint = "You are using too many colors! Try and find colors you can change, if you need more help press the hint button again"; 
                     oldCurrentChromaticNumber = currentChromaticNumber; 
             
                     return hint; 
                 }
-            }
+                } 
             
            
             
@@ -306,47 +322,38 @@ public class Game {
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
-            //Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray();
-            Vertex[] neighbours = Frontend.vertexOrder.get(0).getNeighboursAsVertexArray();
-            hint = "The neighbours of this vertex are ";  
-            boolean hello = false; 
-            for (int i = 0; i < neighbours.length; i++) {
-                boolean test = true; 
-                for (int j = 0; j < neighbours.length; j++) {
-                    if (getColour(neighbours[j])!=-1) {
-                        test = false;
-                        break; 
-                    }
-                    if (test) {
-                       return "None of the neighbours of this vertex \nare colored yet, so you can choose any color! \nTry and think ahead and use \ncolors you have already used";  
-                    }
-                }
-               if (getColour(neighbours[i])!=-1) {
-                hello = true; 
-            }
-                if (i==0) {
-                    if (getColour(neighbours[i])>=0) {
-                        hint += "\nVertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color ";  
-                    } else {
-                        hint += "\nVertex " + neighbours[i] + " with no color yet "; 
-                    }
-                } else {
-                    if (getColour(neighbours[i])>=0) {
-                        hint += "\nand Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color.";
-                    } else {
-                        hint +=  "\nand Vertex " + neighbours[i] + " with no color yet "; 
-                    }
-                }
-                }
-                if (hello) {
-                    hint += "We can ingore the vertices which \nwe have not colored yet.";   
-                }
-                hint += " We know that this vertex cant have \nthe same color as its neighbours, \nso try and color this vertex with \na color you have used but \ndoes not violate this rule"; 
-                return hint;
+            Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray(); 
             
+            int count = 0; 
+            int count2 = 0; 
+            for (int i = 0; i < neighbours.length; i++) {
+                for (int j = 0; j <  Frontend.graph.getVertices().length; j++) {
+                    if ( Frontend.graph.getVertices()[j]==neighbours[i]) {
+                       
+                        if (getColour(Frontend.graph.getVertices()[j])==-1) {
+                            Frontend.graph.getVertices()[j].getCircle().setStrokeWidth(5);
+                            Frontend.graph.getVertices()[j].getCircle().setStroke(Color.GREY);
+                            if (count2==0) {
+                                hint += " The uncoloured vertices which are connected have been highlighted with grey, you can ignore these when assigning a color. ";  
+                                count2++;   
+                            }
+                           
+                        }
 
-        }
-        return hint; 
+                        if (getColour(Frontend.graph.getVertices()[j])!=-1) {
+                            Frontend.graph.getVertices()[j].getCircle().setStrokeWidth(5);
+                            Frontend.graph.getVertices()[j].getCircle().setStroke(Color.RED);
+                            if(count==0){
+                            hint += " The coloured vertices which are connected have been highlighted with red, the vertex can NOT have these colours, so take that into account when assigining a color."; 
+                                count++; 
+                        }
+                    }
+                        
+                    }
+                }
+            }
+            
+         }return hint;
     }
     
     /**
@@ -378,7 +385,7 @@ public class Game {
         
         for (int i = 0; i < coloring.length; i++) {
             boolean add = true; 
-            for (int j = 0; j < coloring[0].length; j++) {
+            for (int j = 0; j < coloring[i].length; j++) {
                 for (int k = 0; k < neigh.length; k++) {
                     if (coloring[i][j]==neigh[k]) {
                         add = false; 
@@ -398,8 +405,9 @@ public class Game {
      */
     public int leastUsedColor(){
         
-        int leastUsed = 0;  
-        int least = 0;   
+        int leastUsed = 100;  
+        int color = 0; 
+         
         for (int i = 0; i < vertexcolouring.length; i++) {
             int used = 0;
             for (int j = 0; j < vertexcolouring[i].length; j++) {
@@ -408,11 +416,11 @@ public class Game {
                     used++; 
                 }
             }
-            if (used>leastUsed) {
-                leastUsed=used; 
-                least = i; 
+            if (used != 0 && used<leastUsed) {
+                leastUsed=used;
+                color = i;  
             }
         }
-        return least; 
+        return color; 
     }
 }
