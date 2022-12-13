@@ -13,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.scene.control.Alert;
+import javafx.scene.transform.Scale;  
 
 
 public class GamesceneController {
@@ -20,11 +21,15 @@ public class GamesceneController {
     @FXML ColorPicker colorPicker;
     @FXML Label timerLabel;
     @FXML Label lblGraphColoured;
+    static double currentZoom;
+    static double frameRatio = (double) 1200/700;
+    static Scale scale;
 
     /**
      * This method is called first when the game scene fxml is loaded.
      */
     public void initialize() {
+        scale = new Scale();
         timerLabel.setText(Frontend.seconds + "");
 
         if (Frontend.colorPicker != null) {
@@ -112,6 +117,26 @@ public class GamesceneController {
         hintDisplay.getDialogPane().setContentText(hint);
         System.out.println(hint);
         hintDisplay.show();
+    }
+    
+    public void btnZoomOutClicked(){
+        if(currentZoom == 1){
+
+        } else {
+            currentZoom /= 1.05;
+            scale.setX(1/1.05);
+            scale.setY(1/1.05);
+            scale.setPivotX(Frontend.GRAPH_WIDTH/2);  
+            scale.setPivotY(Frontend.GRAPH_HEIGHT/2);  
+        }
+    }
+
+    public void btnZoomInClicked(){
+        currentZoom *= 1.05;
+        scale.setX(1.05);
+        scale.setY(1.05);
+        scale.setPivotX(Frontend.GRAPH_WIDTH/2);  
+        scale.setPivotY(Frontend.GRAPH_HEIGHT/2);  
     }
     
 }
