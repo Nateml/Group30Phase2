@@ -131,6 +131,7 @@ public class Frontend extends Application{
      * Resets game variables. Useful for when the user returns to main menu.
      */
     public static void resetGame() {
+        if (timer != null) timer.stop();
         timer.stop();
         timer = null;
         isPaused = true;
@@ -161,6 +162,7 @@ public class Frontend extends Application{
     static List<Vertex> vertexOrder = new ArrayList<>();
     public static VertexVisual currentVertex;
     public static Label timerLabel;
+    public static Label resultLabel1 = new Label();
     public static int seconds = 0;
     public static boolean isPaused = true;
     public static Timeline timer = null;

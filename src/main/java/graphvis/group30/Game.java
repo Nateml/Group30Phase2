@@ -216,7 +216,7 @@ public class Game {
                     for (int j = 0; j < tempArray[i].length; j++) {
                         if (i == j) continue;
                         if (tempArray[i][j]==1) {
-                            hint = "Two connected vertices have the same color, vertex " + i + " and " + j + " are both the same color, switch one of these two to a new color.";  
+                            hint = "Two connected vertices have the same color, \nvertex " + i + " and " + j + " are both the same color, \nswitch one of these two to a new color.";  
                             return hint; 
                         }
                         
@@ -229,7 +229,7 @@ public class Game {
                 for (int j = 0; j < vertexcolouring[0].length; j++) {
                     if(getColour(vertexcolouring[i][j])==-1){
                         int color = canAdd(vertexcolouring, vertexcolouring[i][j].getNeighboursAsVertexArray());
-                        hint+= "vertex " + j + "is not coloured but can be assigned " + color + "."; 
+                        hint+= "vertex " + j + "is not coloured \nbut can be assigned " + color + "."; 
                     }
                 }  
              }  
@@ -251,7 +251,7 @@ public class Game {
                         
                 }
                 } else {
-                    hint = "You are using too many colors! Try and find colors you can change, if you need more help press the hint button again"; 
+                    hint = "You are using too many colors!\nTry and find colors you can change, if you \nneed more help press the hint button again"; 
                     oldCurrentChromaticNumber = currentChromaticNumber; 
             
                     return hint; 

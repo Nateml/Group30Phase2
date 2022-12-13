@@ -34,8 +34,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -43,7 +43,11 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0" />
+            <ScrollPane fx:id="paneGraph" layoutY="99.0" prefHeight="700.0" prefWidth="1200.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
             <Button layoutX="128.0" layoutY="745.0" mnemonicParsing="false" onAction="#btnRegenerateGraphClicked" prefHeight="40.0" prefWidth="179.0" text="Regenerate graph">
                <font>
                   <Font size="18.0" />

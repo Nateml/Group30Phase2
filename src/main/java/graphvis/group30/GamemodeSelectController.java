@@ -3,67 +3,82 @@ package graphvis.group30;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 
 public class GamemodeSelectController {
-    @FXML Pane paneGraph;
+    @FXML ScrollPane paneGraph;
 
 
+    /**
+     * Creates the viewer object for the graph and adds it to the pane.
+     * This method is called first whenever the fxml for the gamemode selection scene is loaded.
+     */
     public void initialize() {
         GraphView graphView = new GraphView(Frontend.graph);
-        paneGraph.getChildren().add(graphView.getAnchorPane());
+        //paneGraph.getChildren().add(graphView.getAnchorPane());
+        
+        paneGraph.setContent(graphView.getAnchorPane());
+        //graphView.getAnchorPane().setScaleX(2);
+        //graphView.getAnchorPane().setScaleY(2);
+
         //Frontend.graph.simulate();
         System.out.println();
     }
 
+    /**
+     * Starts gamemode 1
+     * @throws IOException
+     */
     public void btnGamemode1Clicked() throws IOException {
-        // gamemode 1 backend
-        Frontend.gameController.bruteForceChromaticNumber();
+        Frontend.gameController.bruteForceChromaticNumber(); // run the brute force algorithm so the chromatic number gets stored in the gameController object for quick access later on
         Frontend.gameController.setGamemode(1);
-        Frontend.setRoot("gamescene");
         Frontend.isPaused = false;
-        Frontend.seconds = 0;
-        //GamesceneController.initializeTimer();
+        Frontend.seconds = 0; // start time
+        Frontend.setRoot("gamescene"); // switch scenes
     }
 
+    /**
+     * Starts gamemode 2
+     * @throws IOException
+     */
     public void btnGamemode2Clicked() throws IOException {
-        // gamemode 2 backend
-        Frontend.seconds = (int) Math.pow(Frontend.gameController.numberOfVertices, 1.2) * 3;
+        Frontend.seconds = (int) Math.pow(Frontend.gameController.numberOfVertices, 1.2) * 3; // formula for calculating time limit based on number of vertices
         Frontend.gameController.setGamemode(2);
-        Frontend.setRoot("gamescene");
         Frontend.isPaused = false;
-        //GamesceneController.initializeTimer();
+        Frontend.setRoot("gamescene"); // switch scenes
     }
 
+    /**
+     * Starts gamemode 3
+     * @throws IOException
+     */
     public void btnGamemode3Clicked() throws IOException {
-        // gamemode 3 backend
-        Frontend.seconds = 0;
+        Frontend.vertexOrder = Frontend.gameController.createNewRandomOrdering(); // create random order of vertices
         Frontend.gameController.setGamemode(3);
-        Frontend.vertexOrder = Frontend.gameController.createNewRandomOrdering();
-        System.out.println("Vertex order: " + Frontend.vertexOrder.toString());
-        //GamesceneController.initializeTimer();
+        Frontend.seconds = 0; // start time
         Frontend.isPaused = false;
-        Frontend.setRoot("gamescene");
+        Frontend.setRoot("gamescene"); // switch scenes
     }
 
+    /**
+     * Reset game and switch to main menu scene
+     * @throws IOException
+     */
     public void btnBackClicked() throws IOException {
-        //Frontend.gameController.pause();
-        Frontend.isPaused = true;
-        Frontend.setRoot("mainmenu");
+        Frontend.resetGame(); // reset game
+        Frontend.setRoot("mainmenu"); // switch scene to main menu
     }
 
+    /**
+     * Reruns the force directed graph visualisation algorithm to create a new visualisation of the graph.
+     */
     public void btnRegenerateGraphClicked() {
         Frontend.graph.initializeVertices();
-        Frontend.graph.simulate();
-        GraphView graphView = new GraphView(Frontend.graph);
-        paneGraph.getChildren().addAll(graphView.getAnchorPane());
+        Frontend.graph.simulate(); // force directed algorithm reposition vertices
+        GraphView graphView = new GraphView(Frontend.graph); // create new graph view
+        //paneGraph.getChildren().addAll(graphView.getAnchorPane()); // add graph view to pane
+        paneGraph.setContent(graphView.getAnchorPane());
     }
-
-    /* 
-    public void setPane(Pane p) {
-        paneGraph.getChildren().addAll(p.getChildren());
-        System.out.println(paneGraph.getChildren().toString());
-        System.out.println();
-    }
-    */
 }

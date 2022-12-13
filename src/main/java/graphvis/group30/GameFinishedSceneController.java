@@ -12,13 +12,19 @@ public class GameFinishedSceneController {
     @FXML Button toHomeButton;
     @FXML Label labelResult;
 
+    /**
+     * This method is run as soon as the GameFinishedSceneController is created (which is whenever the fxml file for the scene is loaded)
+     */
     public void initialize(){
-        labelTimeFinished.setText(Frontend.timerLabel.getText() + "");
-        Frontend.timerLabel = labelTimeFinished;
+        labelTimeFinished.setText(Frontend.resultLabel1.getText() + "");
+        //Frontend. = labelTimeFinished;
         labelResult.setText(Frontend.resultLabel.getText());
         Frontend.resultLabel = labelResult;
     }
 
+    /**
+     * Resets the game and changes the scene to the main menu scene
+     */
     public void toHomeButtonClicked(){
         try {
             Frontend.resetGame();

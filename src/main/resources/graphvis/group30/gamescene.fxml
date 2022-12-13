@@ -66,11 +66,7 @@
                <font>
                   <Font size="24.0" />
                </font></Label>
-            <Button focusTraversable="false" layoutX="376.0" layoutY="30.0" mnemonicParsing="false" onAction="#btnSelectColourClicked" prefHeight="51.0" prefWidth="189.0" text="Select a color">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font></Button>
-            <ColorPicker fx:id="colorPicker" layoutX="583.0" layoutY="29.0" prefHeight="51.0" prefWidth="157.0" />
+            <ColorPicker fx:id="colorPicker" layoutX="380.0" layoutY="30.0" prefHeight="51.0" prefWidth="157.0" />
       </children>
     </AnchorPane>
   </children>

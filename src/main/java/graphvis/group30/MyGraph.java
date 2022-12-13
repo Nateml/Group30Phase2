@@ -100,7 +100,7 @@ public class MyGraph {
                         if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
                             Frontend.timer.stop();
                             try {
-                                Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
+                                Frontend.resultLabel1.setText("in " + Frontend.seconds + " seconds!");
                                 Frontend.resultLabel.setText("");
                                 Frontend.setRoot("GameFinishedScene");
                             } catch (IOException e) {
@@ -113,11 +113,11 @@ public class MyGraph {
                         break;
                     case 2:
                         Frontend.timer.stop();
-                        Frontend.timerLabel.setText("with " + Frontend.seconds + " seconds left!");
+                        Frontend.resultLabel1.setText("with " + Frontend.seconds + " seconds left!");
                         break;
                     case 3:
                         Frontend.timer.stop();
-                        Frontend.timerLabel.setText("in " + Frontend.seconds + " seconds!");
+                        Frontend.resultLabel1.setText("in " + Frontend.seconds + " seconds!");
                         break;
                 }
                 if (Frontend.gameController.gamemode != 1) {
