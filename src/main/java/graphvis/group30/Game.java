@@ -337,7 +337,7 @@ public class Game {
             int count2 = 0; 
             for (int i = 0; i < neighbours.length; i++) {
                 for (int j = 0; j <  Frontend.graph.getVertices().length; j++) {
-                    if ( Frontend.graph.getVertices()[j]==neighbours[i]) {
+                    if ( Frontend.graph.getVertices()[j].equals(neighbours[i])) {
                        
                         if (getColour(Frontend.graph.getVertices()[j])==-1) {
                             Frontend.graph.getVertices()[j].getCircle().setStrokeWidth(5);
