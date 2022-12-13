@@ -261,7 +261,7 @@ public class Game {
                     hint = "You are using too many colors, ";
                     int color = leastUsedColor();  
                     
-                    hint += "try to get rid of your smallest color class."; 
+                   hint += "try to get rid of your smallest color class."; 
                    Vertex[][] testcolouring = new Vertex[vertexcolouring.length][vertexcolouring[0].length];
                    for (int i = 0; i < vertexcolouring.length; i++) {
                        for (int j = 0; j < vertexcolouring[i].length; j++) {
