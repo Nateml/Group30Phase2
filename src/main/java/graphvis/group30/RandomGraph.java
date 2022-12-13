@@ -12,7 +12,7 @@ public class RandomGraph {
 
 
     public static void main(String[] args) {
-       System.out.println(generator.nextInt(10));
+        createRandomGraph(8, 14, new int[8][8]);
     }
 
     public RandomGraph(int numVertices, int numEdges){
@@ -23,6 +23,7 @@ public class RandomGraph {
         createRandomGraph(numVer, numEdg, adjMatrix);
         ArrayList<ArrayList<Integer>> adjListArray = convert(adjMatrix);
     }
+
     public static void createRandomGraph(int numVer, int numEdg, int[][] adjMatrix){
         for(int row=0 ;row <numVer; row++){
             for(int columm= 1; columm< numVer; columm++ ){
@@ -66,8 +67,7 @@ public class RandomGraph {
             System.out.println(counter2/2);
         }
         else {
-            double w = (Math.random()*(matrix0.size()));
-            int randomNum = (int)w;
+            int randomNum = generator.nextInt(matrix0.size());
             Integer[] str = matrix0.get(randomNum);
             int row= str[0];
             int column = str[1];
