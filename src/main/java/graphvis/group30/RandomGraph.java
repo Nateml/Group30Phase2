@@ -8,10 +8,11 @@ public class RandomGraph {
     int x;
     int [][]adjMatrix;
     Vertex[] vertexArray;
+    static MersenneTwisterRandom generator  = new MersenneTwister();
 
 
     public static void main(String[] args) {
-       new RandomGraph(8,13);
+       System.out.println(generator.nextInt(10));
     }
 
     public RandomGraph(int numVertices, int numEdges){
