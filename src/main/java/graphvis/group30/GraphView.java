@@ -36,7 +36,8 @@ public class GraphView extends Pane {
         for (VertexVisual vertex : graph.getVertices()) {
             vertex.getCircle().setStrokeWidth(2);
             if (Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
-                vertex.getCircle().setStrokeWidth(4); // outline current vertex in gamemode 3
+                vertex.getCircle().setStrokeWidth(4);
+                Frontend.currentVertex = vertex; 
             }
             vertex.getCircle().setStroke(Color.BLACK);
             vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);

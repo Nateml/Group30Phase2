@@ -10,6 +10,7 @@ public class Game {
     public int numberOfEdges; 
     public int numberOfVertices; 
     public Vertex[][] vertexcolouring = new Vertex[0][0]; 
+    public VertexVisual[][] col = new VertexVisual[0][0];
     private Vertex currentVertex; 
     public int progress = 0; 
     public int currentChromaticNumber; 
@@ -208,7 +209,7 @@ public class Game {
      */
     public String getHint(){
         String hint = " "; 
-         
+       
         if (gamemode==1 || gamemode==2) {
            if (!isLegalColouring()) {
                 int[][] tempArray = conflicingVertices(vertexcolouring); 
@@ -216,7 +217,13 @@ public class Game {
                     for (int j = 0; j < tempArray[i].length; j++) {
                         if (i == j) continue;
                         if (tempArray[i][j]==1) {
-                            hint = "Two connected vertices have the same color, \nvertex " + i + " and " + j + " are both the same color, \nswitch one of these two to a new color.";  
+                            for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
+                                if (Frontend.graph.getVertices()[j2].identification()== i||Frontend.graph.getVertices()[j2].identification()== j) {
+                                    Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
+                                }
+                            }
+                           
+                            hint = "The two highlighted vertices have the same color, change the color of one of these";  
                             return hint; 
                         }
                         
@@ -229,7 +236,8 @@ public class Game {
                 for (int j = 0; j < vertexcolouring[0].length; j++) {
                     if(getColour(vertexcolouring[i][j])==-1){
                         int color = canAdd(vertexcolouring, vertexcolouring[i][j].getNeighboursAsVertexArray());
-                        hint+= "vertex " + j + "is not coloured \nbut can be assigned " + color + "."; 
+                        hint+= "vertex " + j + "is not coloured but can be assigned " + Frontend.usedColors.get(color) + "."; 
+                        return hint; 
                     }
                 }  
              }  
@@ -245,13 +253,14 @@ public class Game {
                    for (int i = 0; i < testcolouring[0].length; i++) {
                      Vertex [] neigh = testcolouring[color][i].getNeighboursAsVertexArray();
                      int addHere = canAdd(testcolouring, neigh); 
-                     hint += "vertex " + testcolouring[color][i] + " can be added to the " + addHere + "color."; 
+                     hint += "vertex " + testcolouring[color][i] + " can be added to the " + Frontend.usedColors.get(addHere) + "color."; 
                      return hint; 
+                     
                    }
                         
                 }
                 } else {
-                    hint = "You are using too many colors!\nTry and find colors you can change, if you \nneed more help press the hint button again"; 
+                    hint = "You are using too many colors! Try and find colors you can change, if you need more help press the hint button again"; 
                     oldCurrentChromaticNumber = currentChromaticNumber; 
             
                     return hint; 
@@ -263,23 +272,41 @@ public class Game {
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
-            Vertex[] neighbours = currentVertex.getNeighboursAsVertexArray();
+            Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray();
             hint = "The neighbours of this vertex are ";  
             boolean hello = false; 
             for (int i = 0; i < neighbours.length; i++) {
+                boolean test = true; 
+                for (int j = 0; j < neighbours.length; j++) {
+                    if (getColour(neighbours[j])!=-1) {
+                        test = false;
+                        break; 
+                    }
+                    if (test) {
+                       return "None of the neighbours of this vertex are colored yet, so you can choose any color! Try and think ahead and use colors you have already used";  
+                    }
+                }
                if (getColour(neighbours[i])!=-1) {
                 hello = true; 
             }
-                if (i==neighbours.length-1) {
-                    hint += "and Vertex " + neighbours[i] + " with " + getColour(neighbours[i]) + " color.";  
+                if (i==0) {
+                    if (getColour(neighbours[i])>=0) {
+                        hint += "Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color ";  
+                    } else {
+                        hint += "Vertex " + neighbours[i] + " with no color yet "; 
+                    }
                 } else {
-                    hint += "Vertex " + neighbours[i] + " with " + getColour(neighbours[i]) + " color ";  
+                    if (getColour(neighbours[i])>=0) {
+                        hint += "and Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color.";
+                    } else {
+                        hint +=  "and Vertex " + neighbours[i] + " with no color yet "; 
+                    }
                 }
                 }
                 if (hello) {
                     hint += "We can ingore the vertices which we have not colored yet.";   
                 }
-                hint += "We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
+                hint += " We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
                 return hint;
             
 
@@ -301,8 +328,17 @@ public class Game {
      * @return a colour class that a vertex can be assigned to.
      */
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
-        Vertex[][] coloring = current; 
-        Vertex[] neigh = neighbours; 
+        Vertex[][] coloring = new Vertex[current.length][current[0].length];
+        for (int i = 0; i < coloring.length; i++) {
+            for (int j = 0; j < coloring.length; j++) {
+                coloring[i][j] = current[i][j];
+                        
+            } }
+        Vertex[] neigh = new Vertex[neighbours.length]; 
+        for (int i = 0; i < neigh.length; i++) {
+            neigh[i] = neighbours[i]; 
+        }
+        
         for (int i = 0; i < coloring.length; i++) {
             boolean add = true; 
             for (int j = 0; j < coloring[0].length; j++) {

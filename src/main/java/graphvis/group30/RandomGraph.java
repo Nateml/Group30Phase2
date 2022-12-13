@@ -8,11 +8,12 @@ public class RandomGraph {
     int x;
     int [][]adjMatrix;
     Vertex[] vertexArray;
+    static MersenneTwisterRandom generator  = new MersenneTwister();
 
 
     /* 
     public static void main(String[] args) {
-       new RandomGraph(8,13);
+        createRandomGraph(8, 14, new int[8][8]);
     }
     */
 
@@ -89,8 +90,7 @@ public class RandomGraph {
             System.out.println(counter2/2);
         }
         else {
-            double w = (Math.random()*(matrix0.size()));
-            int randomNum = (int)w;
+            int randomNum = generator.nextInt(matrix0.size());
             Integer[] str = matrix0.get(randomNum);
             int row= str[0];
             int column = str[1];

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class MyGraph {
-    VertexVisual[] vertices;
+    public static VertexVisual[] vertices;
     EdgeVisual[] edges;
     GraphVisSim visSim;
     double width, height;
@@ -81,6 +81,10 @@ public class MyGraph {
      */
     private void vertexOnMouseClicked(MouseEvent t) {
         if (!Frontend.isPaused) {
+            for (VertexVisual v : vertices) {
+                v.getCircle().setStrokeWidth(2);  
+            }
+           
 
             VertexVisual v = circleToVertexMap.get((Circle)t.getSource()); // get vertex object from mouse event
             Frontend.currentVertex = v; 
