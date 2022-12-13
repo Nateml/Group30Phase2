@@ -24,8 +24,6 @@ public class Graph {
         for (Vertex vertex : v) {
             vertexIDs.put(vertex.i, vertex);
         }
-
-        // create adjency matrix
     }
 
     public Vertex getVertexFromID(int id) {
@@ -84,12 +82,6 @@ public class Graph {
         return new Graph(v, numEdges);
 
     }
-
-    /* 
-    public static Graph createGraphFromFile(File f) {
-        
-    }
-    */
 
     public int bruteForceChromaticNumber() {
         if (k != 0) return k;

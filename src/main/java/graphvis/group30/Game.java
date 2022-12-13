@@ -244,6 +244,7 @@ public class Game {
            }
            
            if (numVerticesColoured == numberOfVertices) {
+           if (numVerticesColoured == numberOfVertices) {
                 if (oldCurrentChromaticNumber==currentChromaticNumber) {//in this case the graph is legal but uses too many colors so this hint tries to switch the colors of all the vertices in the smalles color class 
                     hint = "You are using too many colors, ";
                     int color = leastUsedColor();  
@@ -294,7 +295,7 @@ public class Game {
                         break; 
                     }
                     if (test) {
-                       return "None of the neighbours of this vertex are colored yet, so you can choose any color! Try and think ahead and use colors you have already used";  
+                       return "None of the neighbours of this vertex \nare colored yet, so you can choose any color! \nTry and think ahead and use \ncolors you have already used";  
                     }
                 }
                if (getColour(neighbours[i])!=-1) {
@@ -337,6 +338,7 @@ public class Game {
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
         Vertex[][] coloring = new Vertex[current.length][current[0].length];
         for (int i = 0; i < coloring.length; i++) {
+            for (int j = 0; j < coloring[i].length; j++) {
             for (int j = 0; j < coloring[i].length; j++) {
                 coloring[i][j] = current[i][j];
                         

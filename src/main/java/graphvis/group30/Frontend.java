@@ -132,7 +132,6 @@ public class Frontend extends Application{
      */
     public static void resetGame() {
         if (timer != null) timer.stop();
-        timer.stop();
         timer = null;
         isPaused = true;
         seconds = 0;
