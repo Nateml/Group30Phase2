@@ -15,6 +15,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
@@ -150,10 +151,13 @@ public class GamesceneController {
      */
     public void btnHintClicked() {
         String hint = Frontend.gameController.getHint();
+        Text hintText = new Text(hint);
         Alert hintDisplay = new Alert(AlertType.INFORMATION);
+        hintDisplay.setWidth(300);
+        hintText.setWrappingWidth(hintDisplay.getWidth());
         hintDisplay.setTitle(null);
         hintDisplay.setHeaderText("Hint");
-        hintDisplay.getDialogPane().setContentText(hint);
+        hintDisplay.getDialogPane().setContent(hintText);
         hintDisplay.show();
     }
     
