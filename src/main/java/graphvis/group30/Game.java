@@ -107,6 +107,7 @@ public class Game {
 
         // increment the number of vertices coloured if the vertex is being coloured for the first time
         if (currentColor == -1) {
+            currentChromaticNumber++; 
             numVerticesColoured++;
         } else {
             // remove vertex from old color class
@@ -223,7 +224,7 @@ public class Game {
                                 }
                             }
                            
-                            hint = "The two highlighted vertices have the same color, change the color of one of these" + numVerticesColoured + " " + numberOfVertices;  
+                            hint = "The two highlighted vertices have the same color even though they are connected, change the color of one of these.";  
                             return hint; 
                         }
                         
