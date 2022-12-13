@@ -322,7 +322,7 @@ public class Game {
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
-            Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray(); 
+            Vertex[] neighbours = Frontend.vertexOrder.get(0).getNeighboursAsVertexArray(); 
             
             int count = 0; 
             int count2 = 0; 

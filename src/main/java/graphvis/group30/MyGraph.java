@@ -87,7 +87,7 @@ public class MyGraph {
            
 
             VertexVisual v = circleToVertexMap.get((Circle)t.getSource()); // get vertex object from mouse event
-            //Frontend.currentVertex = v; 
+            Frontend.currentVertex = v; 
 
             // do nothing if the user does not click on the next vertex in the random ordering in gamemode 3
             if (Frontend.gameController.getGamemode() == 3 && !v.equals(Frontend.vertexOrder.get(0))) {

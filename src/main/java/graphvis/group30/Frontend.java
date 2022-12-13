@@ -160,7 +160,7 @@ public class Frontend extends Application{
     static ColorPicker colorPicker;
     static List<Color> usedColors = new ArrayList<>();
     static List<Vertex> vertexOrder = new ArrayList<>();
-    //public static VertexVisual currentVertex;
+    public static VertexVisual currentVertex;
     public static Label timerLabel;
     public static Label resultLabel1 = new Label();
     public static int seconds = 0;
