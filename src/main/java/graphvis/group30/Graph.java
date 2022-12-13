@@ -5,16 +5,21 @@ import java.util.*;
 import java.util.Random;
 
 public class Graph {
-    Vertex[] vertices;
-    int k;
-    int upperBoundK;
-    int lowerBoundK;
-    Vertex[][] vertexColouring;
-    int[][] adjMatrix;
-    HashMap<Integer, Vertex> vertexIDs;
-    int numEdges;
-    int numVertices;
+    private Vertex[] vertices;
+    private int k;
+    private int upperBoundK;
+    private int lowerBoundK;
+    private Vertex[][] vertexColouring;
+    private int[][] adjMatrix;
+    private HashMap<Integer, Vertex> vertexIDs;
+    private int numEdges;
+    private int numVertices;
 
+    /**
+     * Creates a graph object.
+     * @param v the vertex array of the graph
+     * @param numEdges the number of edges in the graph
+     */
     public Graph(Vertex[] v, int numEdges) {
         this.vertices = v;
         this.numEdges = numEdges;
@@ -26,17 +31,35 @@ public class Graph {
         }
     }
 
+    /**
+     * Returns a <code>Vertex</code> object from its id.
+     * @param id the id of the vertex.
+     * @return the <code>Vertex</code> with the given id.
+     */
     public Vertex getVertexFromID(int id) {
         return vertexIDs.get(id);
     }
 
+    /**
+     * Creates a random graph with the given number of vertices and edges.
+     * @param numVertices the number of edges that the graph must have
+     * @param numEdges the number of edges that the graph must have
+     * @return a random <code>Graph</code> object
+     */
     public static Graph createRandomGraph(int numVertices, int numEdges) {
         RandomGraph randomGraph = new RandomGraph(numVertices, numEdges);
         Vertex[] v = randomGraph.getVertexArray();
        return new Graph(v, numEdges);
     }
 
-    public static Graph createGraphFromFile(File filename) throws FileNotFoundException{
+    /**
+     * Creates a <code>Graph</code> object from the given file.
+     * @param filename the graph file
+     * @return the <code>Graph</code> object
+     * @throws FileNotFoundException
+     * @throws UnconnectedVerticesException
+     */
+    public static Graph createGraphFromFile(File filename) throws FileNotFoundException, UnconnectedVerticesException{
         ArrayList<Vertex> vertices = new ArrayList<Vertex>();
         int numVertices = 0;
         int numEdges = 0;
@@ -78,6 +101,9 @@ public class Graph {
             lineNumber++;
         }
         fileScanner.close();
+        
+        if (vertices.size() != numVertices) throw new UnconnectedVerticesException();
+
         Vertex[] v = vertices.toArray(new Vertex[0]);
         return new Graph(v, numEdges);
 
@@ -90,7 +116,6 @@ public class Graph {
         this.lowerBoundK = lb.getLowerBound(vertices, 0);
         BruteForce bf = new BruteForce();
         this.k = bf.chromaticNumber(vertices, lowerBoundK);
-        System.out.println("brute forced chromatic number = " + this.k);
 
         return k;
     }
@@ -152,7 +177,17 @@ public class Graph {
     }
 
 
+    public int getNumVertices() {
+        return numVertices;
+    }
 
+    public int getNumEdges() {
+        return numEdges;
+    }
+
+    public Vertex[] getVertices() {
+        return vertices;
+    }
 
 
 }

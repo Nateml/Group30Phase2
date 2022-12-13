@@ -48,8 +48,17 @@ public class MainMenuController {
         if (confirmationResult.get() == ButtonType.CANCEL) return; // exit the method if the user click cancel
 
         // create graph
-        Frontend.gameController.setGraphFromFile(graphFile);
-        Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
+        try {
+            Frontend.gameController.setGraphFromFile(graphFile);
+        } catch (UnconnectedVerticesException e) {
+            Alert disconnectedGraphAlert = new Alert(AlertType.ERROR);
+            disconnectedGraphAlert.setTitle("Error");
+            disconnectedGraphAlert.setHeaderText("Disconnected graph");
+            disconnectedGraphAlert.setContentText("The file you attempted to use has unconnected vertices");
+            disconnectedGraphAlert.showAndWait();
+            return;
+        }
+        Frontend.graph = new MyGraph(Frontend.gameController.getGraph().getVertices(), Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
         Frontend.graph.simulate();
 
         Frontend.setRoot("gamemode_select"); // send to gamemode selection screen

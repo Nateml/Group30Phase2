@@ -6,18 +6,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Game {
-    public int gamemode; 
-    public int numberOfEdges; 
-    public int numberOfVertices; 
-    public Vertex[][] vertexcolouring = new Vertex[0][0]; 
-    public VertexVisual[][] col = new VertexVisual[0][0];
+    private int gamemode; 
+    private int numberOfEdges; 
+    private int numberOfVertices; 
+    private Vertex[][] vertexcolouring = new Vertex[0][0]; 
+    private VertexVisual[][] col = new VertexVisual[0][0];
     private Vertex currentVertex; 
-    public int progress = 0; 
-    public int currentChromaticNumber; 
-    public Graph graphForGame;  
-    public int oldCurrentChromaticNumber = 0;
+    private int progress = 0; 
+    private int currentChromaticNumber; 
+    private Graph graphForGame;  
+    private int oldCurrentChromaticNumber = 0;
     private int numVerticesColoured = 0;
-    public ArrayList<Vertex> inGameRandomOrder;
+    private ArrayList<Vertex> inGameRandomOrder;
     
      
     /**
@@ -29,17 +29,50 @@ public class Game {
     }
 
     /**
+     * @return the current gamemode
+     */
+    public int getGamemode() {
+        return gamemode;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    /**
+     * @return the number of vertices in the graph
+     */
+    public int getNumberOfVertices() {
+        return numberOfVertices;
+    }
+
+    /**
+     * @return the number of edges in the graph
+     */
+    public int getNumberOfEdges() {
+        return numberOfEdges;
+    }
+
+    /**
+     * @return the number of vertices in the graph that have been coloured
+     */
+    public int getNumVerticesColoured() {
+        return numVerticesColoured;
+    }
+
+    /**
+     * @return the current graph of the game
+     */
+    public Graph getGraph() {
+        return graphForGame;
+    }
+
+    /**
      * @return the exact chromatic number of the graph
      */
     public int bruteForceChromaticNumber() {
         return graphForGame.bruteForceChromaticNumber();
     }
-
-    /* 
-    public Vertex getVertexFromID(int i) {
-        return graphForGame.getVertexFromID(i);
-    }
-    */
 
     /**
      * @return the random ordering of the vertices for gamemode 3
@@ -79,11 +112,12 @@ public class Game {
      * Creates a Graph from the file and stores it in the Game object.
      * @param filename the graph file
      * @throws FileNotFoundException
+     * @throws UnconnectedVerticesException
      */
-    public void setGraphFromFile(File file) throws FileNotFoundException {
+    public void setGraphFromFile(File file) throws FileNotFoundException, UnconnectedVerticesException {
         graphForGame = Graph.createGraphFromFile(file);
-        numberOfEdges = graphForGame.numEdges;
-        numberOfVertices = graphForGame.numVertices;
+        numberOfEdges = graphForGame.getNumEdges();
+        numberOfVertices = graphForGame.getNumVertices();
     }
 
     /**
@@ -272,7 +306,8 @@ public class Game {
         }if (gamemode==3) {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
-            Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray();
+            //Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray();
+            Vertex[] neighbours = Frontend.vertexOrder.get(0).getNeighboursAsVertexArray();
             hint = "The neighbours of this vertex are ";  
             boolean hello = false; 
             for (int i = 0; i < neighbours.length; i++) {
@@ -328,12 +363,14 @@ public class Game {
      * @return a colour class that a vertex can be assigned to.
      */
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
-        Vertex[][] coloring = new Vertex[current.length][current[0].length];
-        for (int i = 0; i < coloring.length; i++) {
-            for (int j = 0; j < coloring[i].length; j++) {
-                coloring[i][j] = current[i][j];
-                        
-            } }
+        Vertex[][] coloring = new Vertex[current.length][];
+        for (int i = 0; i < current.length; i++) {
+            Vertex[] colorClass = new Vertex[current[i].length];
+            for (int j = 0; j < current[i].length; j++) {
+                colorClass[j] = current[i][j];
+            } 
+            coloring[i] = colorClass;
+        }
         Vertex[] neigh = new Vertex[neighbours.length]; 
         for (int i = 0; i < neigh.length; i++) {
             neigh[i] = neighbours[i]; 

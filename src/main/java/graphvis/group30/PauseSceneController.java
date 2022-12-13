@@ -2,16 +2,17 @@ package graphvis.group30;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer.Status;
 
 public class PauseSceneController {
@@ -21,12 +22,20 @@ public class PauseSceneController {
      * This method is called first when the fxml for the pause scene is loaded.
      */
     public void initialize() {
-        paneGraph.getChildren().addAll(Frontend.graphView.getAnchorPane()); // add graph to display pane
+        //paneGraph.getChildren().addAll(Frontend.graphView.getAnchorPane()); // add graph to display pane
+        Group contentGroup = new Group(Frontend.graphView.getAnchorPane());
+        paneGraph.setVbarPolicy(ScrollBarPolicy.NEVER);
+        contentGroup.setLayoutX(1200);
+        contentGroup.setLayoutY(700);
+        paneGraph.setContent(contentGroup);
+        paneGraph.setHvalue(GamesceneController.hVal);
+        paneGraph.setVvalue(GamesceneController.vVal);
 
         // blur the graph display pane
         GaussianBlur gb = new GaussianBlur();
         gb.setRadius(30);
         paneGraph.setEffect(gb);
+
 
         sliderVolume.setValue(Frontend.mediaPlayer.getVolume()); // set volume slide
 
@@ -89,6 +98,7 @@ public class PauseSceneController {
      * @throws IOException
      */
     public void btnExitClicked() throws IOException {
+        GamesceneController.scale = null;
         Frontend.resetGame();
         Frontend.setRoot("mainmenu");
     }
@@ -240,7 +250,7 @@ public class PauseSceneController {
     }
 
     // fxml components:
-    @FXML Pane paneGraph;
+    @FXML ScrollPane paneGraph;
     @FXML Slider sliderVolume;
     @FXML Label lblVolume;
     @FXML Button btnVolume;

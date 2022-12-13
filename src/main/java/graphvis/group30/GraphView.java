@@ -1,13 +1,13 @@
 package graphvis.group30;
 
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 
 public class GraphView extends Pane {
     private final MyGraph graph;
-    private final BorderPane anchorPane = new BorderPane(); // the display pane
+    private final AnchorPane anchorPane = new AnchorPane(); // the display pane
 
     /**
      * @param graph the graph model to create a viewer for.
@@ -16,8 +16,12 @@ public class GraphView extends Pane {
         this.graph = graph;
         this.getChildren().add(anchorPane);
         this.setPrefSize(Frontend.WIDTH, Frontend.HEIGHT);
-        this.anchorPane.prefWidthProperty().bind(this.widthProperty());
-        this.anchorPane.prefHeightProperty().bind(this.heightProperty());
+        this.anchorPane.prefWidth(1200);
+        this.anchorPane.setMinWidth(1200);
+        this.anchorPane.setMaxWidth(1200);
+        this.anchorPane.prefHeight(700);
+        this.anchorPane.setMinHeight(700);
+        this.anchorPane.setMaxHeight(700);
         addChildren();
     }
 
@@ -26,7 +30,7 @@ public class GraphView extends Pane {
      */
     public void update() {
         for (EdgeVisual edge : graph.getEdges()) {
-            if (Frontend.gameController.gamemode == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex()) || Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
+            if (Frontend.gameController.getGamemode() == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex()) || Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
                 edge.getLine().setStroke(Color.RED); // change colour of edges of the current vertex in gamemode 3
             } else {
                 edge.getLine().setStroke(Color.BLACK);
@@ -35,9 +39,9 @@ public class GraphView extends Pane {
         }
         for (VertexVisual vertex : graph.getVertices()) {
             vertex.getCircle().setStrokeWidth(2);
-            if (Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
+            if (Frontend.gameController.getGamemode() == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
                 vertex.getCircle().setStrokeWidth(4);
-                Frontend.currentVertex = vertex; 
+                //Frontend.currentVertex = vertex; 
             }
             vertex.getCircle().setStroke(Color.BLACK);
             vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
@@ -53,7 +57,7 @@ public class GraphView extends Pane {
             edge.getLine().setStartY(edge.getStartVertex().getSimBody().getPosition().y);
             edge.getLine().setEndX(edge.getEndVertex().getSimBody().getPosition().x);
             edge.getLine().setEndY(edge.getEndVertex().getSimBody().getPosition().y);
-            if (Frontend.gameController.gamemode == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex())||Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
+            if (Frontend.gameController.getGamemode() == 3 && (Frontend.vertexOrder.get(0).equals(edge.getStartVertex())||Frontend.vertexOrder.get(0).equals(edge.getEndVertex()))) {
                 edge.getLine().setStroke(Color.RED); // change colour of the edges of the current vertex in gamemode 3
             } else {
                 edge.getLine().setStroke(Color.BLACK);
@@ -79,7 +83,7 @@ public class GraphView extends Pane {
             vertex.getLabel().setY(vertex.getCircle().getCenterY());
 
             // change display properties of current vertex in gamemode 3
-            if (Frontend.gameController.gamemode == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
+            if (Frontend.gameController.getGamemode() == 3 && Frontend.vertexOrder.get(0).equals(vertex))  {
                 vertex.getCircle().setStrokeWidth(5);
                 vertex.getCircle().setStroke(Color.BLACK);
                 vertex.getCircle().setStrokeType(StrokeType.OUTSIDE);
@@ -93,7 +97,7 @@ public class GraphView extends Pane {
      * 
      * @return the display pane
      */
-    public BorderPane getAnchorPane() {
+    public AnchorPane getAnchorPane() {
         return anchorPane;
     }
 }

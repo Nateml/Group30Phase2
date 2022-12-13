@@ -9,27 +9,49 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.transform.Scale;  
 
 
 public class GamesceneController {
-    @FXML Pane paneGraph;
-    @FXML ColorPicker colorPicker;
-    @FXML Label timerLabel;
-    @FXML Label lblGraphColoured;
-    static double currentZoom;
+    static double currentZoom = 1;
     static double frameRatio = (double) 1200/700;
     static Scale scale;
+    static double hVal =-1, vVal=-1;
+    Group contentGroup;
 
     /**
      * This method is called first when the game scene fxml is loaded.
      */
     public void initialize() {
-        scale = new Scale();
+
+        // initialise scrollbar values
+        if (hVal == -1) {
+            hVal = 0.5;
+        }
+        if (vVal == -1) {
+            vVal = 0.5;
+        }
+        paneGraph.setHvalue(hVal);
+        paneGraph.setVvalue(vVal);
+
+        // the following override the scroll event so that scrolling zooms instead of scrolling through the scroll pane
+        paneGraph.addEventFilter(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                onScroll(event);
+                event.consume();
+            }
+        });
+        
         timerLabel.setText(Frontend.seconds + "");
 
         if (Frontend.colorPicker != null) {
@@ -52,7 +74,23 @@ public class GamesceneController {
             Frontend.graphView.update();
         }
 
-        paneGraph.getChildren().add(Frontend.graphView.getAnchorPane()); // add graph view to pane
+        // create a scale object to allow zooming of the graph 
+        if (scale == null) {
+            scale = new Scale();
+            currentZoom = 1;
+            scale.setX(currentZoom);
+            scale.setY(currentZoom);
+            Frontend.graphView.getAnchorPane().getTransforms().add(scale);
+        }
+
+        // add graph view to the graph pane
+        contentGroup = new Group(Frontend.graphView.getAnchorPane());
+        contentGroup.setLayoutX(1200);
+        contentGroup.setLayoutY(700);
+        paneGraph.setVbarPolicy(ScrollBarPolicy.NEVER);
+        paneGraph.setContent(new Group(contentGroup));
+        paneGraph.setFitToHeight(true);
+        paneGraph.setFitToWidth(true);
     }
 
 
@@ -69,7 +107,7 @@ public class GamesceneController {
                     @Override
                     public void handle(ActionEvent event) {
                         if (!Frontend.isPaused) { // only run timer if the game is not paused
-                            switch(Frontend.gameController.gamemode) {
+                            switch(Frontend.gameController.getGamemode()) {
                                 case 1:
                                 case 3:
                                     Frontend.seconds++; // count up
@@ -99,6 +137,7 @@ public class GamesceneController {
 
     
     /** 
+     * Pauses the game and displays the pause scene.
      * @throws IOException
      */
     public void btnPauseClicked() throws IOException {
@@ -107,7 +146,7 @@ public class GamesceneController {
     }
 
     /**
-     * 
+     * Provides the user with a hint, the content of which depends on the game state
      */
     public void btnHintClicked() {
         String hint = Frontend.gameController.getHint();
@@ -115,30 +154,83 @@ public class GamesceneController {
         hintDisplay.setTitle(null);
         hintDisplay.setHeaderText("Hint");
         hintDisplay.getDialogPane().setContentText(hint);
-        System.out.println(hint);
         hintDisplay.show();
     }
     
+    /**
+     * Zooms out of the graph
+     */
     public void btnZoomOutClicked(){
-        if(currentZoom == 1){
-
-        } else {
-            currentZoom /= 1.05;
-            scale.setX(1/1.05);
-            scale.setY(1/1.05);
-            scale.setPivotX(Frontend.GRAPH_WIDTH/2);  
-            scale.setPivotY(Frontend.GRAPH_HEIGHT/2);  
+        double oldHval = paneGraph.getHvalue();
+        double oldVval = paneGraph.getVvalue();
+        if(!(currentZoom <= 1)){ // prevents from zooming to far out
+            currentZoom /= 1.2;
+            scale.setX(currentZoom);
+            scale.setY(currentZoom);
         }
+
+        // reposition scrollbars 
+        paneGraph.setHvalue(oldHval);
+        paneGraph.setVvalue(oldVval);
     }
 
+    /**
+     * Zooms in on the graph
+     */
     public void btnZoomInClicked(){
-        currentZoom *= 1.05;
-        scale.setX(1.05);
-        scale.setY(1.05);
-        scale.setPivotX(Frontend.GRAPH_WIDTH/2);  
-        scale.setPivotY(Frontend.GRAPH_HEIGHT/2);  
+        double oldHval = paneGraph.getHvalue();
+        double oldVval = paneGraph.getVvalue();
+
+        currentZoom *= 1.2;
+        scale.setX(currentZoom);
+        scale.setY(currentZoom);
+
+        // reposition scrollbars
+        paneGraph.setHvalue(oldHval);
+        paneGraph.setVvalue(oldVval);
     }
-    
+
+    /**
+     * Scrolls in/out of the graph when the user scrolls on the graph pane.
+     */
+    public void onScroll(ScrollEvent event) {
+        double oldHval = paneGraph.getHvalue();
+        double oldVval = paneGraph.getVvalue();
+
+        double deltaY = event.getDeltaY(); // to differentiate between scroll up and scroll down
+        if (deltaY < 0) {
+            if (!(currentZoom <= 1)) {
+                currentZoom /= 1.05; // zoom out
+            }
+        } else {
+                currentZoom *= 1.05; // zoom in
+        }
+
+        scale.setX(currentZoom);
+        scale.setY(currentZoom);
+        
+        // reposition scrollbars
+        paneGraph.setHvalue(oldHval);
+        paneGraph.setVvalue(oldVval);
+
+        event.consume();
+    }
+
+    /**
+     * Records the position of the scrollbars when the user pans the graph pane.
+     */
+    public void onPaneGraphMouseReleased(MouseEvent event) {
+        hVal = paneGraph.getHvalue();
+        vVal = paneGraph.getVvalue();
+    }
+
+
+    // fxml components
+    @FXML ScrollPane paneGraph;
+    @FXML ColorPicker colorPicker;
+    @FXML Label timerLabel;
+    @FXML Label lblGraphColoured;
+    @FXML AnchorPane rootPane;
 }
 
 

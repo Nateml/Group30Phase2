@@ -10,7 +10,7 @@ public class Vertex {
      */
     protected int saturationDegree;
     protected int i;
-    ArrayList<Vertex> neighbours = new ArrayList<>();
+    protected ArrayList<Vertex> neighbours = new ArrayList<>();
     
     /**
      * Creates a Vertex object.

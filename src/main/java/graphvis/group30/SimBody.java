@@ -78,9 +78,6 @@ public class SimBody {
      * @param f
      */
     public void addForce(Vector f) {
-        if (Double.isNaN(f.x) || Double.isNaN(f.y)) {
-            System.out.println("is NaN");
-        }
         acceleration.add(f);
     }
 

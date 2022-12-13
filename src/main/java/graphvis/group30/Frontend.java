@@ -51,7 +51,8 @@ public class Frontend extends Application{
             "8bitcarti2.mp3",
             "8bitx.mp3",
             "8bitplasticbeach.mp3",
-            "8bitghostbusters.mp3"
+            "8bitghostbusters.mp3",
+            "geometrydashmusic.mp3"
         };
         musicFilesList = Arrays.asList(musicFiles);
         Collections.shuffle(musicFilesList); // shuffle the order of the songs 
@@ -159,7 +160,7 @@ public class Frontend extends Application{
     static ColorPicker colorPicker;
     static List<Color> usedColors = new ArrayList<>();
     static List<Vertex> vertexOrder = new ArrayList<>();
-    public static VertexVisual currentVertex;
+    //public static VertexVisual currentVertex;
     public static Label timerLabel;
     public static Label resultLabel1 = new Label();
     public static int seconds = 0;
