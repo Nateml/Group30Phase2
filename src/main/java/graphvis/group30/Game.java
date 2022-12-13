@@ -10,6 +10,7 @@ public class Game {
     public int numberOfEdges; 
     public int numberOfVertices; 
     public Vertex[][] vertexcolouring = new Vertex[0][0]; 
+    public VertexVisual[][] col = new VertexVisual[0][0];
     private Vertex currentVertex; 
     public int progress = 0; 
     public int currentChromaticNumber; 
@@ -208,7 +209,7 @@ public class Game {
      */
     public String getHint(){
         String hint = " "; 
-         
+       
         if (gamemode==1 || gamemode==2) {
            if (!isLegalColouring()) {
                 int[][] tempArray = conflicingVertices(vertexcolouring); 
@@ -216,7 +217,13 @@ public class Game {
                     for (int j = 0; j < tempArray[i].length; j++) {
                         if (i == j) continue;
                         if (tempArray[i][j]==1) {
-                            hint = "Two connected vertices have the same color, vertex " + i + " and " + j + " are both the same color, switch one of these two to a new color.";  
+                            for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
+                                if (Frontend.graph.getVertices()[j2].identification()== i||Frontend.graph.getVertices()[j2].identification()== j) {
+                                    Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
+                                }
+                            }
+                           
+                            hint = "The two highlighted vertices have the same color, change the color of one of these";  
                             return hint; 
                         }
                         
@@ -253,7 +260,7 @@ public class Game {
                         
                 }
                 } else {
-                    hint = "You are using too many colors!\nTry and find colors you can change, if you need more help press the hint button again"; 
+                    hint = "You are using too many colors! Try and find colors you can change, if you need more help press the hint button again"; 
                     oldCurrentChromaticNumber = currentChromaticNumber; 
             
                     return hint; 
@@ -269,6 +276,16 @@ public class Game {
             hint = "The neighbours of this vertex are ";  
             boolean hello = false; 
             for (int i = 0; i < neighbours.length; i++) {
+                boolean test = true; 
+                for (int j = 0; j < neighbours.length; j++) {
+                    if (getColour(neighbours[j])!=-1) {
+                        test = false;
+                        break; 
+                    }
+                    if (test) {
+                       return "None of the neighbours of this vertex are colored yet, so you can choose any color! Try and think ahead and use colors you have already used";  
+                    }
+                }
                if (getColour(neighbours[i])!=-1) {
                 hello = true; 
             }
