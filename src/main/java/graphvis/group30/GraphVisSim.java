@@ -4,11 +4,16 @@ import java.util.ArrayList;
 
 
 public class GraphVisSim {
-    private double temp = 0.5;
+    private double temp = 0.5; // scalar for the velocity of the vertices
     private ArrayList<VertexVisual> vertices;
     private double width, height;
-    SimBody centerBody = new SimBody();
+    SimBody centerBody = new SimBody(); // an object to keep vertices situated around the center
 
+    /**
+     * 
+     * @param width the width of the pane that the graph will be displayed on
+     * @param height the height of the pane that the graph will be displayed on
+     */
     public GraphVisSim(double width, double height) {
         vertices = new ArrayList<>();
         this.width = width;
@@ -16,11 +21,20 @@ public class GraphVisSim {
         centerBody.setPosition(new Vector(width/2, height/2));
     }
 
+    /**
+     * Adds a vertex to the simulation.
+     * @param v
+     */
     public void addSimBody(VertexVisual v) {
         vertices.add(v);
     }
 
+    /**
+     * Runs the simulation for 1 iteration.
+     * @return true if the simulation is complete (vertices are not moving), false if the simulation is not complete.
+     */
     public boolean run() { 
+        // add forces to the vertices
         for (VertexVisual v1 : vertices) {
             v1.getSimBody().addForce(Vector.mult(SpringForce.getSpringForceBetween(v1.getSimBody(), centerBody),2));
             for (VertexVisual v2 : vertices) {
@@ -28,7 +42,6 @@ public class GraphVisSim {
 
                 boolean isNeighbour = false;
                 for (Vertex neighbour : v1.getNeighboursAsVertexArray()) {
-                    //neighbour = (VertexVisual2) neighbour;
                     if (neighbour.equals(v2)) {
                         isNeighbour = true;
                         break;
@@ -42,35 +55,27 @@ public class GraphVisSim {
             }
         }
 
+        // update position of vertices:
         boolean allNodesStatic = true;
         for (VertexVisual v : vertices) {
             Vector prevPosition = new Vector(v.getSimBody().getPosition().x, v.getSimBody().getPosition().y);
             v.getSimBody().update(temp); 
-            //temp *= 0.99999;
-            //if (temp > 0.00001) temp -= 0.00001;
-            temp -= 0.000005;
+
+            temp -= 0.000005; // decrease temperature
             if (temp <= 0) temp = 0;
+
+            // check if vertices are changing position
             Vector currentPosition = v.getSimBody().getPosition();
             Vector diffPosition = Vector.subtract(prevPosition, currentPosition);
-            //System.out.println(diffPosition.getLength());
-            /* 
-            if (Math.abs(diffPosition.x) != 0 || Math.abs(diffPosition.y) != 0) {
-                allNodesStatic = false;
-            }
-            */
-            //System.out.println(diffPosition.getLength());
             if (diffPosition.getLength() > 0.00000001) {
                 allNodesStatic = false;
             }
-            v.getSimBody().checkEdges(width, height);
-            //v.display(pane);
+
+            v.getSimBody().checkEdges(width, height); // dont let vertices travel beyond the width and height
         }
+
         if (allNodesStatic) return true;
         return false;
-    }
-
-    public void freeze() {
-
     }
 
 }

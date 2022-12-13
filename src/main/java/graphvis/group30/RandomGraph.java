@@ -10,10 +10,17 @@ public class RandomGraph {
     Vertex[] vertexArray;
 
 
+    /* 
     public static void main(String[] args) {
        new RandomGraph(8,13);
     }
+    */
 
+    /**
+     * Creates a random graph with numVertices and numEdges.
+     * @param numVertices the number of vertices that the graph must have
+     * @param numEdges the number of edges that the graph must have
+     */
     public RandomGraph(int numVertices, int numEdges){
         numVer = numVertices;       //works with G(800,5000)
         x = numEdges;               //edges (numVer-1<=x<= ((numVer)*(numVer-1)/2!))
@@ -22,6 +29,13 @@ public class RandomGraph {
         createRandomGraph(numVer, numEdg, adjMatrix);
         ArrayList<ArrayList<Integer>> adjListArray = convert(adjMatrix);
     }
+
+
+    /**
+     * @param numVer the number of vertices that the graph must have
+     * @param numEdg the number of edges that the graph must have
+     * @param adjMatrix the adjacecy matrix of the graph, initially an empty 2D array.
+     */
     public static void createRandomGraph(int numVer, int numEdg, int[][] adjMatrix){
         for(int row=0 ;row <numVer; row++){
             for(int columm= 1; columm< numVer; columm++ ){
@@ -43,22 +57,32 @@ public class RandomGraph {
             }
         }
         int counter=0;
-        triangle(numVer, numEdg, matrix0, adjMatrix, counter);
+        triangle(numVer, numEdg, matrix0, adjMatrix, counter); // recursive method
     }
+
+    /**
+     * 
+     * @param numVer the number of vertices that the graph must have
+     * @param numEdg the number of edges that the graph must have
+     * @param matrix0 
+     * @param adjMatrix
+     * @param counter
+     */
     public static void triangle(int numVer, int numEdg, ArrayList<Integer[]> matrix0, int[][] adjMatrix, int counter){
         if(numEdg-counter == 0){
+            /*
             for (int i = 0; i < adjMatrix.length; i++) {
                 for(int j = 0; j < adjMatrix[0].length; j++) {
                     System.out.print(adjMatrix[i][j] + " ");
                 }
                 System.out.println("");
             }
+            */
             int counter2=0;
             for (int i = 0; i < adjMatrix.length; i++) {
                 for(int j = 0; j < adjMatrix[0].length; j++) {
                     if(adjMatrix[i][j]==1){
                         counter2++;
-
                     }
                 }
             }
@@ -78,6 +102,11 @@ public class RandomGraph {
         }
     }
 
+    /**
+     * Converts the adjecency matrix from a 2D array to a 2D arraylist.
+     * @param a the adjecency matrix
+     * @return the adjecency matrix as a 2D arraylist
+     */
     public ArrayList<ArrayList<Integer>> convert(int[][] a) {       // create an adjacency List from the adjMatrix
         a = adjMatrix;
         int l = a[0].length;
@@ -95,6 +124,7 @@ public class RandomGraph {
                 }
             }
         }
+        /* 
         for (int v = 0; v < adjListArray.size(); v++) {
             System.out.print(v);
             for (Integer u : adjListArray.get(v)) {
@@ -102,12 +132,13 @@ public class RandomGraph {
             }
             System.out.println();
         }
+        */
 
         //createx the Array of Vertex objects
         vertexArray = new Vertex[numVer];
             for(int i=0; i<numVer; i++){
                 vertexArray[i] = new Vertex(getSaturationDegree(adjMatrix[i]), i);
-                System.out.println(getSaturationDegree(adjMatrix[i])); // prints the saturation degree of each vertex
+                //System.out.println(getSaturationDegree(adjMatrix[i])); // prints the saturation degree of each vertex
             }
             for (int i = 0; i < numVer; i++) {
                 for (int j = 0; j < numVer; j++) {
@@ -121,11 +152,19 @@ public class RandomGraph {
         return adjListArray;
     }
 
+    /**
+     * Returns the graph's array of vertices.
+     * @return the array of vertices of the graph
+     */
     public Vertex[] getVertexArray() {
         return vertexArray;
     }
 
-    // get the saturation degree of the Vertex object
+    /**
+     * Gets the number of neighbours a vertex has from its row in the adjecency matrix
+     * @param a the vertex's row in the adjecency matrix
+     * @return the number of neighbours the vertex has
+     */
     public int getSaturationDegree(int[] a){
         int degree = 0;
         for(int i=0; i<a.length; i++){
