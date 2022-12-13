@@ -3,19 +3,12 @@ package graphvis.group30;
 import java.util.ArrayList;
 
 public class RandomGraph {
-    int numVer;
-    int numEdg;
-    int x;
-    int [][]adjMatrix;
-    Vertex[] vertexArray;
-    static MersenneTwisterRandom generator  = new MersenneTwister();
-
-
-    /* 
-    public static void main(String[] args) {
-        createRandomGraph(8, 14, new int[8][8]);
-    }
-    */
+    private int numVer;
+    private int numEdg;
+    private int x;
+    private int [][]adjMatrix;
+    private Vertex[] vertexArray;
+    private static MersenneTwisterRandom generator  = new MersenneTwister();
 
     /**
      * Creates a random graph with numVertices and numEdges.
@@ -71,14 +64,6 @@ public class RandomGraph {
      */
     public static void triangle(int numVer, int numEdg, ArrayList<Integer[]> matrix0, int[][] adjMatrix, int counter){
         if(numEdg-counter == 0){
-            /*
-            for (int i = 0; i < adjMatrix.length; i++) {
-                for(int j = 0; j < adjMatrix[0].length; j++) {
-                    System.out.print(adjMatrix[i][j] + " ");
-                }
-                System.out.println("");
-            }
-            */
             int counter2=0;
             for (int i = 0; i < adjMatrix.length; i++) {
                 for(int j = 0; j < adjMatrix[0].length; j++) {
@@ -87,7 +72,6 @@ public class RandomGraph {
                     }
                 }
             }
-            System.out.println(counter2/2);
         }
         else {
             int randomNum = generator.nextInt(matrix0.size());
@@ -124,21 +108,11 @@ public class RandomGraph {
                 }
             }
         }
-        /* 
-        for (int v = 0; v < adjListArray.size(); v++) {
-            System.out.print(v);
-            for (Integer u : adjListArray.get(v)) {
-                System.out.print(" -> " + u);
-            }
-            System.out.println();
-        }
-        */
 
         //createx the Array of Vertex objects
         vertexArray = new Vertex[numVer];
             for(int i=0; i<numVer; i++){
                 vertexArray[i] = new Vertex(getSaturationDegree(adjMatrix[i]), i);
-                //System.out.println(getSaturationDegree(adjMatrix[i])); // prints the saturation degree of each vertex
             }
             for (int i = 0; i < numVer; i++) {
                 for (int j = 0; j < numVer; j++) {

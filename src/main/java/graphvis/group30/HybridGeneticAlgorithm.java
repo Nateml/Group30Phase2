@@ -174,8 +174,6 @@ public class HybridGeneticAlgorithm {
             population = initPopulation(10, k);
             for (Configuration configuration : population) {
                 if (configuration.getTotalConflictCount()==0) {
-                    //System.out.println(configuration);
-                    //System.out.println("Solution found! Chromatic number = " + configuration.partition.size());
                     solutionFound = true;
                     k = configuration.partition.size()-1;
                     break;
@@ -190,10 +188,6 @@ public class HybridGeneticAlgorithm {
                     Configuration child = crossover_and_replace(parents[0], parents[1], population);
                     int childConflictCount = child.getTotalConflictCount();
                     if (childConflictCount == 0) {
-                        //System.out.println(child.partition);
-                        //System.out.println("Child (above) has zero conflicts");
-                        //System.out.println("Solution found! Chromatic number = " + k);
-                        //System.out.println("Found in " + i + " iterations");
                         k -=1;
                         solutionFound = true;
                         break;

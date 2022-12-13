@@ -8,7 +8,7 @@ public class EdgeVisual implements Visual{
     private VertexVisual v1, v2;
     final Color colour = Color.BLACK;
     final int width = 3;
-    Line line = new Line();
+    private Line line = new Line();
 
     /**
      * @param v1 the vertex that the edge starts at

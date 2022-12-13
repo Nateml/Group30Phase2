@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class MyGraph {
-    public static VertexVisual[] vertices;
-    EdgeVisual[] edges;
-    GraphVisSim visSim;
-    double width, height;
-    HashMap<Integer, VertexVisual> vertexMap;
-    HashMap<Circle, VertexVisual> circleToVertexMap; // this hashmap is useful for retrieving the vertex object from it's circle object in the circle's mouse click event handler.
+    private static VertexVisual[] vertices;
+    private EdgeVisual[] edges;
+    private GraphVisSim visSim;
+    private double width, height;
+    private HashMap<Integer, VertexVisual> vertexMap;
+    private HashMap<Circle, VertexVisual> circleToVertexMap; // this hashmap is useful for retrieving the vertex object from it's circle object in the circle's mouse click event handler.
 
     /**
      * @param vertices The vertex representation of the graph
@@ -89,19 +89,28 @@ public class MyGraph {
             VertexVisual v = circleToVertexMap.get((Circle)t.getSource()); // get vertex object from mouse event
             Frontend.currentVertex = v; 
 
+            // do nothing if the user does not click on the next vertex in the random ordering in gamemode 3
+            if (Frontend.gameController.getGamemode() == 3 && !v.equals(Frontend.vertexOrder.get(0))) {
+                try {
+                    Frontend.setRoot("gamescene"); // refresh game scene
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } 
+                return;
+            }
+
             // keep track of the colours currently being used to color the graph
             if (!Frontend.usedColors.contains(Frontend.colorPicker.getValue())) {
                 Frontend.usedColors.add(Frontend.colorPicker.getValue());
             }
 
             Frontend.gameController.changeColour(v, Frontend.usedColors.indexOf(Frontend.colorPicker.getValue())); // colour the vertex
-
             boolean legallyColoured = Frontend.gameController.isLegalColouring(); // check if graph is legally coloured 
             if (legallyColoured && Frontend.gameController.allVerticesColoured()){
                 // conditions for the game to end:
-                switch (Frontend.gameController.gamemode) {
+                switch (Frontend.gameController.getGamemode()) {
                     case 1:
-                        if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                        if (Frontend.gameController.getProgress() == Frontend.gameController.bruteForceChromaticNumber()) {
                             Frontend.timer.stop();
                             try {
                                 Frontend.resultLabel1.setText("in " + Frontend.seconds + " seconds!");
@@ -124,9 +133,9 @@ public class MyGraph {
                         Frontend.resultLabel1.setText("in " + Frontend.seconds + " seconds!");
                         break;
                 }
-                if (Frontend.gameController.gamemode != 1) {
-                    String text = "You used " + Frontend.gameController.progress + " colours, ";
-                    if (Frontend.gameController.progress == Frontend.gameController.bruteForceChromaticNumber()) {
+                if (Frontend.gameController.getGamemode() != 1) {
+                    String text = "You used " + Frontend.gameController.getProgress() + " colours, ";
+                    if (Frontend.gameController.getProgress() == Frontend.gameController.bruteForceChromaticNumber()) {
                         text += "which is the least amount of colours you could have used!";
                     } else {
                         text += "but you could have coloured with " + Frontend.gameController.bruteForceChromaticNumber() +  " colours";
@@ -142,7 +151,7 @@ public class MyGraph {
             } else {
                 Circle circle = (Circle)t.getSource();
                 circle.setFill(Frontend.colorPicker.getValue()); // set display colour of the vertex
-                if (Frontend.gameController.gamemode == 3) {
+                if (Frontend.gameController.getGamemode() == 3) {
                     // stop the game as soon as the user incorrectly colours a vertex, or there are no more vertices left to colour
                     if (!Frontend.gameController.isLegalColouring() || Frontend.vertexOrder.size() == 1) {
                         Frontend.timer.stop();

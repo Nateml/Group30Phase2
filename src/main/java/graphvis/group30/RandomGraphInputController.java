@@ -51,7 +51,7 @@ public class RandomGraphInputController {
 
         // create graph
         Frontend.gameController.setGraph(numVertices, numEdges); 
-        Frontend.graph = new MyGraph(Frontend.gameController.graphForGame.vertices, Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
+        Frontend.graph = new MyGraph(Frontend.gameController.getGraph().getVertices(), Frontend.GRAPH_WIDTH, Frontend.GRAPH_HEIGHT);
         Frontend.graph.simulate(); // force-directed algorithm
 
         Frontend.setRoot("gamemode_select"); // send user to the gamemode selection scene

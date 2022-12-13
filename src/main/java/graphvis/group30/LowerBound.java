@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 class LowerBound{
 
-    ArrayList<Vertex> vertices = new ArrayList<>();// creates the arraylist of the class vertex
-    int maximumCliqueSizeCorrect = 0; // initializes the lower bound
-    int maximumCliqueSizeWithoutPivot = 0; // this is for the algorithm without pivot
-    HashMap<Integer, Vertex> vertexMap = new HashMap<>(); // initializes a hashmap where the key 
+    private ArrayList<Vertex> vertices = new ArrayList<>();// creates the arraylist of the class vertex
+    private int maximumCliqueSizeCorrect = 0; // initializes the lower bound
+    private int maximumCliqueSizeWithoutPivot = 0; // this is for the algorithm without pivot
+    private HashMap<Integer, Vertex> vertexMap = new HashMap<>(); // initializes a hashmap where the key 
 
     // the below method takes in a matrix as input and outputs the size of the largest array in the matrix
     // this is used to find the pivot in  possible nodes

@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
 
 public class GamemodeSelectController {
     @FXML ScrollPane paneGraph;
@@ -17,14 +15,7 @@ public class GamemodeSelectController {
      */
     public void initialize() {
         GraphView graphView = new GraphView(Frontend.graph);
-        //paneGraph.getChildren().add(graphView.getAnchorPane());
-        
         paneGraph.setContent(graphView.getAnchorPane());
-        //graphView.getAnchorPane().setScaleX(2);
-        //graphView.getAnchorPane().setScaleY(2);
-
-        //Frontend.graph.simulate();
-        System.out.println();
     }
 
     /**
@@ -44,7 +35,7 @@ public class GamemodeSelectController {
      * @throws IOException
      */
     public void btnGamemode2Clicked() throws IOException {
-        Frontend.seconds = (int) Math.pow(Frontend.gameController.numberOfVertices, 1.2) * 3; // formula for calculating time limit based on number of vertices
+        Frontend.seconds = (int) Math.pow(Frontend.gameController.getNumberOfVertices(), 1.2) * 3; // formula for calculating time limit based on number of vertices
         Frontend.gameController.setGamemode(2);
         Frontend.isPaused = false;
         Frontend.setRoot("gamescene"); // switch scenes
@@ -78,7 +69,6 @@ public class GamemodeSelectController {
         Frontend.graph.initializeVertices();
         Frontend.graph.simulate(); // force directed algorithm reposition vertices
         GraphView graphView = new GraphView(Frontend.graph); // create new graph view
-        //paneGraph.getChildren().addAll(graphView.getAnchorPane()); // add graph view to pane
         paneGraph.setContent(graphView.getAnchorPane());
     }
 }

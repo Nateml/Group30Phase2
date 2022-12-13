@@ -7,7 +7,7 @@ public class GraphVisSim {
     private double temp = 0.5; // scalar for the velocity of the vertices
     private ArrayList<VertexVisual> vertices;
     private double width, height;
-    SimBody centerBody = new SimBody(); // an object to keep vertices situated around the center
+    private SimBody centerBody = new SimBody(); // an object to keep vertices situated around the center
 
     /**
      * 
