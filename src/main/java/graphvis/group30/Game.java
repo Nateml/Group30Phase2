@@ -273,13 +273,13 @@ public class Game {
                 hello = true; 
             }
                 if (i==0) {
-                    if (!hello) {
+                    if (getColour(neighbours[i])>=0) {
                         hint += "Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color ";  
                     } else {
                         hint += "Vertex " + neighbours[i] + " with no color yet "; 
                     }
                 } else {
-                    if (!hello) {
+                    if (getColour(neighbours[i])>=0) {
                         hint += "and Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color.";
                     } else {
                         hint +=  "and Vertex " + neighbours[i] + " with no color yet "; 
@@ -289,7 +289,7 @@ public class Game {
                 if (hello) {
                     hint += "We can ingore the vertices which we have not colored yet.";   
                 }
-                hint += "We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
+                hint += " We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
                 return hint;
             
 
