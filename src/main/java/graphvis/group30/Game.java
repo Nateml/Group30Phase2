@@ -223,7 +223,7 @@ public class Game {
                                 }
                             }
                            
-                            hint = "The two highlighted vertices have the same color, change the color of one of these";  
+                            hint = "The two highlighted vertices have \nthe same color, change the color \nof one of these";  
                             return hint; 
                         }
                         
@@ -233,10 +233,10 @@ public class Game {
            if (progress<numberOfVertices) {
              hint = "Your coloring is incomplete right now "; 
              for (int i = 0; i < vertexcolouring.length; i++) {
-                for (int j = 0; j < vertexcolouring[0].length; j++) {
+                for (int j = 0; j < vertexcolouring[i].length; j++) {
                     if(getColour(vertexcolouring[i][j])==-1){
                         int color = canAdd(vertexcolouring, vertexcolouring[i][j].getNeighboursAsVertexArray());
-                        hint+= "vertex " + j + "is not coloured but can be assigned " + Frontend.usedColors.get(color) + "."; 
+                        hint+= "vertex " + j + "is not coloured \nbut can be assigned " + Frontend.usedColors.get(color) + "."; 
                         return hint; 
                     }
                 }  
@@ -244,27 +244,27 @@ public class Game {
 
            }
            
-           if (progress == numberOfVertices) {
+           if (numVerticesColoured == numberOfVertices) {
                 if (oldCurrentChromaticNumber==currentChromaticNumber) {//in this case the graph is legal but uses too many colors so this hint tries to switch the colors of all the vertices in the smalles color class 
                     hint = "You are using too many colors, ";
                     int color = leastUsedColor();  
-                    hint += "try to get rid of your smallest color class"; 
+                    hint += "\ntry to get rid of your \nsmallest color class"; 
                    Vertex[][] testcolouring = vertexcolouring;  
                    for (int i = 0; i < testcolouring[0].length; i++) {
                      Vertex [] neigh = testcolouring[color][i].getNeighboursAsVertexArray();
                      int addHere = canAdd(testcolouring, neigh); 
-                     hint += "vertex " + testcolouring[color][i] + " can be added to the " + Frontend.usedColors.get(addHere) + "color."; 
+                     hint += "\nvertex " + testcolouring[color][i] + " can be added to \nthe " +  Frontend.usedColors.get(addHere) + "color."; 
                      return hint; 
-                     
                    }
                         
                 }
-                } else {
-                    hint = "You are using too many colors! Try and find colors you can change, if you need more help press the hint button again"; 
+                 else {
+                    hint = "You are using too many colors!\n Try and find colors you can change, \nif you need more help press the hint button again"; 
                     oldCurrentChromaticNumber = currentChromaticNumber; 
             
                     return hint; 
                 }
+            }
             
            
             
@@ -283,7 +283,7 @@ public class Game {
                         break; 
                     }
                     if (test) {
-                       return "None of the neighbours of this vertex are colored yet, so you can choose any color! Try and think ahead and use colors you have already used";  
+                       return "None of the neighbours of this vertex \nare colored yet, so you can choose any color! \nTry and think ahead and use \ncolors you have already used";  
                     }
                 }
                if (getColour(neighbours[i])!=-1) {
@@ -291,22 +291,22 @@ public class Game {
             }
                 if (i==0) {
                     if (getColour(neighbours[i])>=0) {
-                        hint += "Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color ";  
+                        hint += "\nVertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color ";  
                     } else {
-                        hint += "Vertex " + neighbours[i] + " with no color yet "; 
+                        hint += "\nVertex " + neighbours[i] + " with no color yet "; 
                     }
                 } else {
                     if (getColour(neighbours[i])>=0) {
-                        hint += "and Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color.";
+                        hint += "\nand Vertex " + neighbours[i] + " with " + Frontend.usedColors.get(getColour(neighbours[i])) + " color.";
                     } else {
-                        hint +=  "and Vertex " + neighbours[i] + " with no color yet "; 
+                        hint +=  "\nand Vertex " + neighbours[i] + " with no color yet "; 
                     }
                 }
                 }
                 if (hello) {
-                    hint += "We can ingore the vertices which we have not colored yet.";   
+                    hint += "We can ingore the vertices which \nwe have not colored yet.";   
                 }
-                hint += " We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule"; 
+                hint += " We know that this vertex cant have \nthe same color as its neighbours, \nso try and color this vertex with \na color you have used but \ndoes not violate this rule"; 
                 return hint;
             
 
@@ -330,7 +330,7 @@ public class Game {
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
         Vertex[][] coloring = new Vertex[current.length][current[0].length];
         for (int i = 0; i < coloring.length; i++) {
-            for (int j = 0; j < coloring.length; j++) {
+            for (int j = 0; j < coloring[i].length; j++) {
                 coloring[i][j] = current[i][j];
                         
             } }
