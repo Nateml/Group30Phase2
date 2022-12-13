@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 public class Game {
     public int gamemode; 
     public int numberOfEdges; 
@@ -237,7 +239,8 @@ public class Game {
                 if (getColour(Frontend.graph.getVertices()[j2]) == -1) {
                     int color = canAdd(vertexcolouring, Frontend.graph.getVertices()[j2].getNeighboursAsVertexArray());
                     Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
-                    hint+= "The highlighted vertex can be colored " + Frontend.usedColors.get(color) + "."; 
+                    Frontend.graph.getVertices()[j2].getCircle().setStroke( Frontend.usedColors.get(color));
+                    hint+= "The highlighted vertex can be colored the highlighted color";  
                     return hint; 
                 }
              } return hint; 
@@ -286,40 +289,37 @@ public class Game {
             // the only hint they can receive is about the vertex they need to color right now, considering they cant go back and change the other values. 
              // this needs to be different but as of right now dont know how to let the current vertex be equal to the vertext they need for game 3
             Vertex[] neighbours = Frontend.currentVertex.getNeighboursAsVertexArray(); 
-            boolean hello = false; 
-            for (int i = 0; i < neighbours.length; i++) {
-                boolean test = true; 
-                for (int j = 0; j < neighbours.length; j++) {
-                    if (getColour(neighbours[j])!=-1) {
-                        test = false;
-                        break; 
-                    }
-                    if (test) {
-                       return "None of the neighbours of this vertex are colored yet, so you can choose any color! Try and think ahead and use colors you have already used";  
-                    }
-                }
-               if (getColour(neighbours[i])!=-1) {
-                hello = true; 
-            }
-                if (i==0) {
-                    if (getColour(neighbours[i])>=0) {
-                        hint += "The neighbours of this vertex have color " + Frontend.usedColors.get(getColour(neighbours[i])) ;  
-                    } 
-                } else {
-                    if (getColour(neighbours[i])>=0) {
-                        hint += " and " + Frontend.usedColors.get(getColour(neighbours[i]));
-                    } 
-                }
-                }
-                if (hello) {
-                    hint += ". We can ingore the vertices which we have not colored yet";   
-                }
-                hint += ". We know that this vertex cant have the same color as its neighbours, so try and color this vertex with a color you have used but does not violate this rule."; 
-                return hint;
             
+            int count = 0; 
+            int count2 = 0; 
+            for (int i = 0; i < neighbours.length; i++) {
+                for (int j = 0; j <  Frontend.graph.getVertices().length; j++) {
+                    if ( Frontend.graph.getVertices()[j]==neighbours[i]) {
+                       
+                        if (getColour(Frontend.graph.getVertices()[j])==-1) {
+                            Frontend.graph.getVertices()[j].getCircle().setStrokeWidth(5);
+                            Frontend.graph.getVertices()[j].getCircle().setStroke(Color.GREY);
+                            if (count2==0) {
+                                hint += " The uncoloured vertices which are connected have been highlighted with grey, you can ignore these when assigning a color. ";  
+                                count2++;   
+                            }
+                           
+                        }
 
-        }
-        return hint; 
+                        if (getColour(Frontend.graph.getVertices()[j])!=-1) {
+                            Frontend.graph.getVertices()[j].getCircle().setStrokeWidth(5);
+                            Frontend.graph.getVertices()[j].getCircle().setStroke(Color.RED);
+                            if(count==0){
+                            hint += " The coloured vertices which are connected have been highlighted with red, the vertex can NOT have these colours, so take that into account when assigining a color."; 
+                                count++; 
+                        }
+                    }
+                        
+                    }
+                }
+            }
+            
+         }return hint;
     }
     
     /**
