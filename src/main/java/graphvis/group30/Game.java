@@ -234,16 +234,25 @@ public class Game {
                 }
            } 
            if (numVerticesColoured<numberOfVertices) {
-             hint = "Your coloring is incomplete right now "; 
-             for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
+          
+             hint = "Your coloring is incomplete right now. "; 
+               for (int j2 = 0; j2 < Frontend.graph.getVertices().length; j2++) {
                 if (getColour(Frontend.graph.getVertices()[j2]) == -1) {
                     int color = canAdd(vertexcolouring, Frontend.graph.getVertices()[j2].getNeighboursAsVertexArray());
+                    
+                    if (color>=Frontend.usedColors.size()) {
+                    Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
+                    Frontend.graph.getVertices()[j2].getCircle().setStroke(Color.GREY);
+                    hint+= "The highlighted vertex can be colored a new color!";  
+                    return hint; 
+                    } else {
                     Frontend.graph.getVertices()[j2].getCircle().setStrokeWidth(5);
                     Frontend.graph.getVertices()[j2].getCircle().setStroke( Frontend.usedColors.get(color));
                     hint+= "The highlighted vertex can be colored the highlighted color";  
                     return hint; 
+                    }
                 }
-             } return hint; 
+             }   return hint; 
 
            }
            
@@ -337,8 +346,8 @@ public class Game {
      */
     public int canAdd(Vertex[][] current, Vertex[] neighbours){
         Vertex[][] coloring = new Vertex[current.length][current[0].length];
-        for (int i = 0; i < coloring.length; i++) {
-            for (int j = 0; j < coloring[i].length; j++) {
+        for (int i = 0; i < current.length; i++) {
+            for (int j = 0; j < current[i].length; j++) {
                 coloring[i][j] = current[i][j];
                         
             } }
@@ -361,7 +370,7 @@ public class Game {
                 return i;  
             } 
         }
-        return -1; 
+        return current.length; 
     }
     
     /**
