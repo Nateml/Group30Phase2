@@ -8,9 +8,9 @@ public class Vertex {
      * It stores the saturation degree of the vertex and its number.
      * Create a vertex by writing: Vertex v = new Vertex(<saturation_degree>, <i>)
      */
-    protected int saturationDegree;
+    public int saturationDegree;
     protected int i;
-    protected ArrayList<Vertex> neighbours = new ArrayList<>();
+    public ArrayList<Vertex> neighbours = new ArrayList<>();
     
     /**
      * Creates a Vertex object.
@@ -22,6 +22,13 @@ public class Vertex {
         this.i = i;
     }
 
+    @Override
+    public Vertex clone() {
+        Vertex newVertex = new Vertex(this.saturationDegree, this.i);
+        newVertex.neighbours = this.neighbours;
+        return newVertex;
+    }
+
     /**
      * Adds a vertex as a neighbour to the vertex that this method is called with
      * @param neighbour the neighbouring vertex
@@ -29,6 +36,10 @@ public class Vertex {
     public void add_neighbour(Vertex neighbour) {
         this.saturationDegree++;
         neighbours.add(neighbour);
+    }
+
+    public ArrayList<Vertex> getNeighbours() {
+        return neighbours;
     }
 
     /**
@@ -78,6 +89,14 @@ public class Vertex {
     @Override
     public String toString() {
         return "" + i;
+    }
+
+    public ArrayList<Integer> getNeighboursAsIntList() {
+        ArrayList<Integer> neighbourIDs = new ArrayList<>();
+        for (Vertex vertex : neighbours) {
+            neighbourIDs.add(vertex.identification());
+        }
+        return neighbourIDs;
     }
 
 }

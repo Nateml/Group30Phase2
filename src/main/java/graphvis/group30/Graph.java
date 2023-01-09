@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.Random;
 
+import graphvis.group30.HGA.HybridGeneticAlgorithm;
+
 public class Graph {
     private Vertex[] vertices;
     private int k;
