@@ -1,6 +1,7 @@
 package graphvis.group30;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class Vertex {
     /*
@@ -11,6 +12,7 @@ public class Vertex {
     protected int saturationDegree;
     protected int i;
     protected ArrayList<Vertex> neighbours = new ArrayList<>();
+    protected LinkedHashSet<Integer> currentNeighbours = new LinkedHashSet<Integer>();
     
     /**
      * Creates a Vertex object.
@@ -29,6 +31,10 @@ public class Vertex {
     public void add_neighbour(Vertex neighbour) {
         this.saturationDegree++;
         neighbours.add(neighbour);
+        currentNeighbours.add(Integer.valueOf(neighbour.identification()));
+    }
+    public int getAmountOfNeighbours(){
+        return neighbours.size();
     }
 
     /**
@@ -41,6 +47,10 @@ public class Vertex {
             neighbourArray[i] = neighbours.get(i);
         }
         return neighbourArray;
+    }
+
+    public LinkedHashSet<Integer> getNeighboursAsLinkedHashSet(){
+        return currentNeighbours;
     }
 
     /**
