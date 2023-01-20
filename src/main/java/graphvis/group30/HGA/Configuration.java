@@ -2,6 +2,7 @@ package graphvis.group30.HGA;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -100,10 +101,13 @@ class Configuration{
         // this method returns an arraylist of map entries with vertices as keys and their corresponding amount of conflicts (amount of neighbours in same colour class) as values.
         ArrayList<Entry<Vertex, Integer>> conflictCounts = new ArrayList<>();
         for (int i = 0; i < partition.size(); i++) {
+            final int i2 = i;
             for (int j = 0; j < partition.get(i).size(); j++) {
                 int conflicts = 0;
+                final int j2 = j;
                 for (int neighbour = 0; neighbour < partition.get(i).get(j).neighbours.size(); neighbour++) {
-                    if (partition.get(i).contains(partition.get(i).get(j).neighbours.get(neighbour))) {
+                    final int neighbour2 = neighbour;
+                    if (partition.get(i).stream().anyMatch(element -> element.identification() == partition.get(i2).get(j2).neighbours.get(neighbour2).identification())) {
                         conflicts++;
                     }
                 }
@@ -129,7 +133,9 @@ class Configuration{
 
     public int getTotalConflictCount() {
         // this method returns the amount of total conflicts (vertices present in the same colour class as a neighbour) present in the configuration
-        if (conflictCount != -1) return conflictCount;
+        if (conflictCount != -1) {
+            return conflictCount;
+        }
         int conflictCount = 0;
         for (int i = 0; i < partition.size(); i++) {
             for (int j = 0; j < partition.get(i).size(); j++) {
@@ -174,10 +180,79 @@ class Configuration{
         return newPartition;
     }
 
+    public void setConflictCount(int conflicts) {
+        this.conflictCount = conflicts;
+    }
+
     public void moveVertex(int[] pos, int i) {
         Vertex v = partition.get(pos[0]).get(pos[1]);
         partition.get(pos[0]).remove(pos[1]);
         partition.get(i).add(v);
+    }
+
+    public int[] getVertexPos(int v) {
+        int[] vertexPos = new int[2];
+        boolean foundVertex = false;
+        for (int j = 0; j < partition.size(); j++) {
+            if (foundVertex) break;
+            for (int j2 = 0; j2 < partition.get(j).size(); j2++) {
+                if (partition.get(j).get(j2).identification() == v) {
+                    vertexPos[0] = j;
+                    vertexPos[1] = j2;
+                    foundVertex = true;
+                    break;
+                }
+            }
+        }
+        return vertexPos;
+    }
+
+    public void moveVertex(int v, int i) {
+        int[] vertexPos = new int[2];
+        boolean foundVertex = false;
+        for (int j = 0; j < partition.size(); j++) {
+            if (foundVertex) break;
+            for (int j2 = 0; j2 < partition.get(j).size(); j2++) {
+                if (partition.get(j).get(j2).identification() == v) {
+                    vertexPos[0] = j;
+                    vertexPos[1] = j2;
+                    foundVertex = true;
+                    break;
+                }
+            }
+        }
+        moveVertex(vertexPos, i);
+    }
+
+    public boolean validate() {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < partition.size(); i++) {
+           for (int j = 0; j < partition.get(i).size(); j++) {
+            if (map.get(partition.get(i).get(j).identification()) == null) {
+                map.put(partition.get(i).get(j).identification(), 1);
+            } else {
+                map.put(partition.get(i).get(j).identification(), map.get(partition.get(i).get(j).identification())+1);
+            }
+            if (map.get(partition.get(i).get(j).identification()) > 1) {
+                return false;
+            }
+           } 
+        }
+        return true;
+    }
+
+    public int compare(Configuration config) {
+        int num = 0;
+        for (int i = 0; i < partition.size(); i++) {
+            final int i2 = i;
+            for (int j = 0; j < partition.get(i).size(); j++) {
+                final int j2 = j;
+                if (!config.partition.get(i).stream().anyMatch(element -> element.identification() == partition.get(i2).get(j2).identification())) {
+                        num++; 
+                } 
+            }
+        }
+        return num;
     }
 
     public List<Configuration> getNeighbours() {
@@ -217,6 +292,11 @@ class Configuration{
     @Override
     public String toString() {
         return partition.toString();
+    }
+
+    public int recalculateConflicts() {
+        this.conflictCount = -1;
+        return getTotalConflictCount();
     }
     
 }

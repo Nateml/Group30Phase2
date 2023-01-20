@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-class LowerBound{
+public class LowerBound{
 
     private ArrayList<Vertex> vertices = new ArrayList<>();// creates the arraylist of the class vertex
     private int maximumCliqueSizeCorrect = 0; // initializes the lower bound

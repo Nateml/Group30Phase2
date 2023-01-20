@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+
 import graphvis.group30.HGA.Configuration;
 
 import graphvis.group30.Vertex;
@@ -71,19 +73,24 @@ public class NewHGA {
                 if (configuration.getTotalConflictCount()==0) {
                     solutionFound = true;
                     k = configuration.partition.size()-1;
+                    System.out.println("Found a solution for " + (k+1) + " colours.");
                     break;
                 } else {
                     solutionFound = false;
+                    if (k == 1) return k + 1;
                 }
             }
             // if initiliazing the population did not find a solution, then perform the genetic operation:
             if (!solutionFound) {
                 for (int i = 0; i < max_iterations; i++) {
+                    //System.out.println(i);
+                    //System.out.println("Genetic diversity: " + getGeneticDiversity(population));
                     Configuration[] parents = chooseParents(population);
                     Configuration child = crossover_and_replace(parents[0], parents[1], population);
+                    //System.out.println(child.compare(parents[0]));
                     int childConflictCount = child.getTotalConflictCount();
                     if (childConflictCount == 0) {
-                        System.out.println("Found a solution for "  + k + " colours.");
+                        System.out.println("Found a solution for "  + k + " colours, in " + i + " evolutionary iterations.");
                         k -=1;
                         solutionFound = true;
                         break;
@@ -97,15 +104,26 @@ public class NewHGA {
 
     }
 
+    private int getGeneticDiversity(Configuration[] population) {
+        int diversity = 0;
+        int totalConflicts = 0;
+        for (Configuration configuration : population) {
+            totalConflicts += configuration.getTotalConflictCount();
+            for (Configuration configuration2 : population) {
+                if (configuration == configuration2) continue;
+                diversity += configuration.compare(configuration2);
+            }
+        }
+        System.out.println("Total conflict count: " + totalConflicts);
+        return diversity;
+    }
+
     private Configuration crossover_and_replace(Configuration parent1, Configuration parent2, Configuration[] population) {
         // this method is responsible for creating a child from two parent configurations, and then replacing one of the parents with the child after a local search operation on the child
-        // messy code because I didn't know how to make deep copies (and because I'm really tired) :(
         long start_time = System.nanoTime();
         Configuration child = new Configuration(v, k);
-        Configuration originalParent1 = new Configuration(v, k);
-        Configuration originalParent2 = new Configuration(v, k);
-        originalParent1.partition = parent1.partition;
-        originalParent2.partition = parent2.partition;
+        Configuration originalParent1 = parent1.clone();
+        Configuration originalParent2 = parent2.clone();
         ArrayList<ArrayList<Vertex>> newParent1Partition = new ArrayList<>();
         ArrayList<ArrayList<Vertex>> newParent2Partition = new ArrayList<>();
         for (int index = 0; index < parent1.partition.size(); index++) {
@@ -120,10 +138,9 @@ public class NewHGA {
                 newParent2Partition.get(index).add(vertex);
             }
         }
-        Configuration newParent1 = new Configuration(v, k);
-        Configuration newParent2 = new Configuration(v, k);
-        newParent1.partition = newParent1Partition;
-        newParent2.partition = newParent2Partition;
+        Configuration newParent1 = parent1.clone();
+        Configuration newParent2 = parent2.clone();
+
         for (int l = 0; l < parent1.partition.size(); l++) {
             Configuration currentParent;
             if (l % 2 == 0) { // if l is even
@@ -141,6 +158,7 @@ public class NewHGA {
             for (int i = 0; i < largestColourClass.size(); i++) {
                 newLargestColourClass.add(largestColourClass.get(i));
             }
+
             child.partition.add(newLargestColourClass);
             // remove vertices from parents
             newParent1.partition = newParent1.removeVertices(largestColourClass);
@@ -149,17 +167,31 @@ public class NewHGA {
 
         ArrayList<Vertex> unassignedVertices = new ArrayList<>();
         for (int i = 0; i < newParent1.partition.size(); i++) {
+            final int i2 = i;
             for (int index = 0; index < newParent1.partition.get(i).size(); index++) {
+                final int index2 = index;
+                if (!unassignedVertices.stream().anyMatch(element -> element.identification() == newParent1.partition.get(i2).get(index2).identification())) {
+                    unassignedVertices.add(newParent1.partition.get(i).get(index));
+                }
+                /* 
                 if (!unassignedVertices.contains(newParent1.partition.get(i).get(index))) {
                     unassignedVertices.add(newParent1.partition.get(i).get(index));
                 }
+                */
             }
         }
         for (int i = 0; i < newParent2.partition.size(); i++) {
+            final int i2 = i;
             for (int index = 0; index < newParent2.partition.get(i).size(); index++) {
+                final int index2 = index;
+                if (!unassignedVertices.stream().anyMatch(element -> element.identification() == newParent2.partition.get(i2).get(index2).identification())) {
+                    unassignedVertices.add(newParent1.partition.get(i).get(index));
+                }
+                /* 
                 if (!unassignedVertices.contains(newParent2.partition.get(i).get(index))) {
                     unassignedVertices.add(newParent2.partition.get(i).get(index));
                 }
+                */
             }
         }
         for (Vertex v : unassignedVertices) {
@@ -170,7 +202,12 @@ public class NewHGA {
         parent1.getTotalConflictCount();
 
         // tabu search child
-        child = localSearch(child, 500);
+        //child = localSearch(child, 500);
+        System.out.println("Started tabu search");
+        BlindTabuSearch blindts = new BlindTabuSearch(child);
+        child = blindts.run(300);
+        TabuSearch ts = new TabuSearch(child);
+        child = ts.run(5000);
         if (child.getTotalConflictCount() == 0) {
             return child;
         }
@@ -213,7 +250,9 @@ public class NewHGA {
         Configuration[] population = new Configuration[population_size];
         for (int i = 0; i < population_size; i++) {
             Configuration newConfig = new Configuration(v, k);
+            newConfig.validate();
             newConfig.initDsatur();
+            newConfig.validate();
             int totalConflictCount = newConfig.getTotalConflictCount();
             if (totalConflictCount != 0) {
                 population[i] = newConfig;
@@ -225,16 +264,17 @@ public class NewHGA {
         return population;
     }
 
+    /** 
     private Configuration localSearch(Configuration config, int iterations) {
         // implements the tabu search algorithm
 
-        long start_time = System.nanoTime();
 
         TabuList tabuList = new TabuList();
         Configuration bestConfig = config.clone();
         Configuration currentConfig = config.clone();
 
         while (iterations > 0) {
+            long start_time = System.nanoTime();
             //System.out.println(iterations);
             List<Configuration> neighbours = currentConfig.getNeighbours();
 
@@ -256,6 +296,7 @@ public class NewHGA {
 
             // check if config is a complete solution
             if (bestNeighbour.getTotalConflictCount() == 0) {
+                System.out.println("Found solution in " + (300 - iterations) + " iterations of tabu search");
                 return bestNeighbour;
             }
 
@@ -274,14 +315,15 @@ public class NewHGA {
             currentConfig = bestNeighbour;
             
             iterations--;
+            long end_time = System.nanoTime() - start_time;
+            sum_time_tabu += end_time;
+            tabu_iterations++;
         }
 
-        long end_time = System.nanoTime() - start_time;
-        sum_time_tabu += end_time;
-        tabu_iterations++;
         return bestConfig;
 
     }
+    **/
 
     private Configuration[] chooseParents(Configuration[] population) {
         // return two elements of population 
